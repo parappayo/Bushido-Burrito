@@ -65,10 +65,11 @@ Sprite.method('pointHitTest', function(x, y) {
 
 	if (	x < this.x ||
 		y < this.y ||
-		x > this.x + this.w ||
-	  	y > this.y + this.h ||
+		x > this.x + this.frames[this.frame].w ||
+	  	y > this.y + this.frames[this.frame].h ||
 		typeof(x) === undefined ||
-		typeof(y) === undefined ) {
+		typeof(y) === undefined ||
+		isNaN(x) || isNaN(y) ) {
 
 		return false;
 	}
@@ -91,8 +92,8 @@ Sprite.method('hitTest', function(target) {
 	return this.rectHitTest(
 		target.x,
 		target.y,
-		target.x + target.w,
-		target.y + target.h );
+		target.x + target.frames[target.frame].w,
+		target.y + target.frames[target.frame].h );
 });
 
 //------------------------------------------------------------------------------
@@ -113,7 +114,6 @@ Sprite.method('arrHitTest', function(targets) {
 //------------------------------------------------------------------------------
 Sprite.method('update', function() {
 
-	this.nextFrame();
 });
 
 //------------------------------------------------------------------------------
@@ -182,8 +182,50 @@ function Enemy1Sprite() {
 
 	this.init();
 	this.add_horizontal_frames(8, 18, 15, 32, 32, 1);
+
+	// position last frame
+	this.last_x = 0;
+	this.last_y = 0;
 }
 Enemy1Sprite.inherits(Sprite);
+
+//------------------------------------------------------------------------------
+//  Enemy1Sprite.update
+//------------------------------------------------------------------------------
+Enemy1Sprite.method('update', function() {
+
+	const pi8 = Math.PI / 8;
+
+	var dx = this.x - this.last_x;
+	var dy = this.y - this.last_y;
+	var angle = Math.atan2(dx, dy);
+
+	// sprite's frame depends on it's heading
+	if (angle >= 0 && angle < pi8) {
+		this.frame = 0;
+	} else if (angle >= pi8 && angle < 3*pi8) {
+		this.frame = 1;
+	} else if (angle >= 3*pi8 && angle < 5*pi8) {
+		this.frame = 2;
+	} else if (angle >= 5*pi8 && angle < 7*pi8) {
+		this.frame = 3;
+	} else if (angle >= 7*pi8 && angle < Math.PI) {
+		this.frame = 4;
+	} else if (angle >= -pi8 && angle < 0) {
+		this.frame = 0;
+	} else if (angle >= -3*pi8 && angle < -pi8) {
+		this.frame = 7;
+	} else if (angle >= -5*pi8 && angle < -3*pi8) {
+		this.frame = 6;
+	} else if (angle >= -7*pi8 && angle < -5*pi8) {
+		this.frame = 5;
+      	} else {
+		this.frame = 4;
+	}
+
+	this.last_x = this.x;
+	this.last_y = this.y;
+});
 
 //------------------------------------------------------------------------------
 //  class ExplosionSprite
@@ -194,4 +236,12 @@ function ExplosionSprite() {
 	this.add_horizontal_frames(7, 18, 312, 65, 65, 1);
 }
 ExplosionSprite.inherits(Sprite);
+
+//------------------------------------------------------------------------------
+//  ExplosionSprite.update
+//------------------------------------------------------------------------------
+ExplosionSprite.method('update', function() {
+
+	this.nextFrame();
+});
 

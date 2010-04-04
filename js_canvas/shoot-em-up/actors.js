@@ -192,14 +192,31 @@ function Enemy1() {
 
 	this.explosionSprite = new ExplosionSprite();
 	this.explosionSprite.visible = false;
+
+	this.t = 0; // frame counter
 }
 Enemy1.inherits(Actor);
 
 //------------------------------------------------------------------------------
 Enemy1.method('update', function() {
 
-	if (this.sprite.arrHitTest(gPlayerShots)) {
-		this.die();
+	// logic below is only for alive planes
+	if (this.isDead) { return; }
+
+	this.t += 1;
+
+	// let's do some crazy movement
+	this.sprite.x = -50 + 2 * this.t + 50 * Math.cos(this.t / 4);
+	this.sprite.y = 50 + 50 * Math.sin(this.t / 4);
+
+	// collision detection on player's bullets
+	for (var i in gPlayerShots) {
+		var shot = gPlayerShots[i];
+		if (this.sprite.hitTest(shot.sprite)) {
+			//console.log("hit!");
+			this.die();
+			break;
+		}
 	}
 });
 
@@ -211,6 +228,9 @@ Enemy1.method('die', function() {
 
 	this.sprite.visible = false;
 	this.explosionSprite.visible = true;
+
+	this.explosionSprite.x = this.sprite.x;
+	this.explosionSprite.y = this.sprite.y;
 
 	// TODO: disappear after the animation is done
 });
