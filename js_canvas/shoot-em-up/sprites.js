@@ -32,12 +32,24 @@ function Sprite() {
 	this.y = 0;
 
 	this.visible = true;
+	this.animationLoops = true;
+	this.animationDone = false;
 }
 
 //------------------------------------------------------------------------------
 Sprite.method('init', function() {
 
 	gSprites.push(this);
+	this.index = gSprites.length-1;
+});
+
+//------------------------------------------------------------------------------
+Sprite.method('kill', function() {
+
+	gSprites.splice(this.index, 1);
+	for (var i in gSprites) {
+		gSprites[i].index = i;
+	}
 });
 
 //------------------------------------------------------------------------------
@@ -136,14 +148,19 @@ Sprite.method('nextFrame', function() {
 
 	this.frame += 1;
 	if (this.frame >= this.frames.length) {
-		this.frame = 0;
+		if (this.animationLoops) {
+			this.frame = 0;
+		} else {
+			this.frame = this.frames.length-1;
+		}
+		this.animationDone = true;
 	}
 });
 
 //------------------------------------------------------------------------------
-//  Sprite.add_horizontal_frames - populate with a horizontal strip of frames
+//  Sprite.addHorizontalFrames - populate with a horizontal strip of frames
 //------------------------------------------------------------------------------
-Sprite.method('add_horizontal_frames', function(
+Sprite.method('addHorizontalFrames', function(
 		count,
 		start_x, start_y,
 		width, height, spacing) {
@@ -153,6 +170,13 @@ Sprite.method('add_horizontal_frames', function(
 		var y = start_y;
 		this.addFrame(x, y, width, height);
 	}
+});
+
+//------------------------------------------------------------------------------
+Sprite.method('resetAnimation', function() {
+
+	this.animationDone = false;
+	this.frame = 0;
 });
 
 //------------------------------------------------------------------------------
@@ -181,7 +205,7 @@ BulletSprite.inherits(Sprite);
 function Enemy1Sprite() {
 
 	this.init();
-	this.add_horizontal_frames(8, 19, 16, 30, 30, 3);
+	this.addHorizontalFrames(8, 19, 16, 30, 30, 3);
 
 	// position last frame
 	this.last_x = 0;
@@ -233,7 +257,8 @@ Enemy1Sprite.method('update', function() {
 function ExplosionSprite() {
 
 	this.init();
-	this.add_horizontal_frames(7, 19, 313, 62, 62, 4);
+	this.addHorizontalFrames(7, 19, 313, 62, 62, 4);
+	this.animationLoops = false;
 }
 ExplosionSprite.inherits(Sprite);
 

@@ -7,6 +7,7 @@
 // all actors live here
 var gActors = [];
 
+// bullets fired by the player are tracked here
 var gPlayerShots = [];
 
 //------------------------------------------------------------------------------
@@ -16,11 +17,27 @@ function Actor() { }
 Actor.method('update', function() { });
 
 //------------------------------------------------------------------------------
+Actor.method('init', function() {
+
+	gActors.push(this);
+	this.index = gActors.length-1;
+});
+
+//------------------------------------------------------------------------------
+Actor.method('kill', function() {
+
+	gActors.splice(this.index, 1);
+	for (var i in gActors) {
+		gActors[i].index = i;
+	}
+});
+
+//------------------------------------------------------------------------------
 //  class Player - handles player movement, etc.
 //------------------------------------------------------------------------------
 function Player() {
 
-	gActors.push(this);
+	this.init();
 
 	this.sprite = new PlayerSprite();
 
@@ -164,7 +181,7 @@ Player.method('spawnBullet', function(code) {
 //------------------------------------------------------------------------------
 function Bullet() {
 
-	gActors.push(this);
+	this.init();
 
 	this.sprite = new BulletSprite();
 
@@ -175,18 +192,32 @@ function Bullet() {
 Bullet.inherits(Actor);
 
 //------------------------------------------------------------------------------
+Bullet.method('kill', function() {
+
+	this.sprite.kill();
+	this.uber('kill');
+});
+
+//------------------------------------------------------------------------------
 Bullet.method('update', function() {
 
 	this.sprite.x += this.vx;
 	this.sprite.y += this.vy;
 
-	// TODO: bounds checking, delete if off-screen
+	// TODO: should really use proper screen bounds here
+	if (	this.sprite.y < -10 ||
+		this.sprite.y > 1000 ||
+		this.sprite.x < -10 ||
+		this.sprite.x > 1000 ) {
+
+		this.kill();
+	}
 });
 
 //------------------------------------------------------------------------------
 function Enemy1() {
 
-	gActors.push(this);
+	this.init();
 
 	this.sprite = new Enemy1Sprite();
 
@@ -198,10 +229,26 @@ function Enemy1() {
 Enemy1.inherits(Actor);
 
 //------------------------------------------------------------------------------
+Enemy1.method('kill', function() {
+
+	this.sprite.kill();
+	this.explosionSprite.kill();
+
+	this.uber('kill');
+});
+
+//------------------------------------------------------------------------------
 Enemy1.method('update', function() {
 
-	// logic below is only for alive planes
-	if (this.isDead) { return; }
+	if (this.isDead) {
+
+		if (this.explosionSprite.animationDone) {
+			this.kill();
+		}
+
+		// logic below is only for alive planes
+		return;
+	}
 
 	this.t += 1;
 
@@ -221,6 +268,8 @@ Enemy1.method('update', function() {
 });
 
 //------------------------------------------------------------------------------
+//  plays the enemy death animation, destroyed via kill() when animation is done
+//------------------------------------------------------------------------------
 Enemy1.method('die', function() {
 
 	if (this.isDead) { return; }
@@ -228,10 +277,9 @@ Enemy1.method('die', function() {
 
 	this.sprite.visible = false;
 	this.explosionSprite.visible = true;
+	this.explosionSprite.resetAnimation();
 
 	this.explosionSprite.x = this.sprite.x;
 	this.explosionSprite.y = this.sprite.y;
-
-	// TODO: disappear after the animation is done
 });
 
