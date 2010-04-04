@@ -6,10 +6,9 @@
 
 var img;  // holds the sprite sheet
 
-// add an animated sprite for testing
-var gEnemy1 = new Enemy1();
-
 var gPlayer = new Player();
+
+var gLevelManager = new LevelManager();
 
 //------------------------------------------------------------------------------
 //  called when the document is finished loading
@@ -28,6 +27,8 @@ function game_start() {
 
 	game_loop();
 	setInterval(game_loop, 50);
+
+	gLevelManager.startLevel(gLevel1);
 }
 
 //------------------------------------------------------------------------------
@@ -39,9 +40,6 @@ function game_loop() {
 
 	ctx.fillStyle = "rgb(0, 67, 171)";
 	ctx.fillRect(0, 0, 640, 480);
-
-	// TODO: should periodically scrape for undefined objects
-	// (deleted from arrays) and compress the arrays
 
 	for (var i in gActors) {
 		gActors[i].update();
