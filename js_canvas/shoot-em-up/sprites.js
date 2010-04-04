@@ -181,7 +181,7 @@ BulletSprite.inherits(Sprite);
 function Enemy1Sprite() {
 
 	this.init();
-	this.add_horizontal_frames(8, 18, 15, 32, 32, 1);
+	this.add_horizontal_frames(8, 19, 16, 30, 30, 3);
 
 	// position last frame
 	this.last_x = 0;
@@ -233,7 +233,7 @@ Enemy1Sprite.method('update', function() {
 function ExplosionSprite() {
 
 	this.init();
-	this.add_horizontal_frames(7, 18, 312, 65, 65, 1);
+	this.add_horizontal_frames(7, 19, 313, 62, 62, 4);
 }
 ExplosionSprite.inherits(Sprite);
 
