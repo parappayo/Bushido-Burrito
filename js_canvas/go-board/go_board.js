@@ -34,12 +34,12 @@ function main_start() {
 	var canvas = document.getElementById('canvas');
 	canvas.onclick = handleMouseClick;
 
-	clear_board();
+	init_board();
 	draw_board();
 }
 
 //------------------------------------------------------------------------------
-function clear_board() {
+function init_board() {
 
 	for (var i = 0; i < gBoardWidth * gBoardHeight; i++) {
 		gBoardState[i] = 'clear';
@@ -102,13 +102,13 @@ function place_stone(stone) {
 	// check for removals
 	for (var i in gKnownGroups) {
 		var group = gKnownGroups[i];
-		//console.log(group);
-		//console.log(count_liberties(group));
+		console.log(group);
+		console.log(count_liberties(group));
 		if (count_liberties(group) == 0) {
 			remove_group(group);
 		}
 	}
-	//console.log('---');
+	console.log('---');
 }
 
 //------------------------------------------------------------------------------
@@ -166,9 +166,13 @@ function is_bordering_adversary_group(stone, group) {
 //------------------------------------------------------------------------------
 function count_liberties(group) {
 
-	// TODO: fix bug where L shaped groups have incorrect liberty counts
-
 	var retval = 0;
+
+	var found_liberties = new Object();
+	function found_liberty(stone) {
+		var i = stone.y * gBoardWidth + stone.x;
+		found_liberties[i] = true;
+	}
 
 	for (var i in group.stones) {
 		var stone = group.stones[i];
@@ -176,22 +180,23 @@ function count_liberties(group) {
 
 		if (stone.x > 0) {
 			neighbour = get_stone(stone.x - 1, stone.y);
-			if (neighbour.color == 'clear') { retval += 1; }
+			if (neighbour.color == 'clear') { found_liberty(neighbour); }
 		}
 		if (stone.x < gBoardWidth - 1) {
 			neighbour = get_stone(stone.x + 1, stone.y);
-			if (neighbour.color == 'clear') { retval += 1; }
+			if (neighbour.color == 'clear') { found_liberty(neighbour); }
 		}
 		if (stone.y > 0) {
 			neighbour = get_stone(stone.x, stone.y - 1);
-			if (neighbour.color == 'clear') { retval += 1; }
+			if (neighbour.color == 'clear') { found_liberty(neighbour); }
 		}
 		if (stone.y < gBoardHeight - 1) {
 			neighbour = get_stone(stone.x, stone.y + 1);
-			if (neighbour.color == 'clear') { retval += 1; }
+			if (neighbour.color == 'clear') { found_liberty(neighbour); }
 		}
 	}
 
+	for (var i in found_liberties) { retval += 1; }
 	return retval;
 }
 
@@ -309,6 +314,10 @@ function draw_board() {
 //------------------------------------------------------------------------------
 function take_move(x, y)
 {
+	// TODO: need to do some checking to see if the given move is valid
+	// eg. can't place stone where it will immediately die unless it
+	// captures a group first
+
 	var stone = new Object();
 	stone.x = x;
 	stone.y = y;
