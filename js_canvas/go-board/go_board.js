@@ -102,13 +102,13 @@ function place_stone(stone) {
 	// check for removals
 	for (var i in gKnownGroups) {
 		var group = gKnownGroups[i];
-		console.log(group);
-		console.log(count_liberties(group));
+		//console.log(group);
+		//console.log(count_liberties(group));
 		if (count_liberties(group) == 0) {
 			remove_group(group);
 		}
 	}
-	console.log('---');
+	//console.log('---');
 }
 
 //------------------------------------------------------------------------------
