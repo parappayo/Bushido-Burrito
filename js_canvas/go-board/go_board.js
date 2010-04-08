@@ -7,6 +7,8 @@ var gBoardHeight = 19;
 
 var gIsBlackTurn = true;
 
+var gKnownGroups = new Array();
+
 //------------------------------------------------------------------------------
 //  called when HTML document is finished loading
 //------------------------------------------------------------------------------
@@ -47,23 +49,137 @@ function clear_board() {
 //------------------------------------------------------------------------------
 function get_stone(x, y) {
 
+	var stone = new Object();
+	stone.x = x;
+	stone.y = y;
+
 	var i = y * gBoardWidth + x;
-	return gBoardState[i];
+	stone.color = gBoardState[i];
+
+	return stone;
 }
 
 //------------------------------------------------------------------------------
-function place_stone(x, y, color) {
+function place_stone(stone) {
 
-	var i = y * gBoardWidth + x;
-	gBoardState[i] = color;
+	var i = stone.y * gBoardWidth + stone.x;
+	gBoardState[i] = stone.color;
 
-	// TODO: check for removals
+	// update groups
+	var group;
+	var foundGroup = false;
+	for (var i in gKnownGroups) {
+		group = gKnownGroups[i];
+		if (belongs_to_group(stone, group)) {
+			group.push(stone);
+			foundGroup = true;
+			break;
+		}
+	}
+	if (!foundGroup) {
+		group = new Array();
+		group.push(stone);
+		group.index = gKnownGroups.length;
+		gKnownGroups.push(group);
+	}
+
+	// capture before die rule: check neighbouring groups first
+	/*
+	var neighbouring_groups = find_neighbouring_groups(stone);
+	for (var i in neighbouring_groups) {
+		var group = neighbouring_groups[i];
+		if (count_liberties(group) == 0) {
+			remove_group(group);
+		}
+	}
+
+	// check for removals
+	for (var i in gKnownGroups) {
+		var group = gKnownGroups[i];
+		if (count_liberties(group) == 0) {
+			remove_group(group);
+		}
+	}
+	*/
 }
 
 //------------------------------------------------------------------------------
-function belongs_to_group(stone, group)
-{
+function clear_stone(stone) {
 
+	var i = stone.y * gBoardWidth + stone.x;
+	gBoardState[i] = 'clear';
+}
+
+//------------------------------------------------------------------------------
+function is_adjacent(stone1, stone2) {
+
+	return	(stone1.x == stone2.x - 1 || stone1.x == stone2.x + 1) &&
+		(stone1.y == stone2.y - 1 || stone1.y == stone2.y + 1);
+}
+
+//------------------------------------------------------------------------------
+function belongs_to_group(stone, group) {
+
+	for (var i in group) {
+		var member = group[i];
+		if (	stone.color === member.color &&
+			is_adjacent(stone, member) ) {
+
+			return true;
+		}
+	}
+	return false;
+}
+
+//------------------------------------------------------------------------------
+function count_liberties(group) {
+
+	var retval = 0;
+
+	for (var i in group) {
+		var stone = group[i];
+		var neighbour;
+
+		if (stone.x > 0) {
+			neighbour = get_stone(stone.x - 1, stone.y);
+			if (neighbour.color == 'clear') { retval += 1; }
+		}
+		if (stone.x < gBoardWidth - 1) {
+			neighbour = get_stone(stone.x + 1, stone.y);
+			if (neighbour.color == 'clear') { retval += 1; }
+		}
+		if (stone.y > 0) {
+			neighbour = get_stone(stone.x, stone.y - 1);
+			if (neighbour.color == 'clear') { retval += 1; }
+		}
+		if (stone.y < gBoardHeight - 1) {
+			neighbour = get_stone(stone.x, stone.y + 1);
+			if (neighbour.color == 'clear') { retval += 1; }
+		}
+	}
+
+	return retval;
+}
+
+//------------------------------------------------------------------------------
+function remove_group(group) {
+
+	for (var i in group) {
+		var stone = group[i];
+		clear_stone(stone);
+	}
+
+	gKnownGroups.splice(group.index, 1);
+}
+
+//------------------------------------------------------------------------------
+function find_neighouring_groups(stone) {
+
+	var retval = new Array();
+
+	// TODO: implement me!!
+	
+	return retval;
 }
 
 //------------------------------------------------------------------------------
@@ -95,12 +211,18 @@ function draw_board() {
 //------------------------------------------------------------------------------
 function take_move(x, y)
 {
+	var stone = new Object();
+	stone.x = x;
+	stone.y = y;
+
 	if (gIsBlackTurn) {
-		place_stone(x, y, 'black');
+		stone.color = 'black';
 	} else {
-		place_stone(x, y, 'white');
+		stone.color = 'white';
 	}
 	gIsBlackTurn = !gIsBlackTurn;
+
+	place_stone(stone);
 }
 
 //------------------------------------------------------------------------------
@@ -113,8 +235,8 @@ function handleMouseClick(e) {
 	var board_x = Math.floor(e.clientX / black_img.width);
 	var board_y = Math.floor(e.clientY / black_img.height);
 
-	var color = get_stone(board_x, board_y);
-	if (color == 'clear') {
+	var stone = get_stone(board_x, board_y);
+	if (stone.color == 'clear') {
 		take_move(board_x, board_y);
 	}
 
