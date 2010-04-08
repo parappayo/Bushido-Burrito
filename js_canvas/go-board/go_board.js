@@ -83,6 +83,8 @@ function place_stone(stone) {
 		gKnownGroups.push(group);
 	}
 
+	// TODO: implement ko rule
+
 	// capture before die rule: check neighbouring groups first
 	/*
 	var neighbouring_groups = find_neighbouring_groups(stone);
@@ -92,6 +94,7 @@ function place_stone(stone) {
 			remove_group(group);
 		}
 	}
+	*/
 
 	// check for removals
 	for (var i in gKnownGroups) {
@@ -100,7 +103,6 @@ function place_stone(stone) {
 			remove_group(group);
 		}
 	}
-	*/
 }
 
 //------------------------------------------------------------------------------
@@ -113,18 +115,24 @@ function clear_stone(stone) {
 //------------------------------------------------------------------------------
 function is_adjacent(stone1, stone2) {
 
-	return	(stone1.x == stone2.x - 1 || stone1.x == stone2.x + 1) &&
-		(stone1.y == stone2.y - 1 || stone1.y == stone2.y + 1);
+	// note: will return false if stone1 is at the same location as stone2
+	return	(stone1.y == stone2.y &&
+			(stone1.x == stone2.x - 1 || stone1.x == stone2.x + 1)
+		) ||
+		(stone1.x == stone2.x &&
+			(stone1.y == stone2.y - 1 || stone1.y == stone2.y + 1)
+		);
 }
 
 //------------------------------------------------------------------------------
 function belongs_to_group(stone, group) {
 
+	if (group.length < 1) { return false; }
+	if (stone.color !== group[0].color) { return false; }
+
 	for (var i in group) {
 		var member = group[i];
-		if (	stone.color === member.color &&
-			is_adjacent(stone, member) ) {
-
+		if (is_adjacent(stone, member)) {
 			return true;
 		}
 	}
