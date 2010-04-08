@@ -93,7 +93,7 @@ function place_stone(stone) {
 		if (belongs_to_group(stone, group)) {
 			continue;
 		}
-		if (count_liberties(group) == 0) {
+		if (has_no_liberties(group)) {
 			remove_group(group);
 		}
 	}
@@ -104,7 +104,7 @@ function place_stone(stone) {
 		var group = gKnownGroups[i];
 		//console.log(group);
 		//console.log(count_liberties(group));
-		if (count_liberties(group) == 0) {
+		if (has_no_liberties(group)) {
 			remove_group(group);
 		}
 	}
@@ -198,6 +198,36 @@ function count_liberties(group) {
 
 	for (var i in found_liberties) { retval += 1; }
 	return retval;
+}
+
+//------------------------------------------------------------------------------
+//  more efficient alternative to count_liberties() == 0
+//------------------------------------------------------------------------------
+function has_no_liberties(group) {
+
+	for (var i in group.stones) {
+		var stone = group.stones[i];
+		var neighbour;
+
+		if (stone.x > 0) {
+			neighbour = get_stone(stone.x - 1, stone.y);
+			if (neighbour.color == 'clear') { return false; }
+		}
+		if (stone.x < gBoardWidth - 1) {
+			neighbour = get_stone(stone.x + 1, stone.y);
+			if (neighbour.color == 'clear') { return false; }
+		}
+		if (stone.y > 0) {
+			neighbour = get_stone(stone.x, stone.y - 1);
+			if (neighbour.color == 'clear') { return false; }
+		}
+		if (stone.y < gBoardHeight - 1) {
+			neighbour = get_stone(stone.x, stone.y + 1);
+			if (neighbour.color == 'clear') { return false; }
+		}
+	}
+
+	return true;
 }
 
 //------------------------------------------------------------------------------
