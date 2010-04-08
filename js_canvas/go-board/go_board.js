@@ -190,13 +190,30 @@ function draw_board() {
 	ctx.fillStyle = "rgb(220, 220, 220)";
 	ctx.fillRect(0, 0, ctx.canvas.width, ctx.canvas.height);
 
+	// piece dimensions
+	var img_w = black_img.width;
+	var img_h = black_img.height;
+
+	// draw play grid
+	for (var x = 0; x < gBoardWidth; x++) {
+		ctx.moveTo(x * img_w + img_w / 2.0, img_h / 2.0);
+		ctx.lineTo(x * img_w + img_w / 2.0, gBoardHeight * img_h - img_h / 2.0);
+		ctx.stroke();
+	}
+	for (var y = 0; y < gBoardHeight; y++) {
+		ctx.moveTo(img_w / 2.0, y * img_h + img_h / 2.0);
+		ctx.lineTo(gBoardWidth * img_w - img_w / 2.0, y * img_h + img_h / 2.0);
+		ctx.stroke();
+	}
+
+	// draw the pieces
 	for (var y = 0; y < gBoardHeight; y++) {
 		for (var x = 0; x < gBoardWidth; x++) {
 
 			var i = y * gBoardWidth + x;
 			var color = gBoardState[i];
-			var img_x = x * black_img.width;
-			var img_y = y * black_img.height;
+			var img_x = x * img_w;
+			var img_y = y * img_h;
 
 			if (color == 'black') {
 				ctx.drawImage(black_img, img_x, img_y);
