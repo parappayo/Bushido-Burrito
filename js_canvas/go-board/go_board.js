@@ -65,22 +65,22 @@ function place_stone(stone) {
 	var i = stone.y * gBoardWidth + stone.x;
 	gBoardState[i] = stone.color;
 
+	var new_group = create_group();
+	new_group.stones.push(stone);
+
 	// update groups
-	var group;
-	var foundGroup = false;
+	var groups_to_merge = new Array();
 	for (var i in gKnownGroups) {
-		group = gKnownGroups[i];
+		var group = gKnownGroups[i];
+		if (group == new_group) { continue; }
 		if (belongs_to_group(stone, group)) {
-			group.push(stone);
-			foundGroup = true;
-			break;
+			// don't modify gKnownGroups while we're walking it
+			groups_to_merge.push(group);
 		}
 	}
-	if (!foundGroup) {
-		group = new Array();
-		group.push(stone);
-		group.index = gKnownGroups.length;
-		gKnownGroups.push(group);
+	for (var i in groups_to_merge) {
+		var group = groups_to_merge[i];
+		new_group = merge_groups(new_group, group);
 	}
 
 	// TODO: implement ko rule
@@ -90,6 +90,9 @@ function place_stone(stone) {
 	var neighbouring_groups = find_neighbouring_groups(stone);
 	for (var i in neighbouring_groups) {
 		var group = neighbouring_groups[i];
+		if (belongs_to_group(stone, group)) {
+			continue;
+		}
 		if (count_liberties(group) == 0) {
 			remove_group(group);
 		}
@@ -99,10 +102,13 @@ function place_stone(stone) {
 	// check for removals
 	for (var i in gKnownGroups) {
 		var group = gKnownGroups[i];
+		//console.log(group);
+		//console.log(count_liberties(group));
 		if (count_liberties(group) == 0) {
 			remove_group(group);
 		}
 	}
+	//console.log('---');
 }
 
 //------------------------------------------------------------------------------
@@ -127,11 +133,29 @@ function is_adjacent(stone1, stone2) {
 //------------------------------------------------------------------------------
 function belongs_to_group(stone, group) {
 
-	if (group.length < 1) { return false; }
-	if (stone.color !== group[0].color) { return false; }
+	if (group.stones.length < 1) { return false; }
+	if (stone.color !== group.stones[0].color) { return false; }
 
-	for (var i in group) {
-		var member = group[i];
+	for (var i in group.stones) {
+		var member = group.stones[i];
+		if (member.x == stone.x && member.y == stone.y) {
+			return true;
+		}
+		if (is_adjacent(stone, member)) {
+			return true;
+		}
+	}
+	return false;
+}
+
+//------------------------------------------------------------------------------
+function is_bordering_adversary_group(stone, group) {
+
+	if (group.stones.length < 1) { return false; }
+	if (stone.color === group.stones[0].color) { return false; }
+
+	for (var i in group.stones) {
+		var member = group.stones[i];
 		if (is_adjacent(stone, member)) {
 			return true;
 		}
@@ -142,10 +166,12 @@ function belongs_to_group(stone, group) {
 //------------------------------------------------------------------------------
 function count_liberties(group) {
 
+	// TODO: fix bug where L shaped groups have incorrect liberty counts
+
 	var retval = 0;
 
-	for (var i in group) {
-		var stone = group[i];
+	for (var i in group.stones) {
+		var stone = group.stones[i];
 		var neighbour;
 
 		if (stone.x > 0) {
@@ -170,22 +196,69 @@ function count_liberties(group) {
 }
 
 //------------------------------------------------------------------------------
-function remove_group(group) {
+function create_group() {
 
-	for (var i in group) {
-		var stone = group[i];
-		clear_stone(stone);
-	}
-
-	gKnownGroups.splice(group.index, 1);
+	var new_group = new Object();
+	new_group.stones = new Array();
+	new_group.index = gKnownGroups.length;
+	gKnownGroups.push(new_group);
+	return new_group;
 }
 
 //------------------------------------------------------------------------------
-function find_neighouring_groups(stone) {
+function delete_group(group) {
+
+	gKnownGroups.splice(group.index, 1);
+	for (var i in gKnownGroups) {
+		var group = gKnownGroups[i];
+		group.index = i;
+	}
+}
+
+//------------------------------------------------------------------------------
+function remove_group(group) {
+
+	for (var i in group.stones) {
+		var stone = group.stones[i];
+		clear_stone(stone);
+	}
+	delete_group(group);
+}
+
+//------------------------------------------------------------------------------
+function merge_groups(group1, group2) {
+
+	var merged_stones = new Array();
+
+	for (var i in group1.stones) {
+		var stone = group1.stones[i];
+		merged_stones.push(stone);
+	}
+	for (var i in group2.stones) {
+		var stone = group2.stones[i];
+		merged_stones.push(stone);
+	}
+
+	delete_group(group1);
+	delete_group(group2);
+
+	var new_group = create_group();
+	new_group.stones = merged_stones;
+	return new_group;
+}
+
+//------------------------------------------------------------------------------
+function find_neighbouring_groups(stone) {
 
 	var retval = new Array();
 
-	// TODO: implement me!!
+	for (var i in gKnownGroups) {
+		var group = gKnownGroups[i];
+		if (is_bordering_adversary_group(group)) {
+			// TODO: don't add group more than once
+			retval.push(group);
+		}
+	}
 	
 	return retval;
 }
