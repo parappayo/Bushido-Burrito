@@ -1,0 +1,218 @@
+<html>
+
+<head>
+<script>
+
+var alive_color = 'black';
+var dead_color = '#cccccc';
+
+function create_cell(x, y) {
+
+	var h = 16;
+	var w = 16;
+	var pos_x = x * w;
+	var pos_y = 36 + y * h;
+
+	var id = "cell" + x + "_" + y;
+	var style = "position: absolute;"
+	style += " height: " + h + "px; width: " + w + "px;";
+	style += " left: " + pos_x + "px; top: " + pos_y + "px;";
+
+	var tag = "<div id='" + id + "'";
+	tag += " style='" + style + "'";
+	tag += " onclick='handle_cell_click(this)'";
+	tag += " ></div>";
+	document.write(tag);
+}
+
+function set_cell_color(x, y, c) {
+
+	var id = "cell" + x + "_" + y;
+	var cell = document.getElementById(id);
+	cell.style.backgroundColor = c;
+}
+
+function set_is_cell_alive(x, y, alive) {
+
+	var id = "cell" + x + "_" + y;
+	var cell = document.getElementById(id);
+	cell.is_alive = alive;
+
+	if (alive) {
+		cell.style.backgroundColor = alive_color;
+	} else {
+		cell.style.backgroundColor = dead_color;
+	}
+}
+
+function is_cell_alive(x, y) {
+
+	var id = "cell" + x + "_" + y;
+	var cell = document.getElementById(id);
+	return cell.is_alive;
+}
+
+var g_field_width = 12; //48;
+var g_field_height = 12; //33;
+function create_cells() {
+
+	for (var y = 0; y < g_field_height; y++) {
+		for (var x = 0; x < g_field_width; x++) {
+			create_cell(x, y);
+		}
+	}
+}
+create_cells();
+
+function init_cells() {
+
+	for (var y = 0; y < g_field_height; y++) {
+		for (var x = 0; x < g_field_width; x++) {
+			if ((x+y) % 2 == 0) {
+				set_is_cell_alive(x, y, true);
+			} else {
+				set_is_cell_alive(x, y, false);
+			}
+		}
+	}
+}
+
+function num_neighbours(x, y) {
+
+	var retval = 0;
+
+	// left column
+	if (x > 0) {
+
+		if (is_cell_alive(x-1, y)) {
+			retval += 1;
+		}
+
+		if (y > 0) {
+			if (is_cell_alive(x-1, y-1)) {
+				retval += 1;
+			}
+		}
+		if (y < g_field_height - 1) {
+			if (is_cell_alive(x-1, y+1)) {
+				retval += 1;
+			}
+		}
+	}
+
+	// center column
+	if (y > 0) {
+		if (is_cell_alive(x, y-1)) {
+			retval += 1;
+		}
+	}
+	if (y < g_field_height - 1) {
+		if (is_cell_alive(x, y+1)) {
+			retval += 1;
+		}
+	}
+
+	// right column
+	if (x < g_field_width - 1) {
+
+		if (is_cell_alive(x+1, y)) {
+			retval += 1;
+		}
+
+		if (y > 0) {
+			if (is_cell_alive(x+1, y-1)) {
+				retval += 1;
+			}
+		}
+		if (y < g_field_height - 1) {
+			if (is_cell_alive(x+1, y+1)) {
+				retval += 1;
+			}
+		}
+	}	
+
+	return retval;
+}
+
+function handle_cell_click(cell) {
+
+	if (cell.is_alive) {
+		cell.style.backgroundColor = dead_color;
+		cell.is_alive = false;
+	} else {
+		cell.style.backgroundColor = alive_color;
+		cell.is_alive = true;
+	}
+}
+
+function my_onload() {
+
+	init_cells();
+	setInterval(my_main, 100);
+}
+
+var g_field_buffer = new Array();
+
+function my_main() {
+
+	if (g_paused) { return; }
+
+	for (var y = 0; y < g_field_height; y++) {
+		for (var x = 0; x < g_field_width; x++) {
+
+			var n = num_neighbours(x, y);
+			var alive = is_cell_alive(x, y);
+
+			var i = y * g_field_width + x;
+			g_field_buffer[i] = alive;
+
+			// Conway's Rules of Life:
+			// - less than 2 neighbours -> die
+			// - more than 3 neighbours -> die
+			// - exactly 3 neighbours -> come to life
+
+			if (alive) {
+				if (n < 2 || n > 3) {
+					g_field_buffer[i] = false;
+				}
+			} else {
+				if (n == 3) {
+					g_field_buffer[i] = true;
+				}
+			}
+		}
+	}
+
+	// apply buffer to the actual playfield
+	for (var y = 0; y < g_field_height; y++) {
+		for (var x = 0; x < g_field_width; x++) {
+			var i = y * g_field_width + x;
+			set_is_cell_alive(x, y, g_field_buffer[i]);
+		}
+	}
+}
+
+var g_paused = false;
+function handle_pause_button() {
+
+	g_paused = !g_paused;
+
+	var button = document.getElementById("pause_button");
+	if (g_paused) {
+		button.innerHTML = "Resume";
+	} else {
+		button.innerHTML = "Pause";
+	}
+}
+
+</script>
+</head>
+
+<body onload="my_onload()">
+
+<button id="pause_button" onclick="handle_pause_button()">Pause</button>
+
+</body>
+
+</html>
+
