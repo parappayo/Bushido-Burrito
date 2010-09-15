@@ -58,5 +58,10 @@ class FlippyBox extends Sprite
 		_child.graphics.drawRect(x, y, width, height);
 		_child.graphics.endFill();
 	}
+
+	public function update() :Void
+	{
+		// TODO: frame-based animation here
+	}
 }
 
