@@ -16,16 +16,11 @@ public class HeightMapPlotter {
 
 	public void PlotPoint(Point p, float data, BufferedImage image) {
 
-		int color = 0xffffff;
+		if (data < 0.0f) { data = 0.0f; }
 
-		if (data < 30.0f) {
-			// water!
-			color = 0x0044ff; // * ((data + 70.0f) / 100.0f);
-		} else {
-			float temp = 256.0f * data / 100.0f;
-			int b = (int) temp;
-			color = b + b*0x100 + b*0x100000;
-		}
+		float temp = (float) 0xff * data / 100.0f;
+		byte b = (byte) temp;
+		int color = (int) b + (int) b * 0x100 + (int) b * 0x10000;
 
 		image.setRGB(p.x, p.y, color);
 	}
