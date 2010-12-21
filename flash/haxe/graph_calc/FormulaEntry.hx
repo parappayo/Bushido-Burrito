@@ -1,3 +1,8 @@
+/*
+ *  FormulaEntry.hx
+ *
+ *  User interface for inputting the formula to plot.
+ */
 
 import flash.display.Sprite;
 

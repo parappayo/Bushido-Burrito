@@ -5,6 +5,8 @@ class Main
 {
 	static var calc :GraphCalc;
 	static var formulaEntry :FormulaEntry;
+	static var formulaTokenizer :FormulaTokenizer;
+	static var formulaParser :FormulaParser;
 
 	static function main()
 	{
@@ -21,6 +23,9 @@ class Main
 		formulaEntry.addEventListener(
 			FormulaEntry.ENTRY_DONE,
 			onFormulaEntryDone);
+
+		formulaTokenizer = new FormulaTokenizer();
+		formulaParser = new FormulaParser();
 
 		//showFormulaEntry();
 
