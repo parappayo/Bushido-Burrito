@@ -27,11 +27,7 @@ class Main
 		formulaTokenizer = new FormulaTokenizer();
 		formulaParser = new FormulaParser();
 
-		//showFormulaEntry();
-
-		// until formula entry UI is done, do this instead
-		calc.plot( Math.sin, 0, 5 );
-		showGraphCalc();
+		showFormulaEntry();
 	}
 
 	static function showFormulaEntry()
@@ -48,6 +44,17 @@ class Main
 
 	static function onFormulaEntryDone(e :Event)
 	{
+		var tokenizeResult = formulaTokenizer.tokenize(
+			formulaEntry.getFormulaText());
+		if (!tokenizeResult)
+		{
+			// TODO: needs more friendly error presentation
+			trace(formulaTokenizer.errorMessage);
+			return;
+		}
+
+		formulaParser.parse(formulaTokenizer);
+
 		// TODO: parse and plot the function actually entered
 		calc.plot( Math.sin, 0, 5 );
 

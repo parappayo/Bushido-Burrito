@@ -17,6 +17,8 @@ class Token
 	public static var PI		= 9;
 	public static var X_VAR		= 10;
 	public static var T_VAR		= 11;
+	public static var L_PAREN	= 12;
+	public static var R_PAREN	= 13;
 
 	public function new()
 	{
