@@ -119,24 +119,35 @@ class FormulaTokenizer
 			retval.text += text.substr(i, 3);
 			i += 3;
 		}
+		else
+		{
+			// could be a number
+			var numStrLen :Int = countNumericChars(text.substr(i));
+			var value :Float = Std.parseFloat(text.substr(i, numStrLen));
+
+			if (value == 0.0 && text.charAt(i) != '0') {
+				// nope, it wasn't a number
+				trace("error: unknown token at position " + i);
+			} else {
+				retval.type = Token.NUMBER;
+				retval.value = value;
+			}
+		}
 
 		return retval;
 	}
 
 	public function isWhitespace(text :String) :Bool
 	{
-		var whitespace = " \t\n\r";
+		var r :EReg = ~/^[\t\n\r ]$/;
+		return r.match(text);
+	}
 
-		var i :Int;
-		for (i in 0...text.length)
-		{
-			if (whitespace.indexOf(text.charAt(i)) == -1)
-			{
-				return false;
-			}
-		}
-
-		return true;
+	public function countNumericChars(text :String) :Int
+	{
+		var r :EReg = ~/^([0-9\.])*/;
+		if (!r.match(text)) { return 0; }
+		return r.matchedPos().len;
 	}
 
 	public function debugTrace()

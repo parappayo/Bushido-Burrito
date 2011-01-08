@@ -3,6 +3,7 @@ class Token
 {
 	public var type :Int;
 	public var text :String;
+	public var value :Float;
 
 	// token types
 	public static var UNKNOWN	= 0;
@@ -22,6 +23,7 @@ class Token
 
 	public function new()
 	{
+		type = UNKNOWN;
 	}
 }
 

@@ -46,14 +46,20 @@ class Main
 	{
 		var tokenizeResult = formulaTokenizer.tokenize(
 			formulaEntry.getFormulaText());
-		if (!tokenizeResult)
-		{
+		if (!tokenizeResult) {
 			// TODO: needs more friendly error presentation
 			trace(formulaTokenizer.errorMessage);
 			return;
 		}
 
-		formulaParser.parse(formulaTokenizer);
+		var parserResult = formulaParser.parse(formulaTokenizer);
+		if (!parserResult) {
+			// TODO: needs more friendly error presentation
+			for (error in formulaParser.errors) {
+				trace(error);
+			}
+			return;
+		}
 
 		// TODO: parse and plot the function actually entered
 		calc.plot( Math.sin, 0, 5 );
