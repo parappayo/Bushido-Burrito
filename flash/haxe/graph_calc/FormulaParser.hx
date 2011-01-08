@@ -44,11 +44,28 @@ class FormulaParser
 			}
 
 			// else it's a stand-alone value
+			node.tokensConsumed = 1;
 			if (token.type == Token.NUMBER) {
 				node.type = ParseNode.NUMBER_CONST;
 				node.value = token.value;
+				return true;
+			}
+			if (token.type == Token.PI) {
+				node.type = ParseNode.NUMBER_CONST;
+				node.value = Math.PI;
+				return true;
+			}
+			if (token.type == Token.X_VAR) {
+				node.type = ParseNode.X_VALUE;
+				return true;
+			}
+			if (token.type == Token.T_VAR) {
+				node.type = ParseNode.T_VALUE;
+				return true;
 			}
 
+			trace("error: parser logic error checking stand-alone value");
+			return false;
 		}
 
 		if (token.type == Token.L_PAREN) {
@@ -76,7 +93,7 @@ class FormulaParser
 			return false;
 		}
 
-		token = tokens[position + innerNode.tokensConsumed];
+		token = tokens[position + innerNode.tokensConsumed + 1];
 		if (token.type != Token.R_PAREN) {
 			errors.push("unmatched parenthesis");
 			return false;

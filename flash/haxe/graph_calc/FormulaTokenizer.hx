@@ -123,7 +123,8 @@ class FormulaTokenizer
 		{
 			// could be a number
 			var numStrLen :Int = countNumericChars(text.substr(i));
-			var value :Float = Std.parseFloat(text.substr(i, numStrLen));
+			var numStr :String = text.substr(i, numStrLen);
+			var value :Float = Std.parseFloat(numStr);
 
 			if (value == 0.0 && text.charAt(i) != '0') {
 				// nope, it wasn't a number
@@ -131,6 +132,7 @@ class FormulaTokenizer
 			} else {
 				retval.type = Token.NUMBER;
 				retval.value = value;
+				retval.text = numStr;
 			}
 		}
 
