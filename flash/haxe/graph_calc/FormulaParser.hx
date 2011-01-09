@@ -64,6 +64,11 @@ class FormulaParser
 			tokensConsumed += node.tokensConsumed;
 		}
 
+		if (!retval) {
+			retval = parseUnaryOp(tokens, position, node);
+			tokensConsumed += node.tokensConsumed;
+		}
+
 		if (retval) {
 			var tempNode :ParseNode = new ParseNode();
 			if (parseBinaryOp(
@@ -118,28 +123,32 @@ class FormulaParser
 			node :ParseNode
 		) :Bool
 	{
-		var token :Token;
-		var innerNode :ParseNode;
-
+		var tokensConsumed :Int = 0;
 		node.tokensConsumed = 0;
 
-		token = tokens[position];
+		var token :Token = tokens[position];
 		if (token.type != Token.L_PAREN) { return false; }
+		tokensConsumed += 1;
 
-		innerNode = new ParseNode();
-		var result :Bool = parseExpression(tokens, position+1, innerNode);
+		var result :Bool = parseExpression(tokens, position+1, node);
 		if (!result) {
 			errors.push("invalid expression between parenthesis");
 			return false;
 		}
+		tokensConsumed += node.tokensConsumed;
 
-		token = tokens[position + innerNode.tokensConsumed + 1];
+		var whitespaceNode :ParseNode = new ParseNode();
+		parseWhitespace(tokens, position, whitespaceNode);
+		tokensConsumed += whitespaceNode.tokensConsumed;
+
+		token = tokens[position + tokensConsumed];
 		if (token.type != Token.R_PAREN) {
 			errors.push("unmatched parenthesis");
 			return false;
 		}
+		tokensConsumed += 1;
 
-		node.tokensConsumed = innerNode.tokensConsumed + 2;
+		node.tokensConsumed = tokensConsumed;
 		return true;
 	}
 
@@ -193,6 +202,34 @@ class FormulaParser
 			node :ParseNode
 		) :Bool
 	{
-		return false;  // stub
+		var retval :Bool = false;
+		var tokensConsumed :Int = 0;
+		var token = tokens[position];
+
+		if (token.type == Token.SINE) {
+			node.type = ParseNode.SINE;
+		}
+		else if (token.type == Token.COSINE) {
+			node.type = ParseNode.COSINE;
+		}
+		else
+		{
+			// not a unary op
+			return false;
+		}
+
+		tokensConsumed += 1;
+		retval = true;
+
+		// parse the operand
+		node.left = new ParseNode();
+		if (!parseExpression(tokens, position+1, node.left)) {
+			errors.push("invalid operand");
+			return false;
+		}
+		tokensConsumed += node.left.tokensConsumed;
+
+		node.tokensConsumed = tokensConsumed;
+		return retval;
 	}
 }
