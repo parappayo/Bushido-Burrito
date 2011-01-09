@@ -32,7 +32,7 @@ class FormulaEntry extends Sprite
 		inputTextField.type = TextFieldType.INPUT;
 		inputTextField.setTextFormat(textFormat);
 		inputTextField.border = true;
-		inputTextField.text = "sin(x)";
+		inputTextField.text = "sin x";
 		inputTextField.width = 300;
 		inputTextField.height = 60;
 

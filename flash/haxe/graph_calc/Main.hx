@@ -62,8 +62,14 @@ class Main
 			return;
 		}
 
-		// TODO: parse and plot the function actually entered
-		calc.plot( Math.sin, 0, 5 );
+		// TODO: get elapsed time, update at regular intervals
+		var time :Float = 0;
+
+		// TODO: prompt user for domain
+		var minX :Float = 0;
+		var maxX :Float = 5;
+
+		calc.plot( parseNode.eval, minX, maxX, time );
 
 		showGraphCalc();
 	}
