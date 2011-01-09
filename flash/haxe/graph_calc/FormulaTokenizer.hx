@@ -119,6 +119,13 @@ class FormulaTokenizer
 			retval.text += text.substr(i, 3);
 			i += 3;
 		}
+		else if (text.substr(i, 2) == "pi" ||
+			text.substr(i, 2) == "PI")
+		{
+			retval.type = Token.PI;
+			retval.text += text.substr(i, 2);
+			i += 2;
+		}
 		else
 		{
 			// could be a number
