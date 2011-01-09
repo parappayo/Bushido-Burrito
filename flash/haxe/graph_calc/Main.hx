@@ -52,7 +52,8 @@ class Main
 			return;
 		}
 
-		var parserResult = formulaParser.parse(formulaTokenizer);
+		var parseNode :ParseNode = new ParseNode();
+		var parserResult = formulaParser.parse(formulaTokenizer, parseNode);
 		if (!parserResult) {
 			// TODO: needs more friendly error presentation
 			for (error in formulaParser.errors) {

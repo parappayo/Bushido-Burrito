@@ -28,6 +28,15 @@ class ParseNode
 		value = 0;
 	}
 
+	public function clone(source :ParseNode)
+	{
+		type = source.type;
+		tokensConsumed = source.tokensConsumed;
+		left = source.left;
+		right = source.right;
+		value = source.value;
+	}
+
 	public function eval(x :Float, t :Float) :Float
 	{
 		if (type == NULL) {
@@ -73,6 +82,69 @@ class ParseNode
 
 		trace("error: unhandled parse node type");
 		return 0;
+	}
+
+	public function debugPrint() :Void
+	{
+		switch(type)
+		{
+			case NULL:
+				trace("node type: NULL");
+
+			case NUMBER_CONST:
+				trace("node type: NUMBER_CONST");
+				trace("node value: " + value);
+
+			case X_VALUE:
+				trace("node type: X_VALUE");
+
+			case T_VALUE:
+				trace("node type: T_VALUE");
+
+			case ADD:
+				trace("node type: ADD");
+				debugPrintBinaryOp();
+
+			case SUBTRACT:
+				trace("node type: SUBTRACT");
+				debugPrintBinaryOp();
+
+			case MULTIPLY:
+				trace("node type: MULTIPLY");
+				debugPrintBinaryOp();
+
+			case DIVIDE:
+				trace("node type: DIVIDE");
+				debugPrintBinaryOp();
+
+			case SINE:
+				trace("node type: SINE");
+				debugPrintUnaryOp();
+
+			case COSINE:
+				trace("node type: COSINE");
+				debugPrintUnaryOp();
+
+			default:
+				trace("error: unknown node type");
+		}
+	}
+
+	private function debugPrintBinaryOp()
+	{
+		trace("start left side");
+		left.debugPrint();
+		trace("end left side");
+		trace("start right side");
+		right.debugPrint();
+		trace("end right side");
+	}
+
+	private function debugPrintUnaryOp()
+	{
+		trace("start inner node");
+		left.debugPrint();
+		trace("end inner node");
 	}
 }
 

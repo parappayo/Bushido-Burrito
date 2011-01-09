@@ -9,74 +9,114 @@ class FormulaParser
 		errors = new Array<String>();
 	}
 
-	public function parse(tokens :FormulaTokenizer) :Bool
+	public function parse(tokens :FormulaTokenizer, node :ParseNode) :Bool
 	{
-		result = new ParseNode();
-		return parseExpression(tokens.result, 0, result);
+		return parseExpression(tokens.result, 0, node);
 	}
 
-	public function parseExpression(tokens :Array<Token>, position :Int, node :ParseNode) :Bool
+	public function parseExpression(
+				tokens :Array<Token>,
+				position :Int,
+				node :ParseNode
+		) :Bool
 	{
+		var retval :Bool = false;
+		var tokensConsumed :Int = 0;
 		node.tokensConsumed = 0;
 
-		if (tokens.length == 0) {
+		parseWhitespace(tokens, position, node);
+		position += node.tokensConsumed;
+		tokensConsumed += node.tokensConsumed;
+	
+		if (position >= tokens.length) {
 			node.type = ParseNode.NULL;
+			node.tokensConsumed = tokensConsumed;
 			return true;
 		}
-	
+
 		var token = tokens[position];
 
-		if (token.type == Token.WHITESPACE) {
-			position += 1;
-			token = tokens[position];
+		if (token.type == Token.NUMBER) {
+			node.type = ParseNode.NUMBER_CONST;
+			node.value = token.value;
+			tokensConsumed += 1;
+			retval = true;
 		}
-		if (token.type == Token.WHITESPACE) {
-			errors.push("error in tokenizer, adjacent whitespace tokens found");
+		if (token.type == Token.PI) {
+			node.type = ParseNode.NUMBER_CONST;
+			node.value = Math.PI;
+			tokensConsumed += 1;
+			retval = true;
 		}
-
-		if (token.type == Token.NUMBER ||
-			token.type == Token.X_VAR ||
-			token.type == Token.T_VAR ||
-			token.type == Token.PI ) {
-
-			if (parseBinaryOp(tokens, position, node)) {
-				return true;
-			}
-
-			// else it's a stand-alone value
-			node.tokensConsumed = 1;
-			if (token.type == Token.NUMBER) {
-				node.type = ParseNode.NUMBER_CONST;
-				node.value = token.value;
-				return true;
-			}
-			if (token.type == Token.PI) {
-				node.type = ParseNode.NUMBER_CONST;
-				node.value = Math.PI;
-				return true;
-			}
-			if (token.type == Token.X_VAR) {
-				node.type = ParseNode.X_VALUE;
-				return true;
-			}
-			if (token.type == Token.T_VAR) {
-				node.type = ParseNode.T_VALUE;
-				return true;
-			}
-
-			trace("error: parser logic error checking stand-alone value");
-			return false;
+		if (token.type == Token.X_VAR) {
+			node.type = ParseNode.X_VALUE;
+			tokensConsumed += 1;
+			retval = true;
+		}
+		if (token.type == Token.T_VAR) {
+			node.type = ParseNode.T_VALUE;
+			tokensConsumed += 1;
+			retval = true;
 		}
 
 		if (token.type == Token.L_PAREN) {
-			return parseParensExpr(tokens, position, node);
+			retval = parseParensExpr(tokens, position, node);
+			tokensConsumed += node.tokensConsumed;
 		}
 
-		errors.push("invalid expression");
-		return false;
+		if (retval) {
+			var tempNode :ParseNode = new ParseNode();
+			if (parseBinaryOp(
+					tokens,
+					position + tokensConsumed,
+					tempNode,
+					node)
+				) {
+
+				node.clone(tempNode);
+				tokensConsumed += tempNode.tokensConsumed;
+			}
+		}
+
+		if (!retval) {
+			errors.push("invalid expression");
+		}
+		node.tokensConsumed = tokensConsumed;
+
+		return retval;
 	}
 
-	public function parseParensExpr(tokens :Array<Token>, position :Int, node :ParseNode) :Bool
+	private function parseWhitespace(
+			tokens :Array<Token>,
+			position :Int,
+			node :ParseNode
+		) :Bool
+	{
+		var retval :Bool = false;
+		node.tokensConsumed = 0;
+
+		if (position >= tokens.length) { return false; }
+		var token :Token = tokens[position];
+
+		if (token.type == Token.WHITESPACE) {
+			node.tokensConsumed += 1;
+			token = tokens[position + node.tokensConsumed];
+			retval = true;
+		}
+		while (token.type == Token.WHITESPACE) {
+			errors.push("error in tokenizer, adjacent whitespace tokens found");
+			node.tokensConsumed += 1;
+			token = tokens[position + node.tokensConsumed];
+		}
+
+		return retval;
+	}
+
+	private function parseParensExpr(
+			tokens :Array<Token>,
+			position :Int,
+			node :ParseNode
+		) :Bool
 	{
 		var token :Token;
 		var innerNode :ParseNode;
@@ -104,12 +144,54 @@ class FormulaParser
 	}
 
 	
-	public function parseBinaryOp(tokens :Array<Token>, position :Int, node :ParseNode) :Bool
+	private function parseBinaryOp(
+			tokens :Array<Token>,
+			position :Int,
+			node :ParseNode,
+			prevNode :ParseNode
+		) :Bool
 	{
-		return false;  // stub
+		var tokensConsumed :Int = 0;
+
+		parseWhitespace(tokens, position, node);
+		position += node.tokensConsumed;
+		tokensConsumed += node.tokensConsumed;
+
+		if (position >= tokens.length) { return false; }
+		var token :Token = tokens[position];
+
+		if (token.type == Token.ADD) {
+			node.type = ParseNode.ADD;
+		} else if (token.type == Token.SUBTRACT) {
+			node.type = ParseNode.SUBTRACT;
+		} else if (token.type == Token.MULTIPLY) {
+			node.type = ParseNode.MULTIPLY;
+		} else if (token.type == Token.DIVIDE) {
+			node.type = ParseNode.DIVIDE;
+		} else {
+			// not a binary op!
+			return false;
+		}
+
+		node.left = new ParseNode();
+		node.left.clone(prevNode);
+
+		node.right = new ParseNode();
+		if (!parseExpression(tokens, position+1, node.right)) {
+			errors.push("invalid right operand");
+			return false;
+		}
+		tokensConsumed += node.right.tokensConsumed;
+
+		node.tokensConsumed = tokensConsumed;
+		return true;
 	}
 
-	public function parseUnaryOp(tokens :Array<Token>, position :Int, node :ParseNode) :Bool
+	private function parseUnaryOp(
+			tokens :Array<Token>,
+			position :Int,
+			node :ParseNode
+		) :Bool
 	{
 		return false;  // stub
 	}

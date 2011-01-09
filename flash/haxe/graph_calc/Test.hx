@@ -11,6 +11,7 @@ class Test
 
 		test("0");
 		test("3.14159");
+		test("pi");
 		test("(1)");
 		test("x");
 		test("x + 1");
@@ -24,6 +25,7 @@ class Test
 		test("blah");
 		test("(3");
 		test("()");
+		test("sin(x) asdf");
 	}
 
 	static function test(text :String)
@@ -41,13 +43,17 @@ class Test
 			return;
 		}
 
-		var parserResult = formulaParser.parse(formulaTokenizer);
+		var parseNode :ParseNode = new ParseNode();
+		var parserResult = formulaParser.parse(formulaTokenizer, parseNode);
 		if (!parserResult) {
 			for (error in formulaParser.errors) {
 				trace(error);
 			}
 			return;
 		}
+
+		trace("parse returned node:");
+		parseNode.debugPrint();
 	}
 }
 
