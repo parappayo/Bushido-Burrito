@@ -1,4 +1,6 @@
 
+package com.bushidoburrito.go;
+
 import java.applet.Applet;
 
 import java.awt.*;
@@ -11,9 +13,9 @@ import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.event.*;
 
-public class GoBoardApplet extends JApplet implements MouseListener
+public class GoApplet extends JApplet implements MouseListener
 {
-	GoBoardComponent board;
+	BoardComponent board;
 
 	public void start() {
 		initComponents();
@@ -22,7 +24,7 @@ public class GoBoardApplet extends JApplet implements MouseListener
 	public void initComponents() {
 		setLayout(new BorderLayout());
 
-		board = new GoBoardComponent();
+		board = new BoardComponent();
 		board.whiteStone = loadImage("white_stone.png");
 		board.blackStone = loadImage("black_stone.png");
 		board.addMouseListener(this);
@@ -38,22 +40,22 @@ public class GoBoardApplet extends JApplet implements MouseListener
 		return null;
 	}
 
-	public void mouseClicked(MouseEvent e) {
+	public void mousePressed(MouseEvent e) {
 		int x = e.getX() / board.getStoneWidth();
 		int y = e.getY() / board.getStoneHeight();
 		board.takeMove(x, y);
 	}
 
+	public void mouseClicked(MouseEvent e) {}
 	public void mouseEntered(MouseEvent e) {}
 	public void mouseExited(MouseEvent e) {}
-	public void mousePressed(MouseEvent e) {}
 	public void mouseReleased(MouseEvent e) {}
 
 	public static void main(String[] args) {
 		JFrame f = new JFrame("Go Board");
 		f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-		JApplet ap = new GoBoardApplet();
+		JApplet ap = new GoApplet();
 		ap.init();
 		ap.start();
 		f.add("Center", ap);

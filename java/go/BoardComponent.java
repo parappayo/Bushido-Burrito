@@ -1,8 +1,12 @@
 
+package com.bushidoburrito.go;
+
 import java.awt.*;
 import java.awt.image.*;
 
-public class GoBoardComponent extends Component
+enum StoneColor { EMPTY, BLACK, WHITE }
+
+public class BoardComponent extends Component
 {
 	boolean isBlackTurn;
 
@@ -12,31 +16,39 @@ public class GoBoardComponent extends Component
 	BufferedImage whiteStone = null;
 	BufferedImage blackStone = null;
 
-	enum Stone { EMPTY, BLACK, WHITE }
+	private StoneColor[] boardData;
 
-	private Stone[] boardData;
-
-	public GoBoardComponent() {
+	public BoardComponent() {
 		isBlackTurn = true;
 
-		boardData = new Stone[boardWidth * boardHeight];
+		boardData = new StoneColor[boardWidth * boardHeight];
 		for (int i = 0; i < boardData.length; i++) {
-			boardData[i] = Stone.EMPTY;
+			boardData[i] = StoneColor.EMPTY;
 		}
 	}
 
-	public void takeMove(int x, int y) {
-		Stone s = isBlackTurn ? Stone.BLACK : Stone.WHITE;
+	public boolean takeMove(int x, int y) {
+		if (getStone(x, y) != StoneColor.EMPTY) {
+			return false;
+		}
+		StoneColor s = isBlackTurn ? StoneColor.BLACK : StoneColor.WHITE;
 		isBlackTurn = !isBlackTurn;
 		setStone(x, y, s);
+		updateGroups();
 		repaint();
+		return true;
 	}
 
-	public void setStone(int x, int y, Stone s) {
+	private void updateGroups() {
+		// TODO: populate group data here
+		// TODO: remove stones from dead groups here
+	}
+
+	public void setStone(int x, int y, StoneColor s) {
 		boardData[y * boardWidth + x] = s;
 	}
 
-	public Stone getStone(int x, int y) {
+	public StoneColor getStone(int x, int y) {
 		return boardData[y * boardWidth + x];
 	}
 
@@ -85,11 +97,11 @@ public class GoBoardComponent extends Component
 		for (int i = 0; i < boardData.length; i++) {
 			int x = (i % boardWidth) * w;
 			int y = (i / boardWidth) * h;
-			Stone space = boardData[i];
+			StoneColor color = boardData[i];
 
-			if (space == Stone.BLACK) {
+			if (color == StoneColor.BLACK) {
 				g.drawImage(blackStone, x, y, null);
-			} else if (space == Stone.WHITE) {
+			} else if (color == StoneColor.WHITE) {
 				g.drawImage(whiteStone, x, y, null);
 			}
 		}
