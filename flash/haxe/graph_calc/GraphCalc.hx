@@ -32,8 +32,8 @@ class GraphCalc extends Sprite
 		stepSize = 10;
 	}
 
-	public function plot( plotFunc : Float -> Float,
-		minX :Float, maxX :Float )
+	public function plot( plotFunc : Float -> Float -> Float, 
+		minX :Float, maxX :Float, t :Float )
 	{
 		graphics.clear();
 		graphics.beginFill(backColor);
@@ -52,7 +52,7 @@ class GraphCalc extends Sprite
 		for( i in 0...numSteps ) {
 
 			var x = i * domainStep;
-			var y = plotFunc(x);
+			var y = plotFunc(x, t);
 
 			if (y > maxY) { maxY = y; }
 			if (y < minY) { minY = y; }
