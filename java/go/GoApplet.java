@@ -8,6 +8,7 @@ import java.awt.event.*;
 import java.awt.image.*;
 
 import java.io.*;
+import java.net.URL;
 import javax.imageio.ImageIO;
 
 import javax.swing.*;
@@ -32,7 +33,7 @@ public class GoApplet extends JApplet implements MouseListener
 	}
 
 	private BufferedImage loadImage(String name) {
-		File input = new File(name);
+		URL input = ClassLoader.getSystemClassLoader().getResource(name);
 		try {
 			return ImageIO.read(input);
 		} catch (IOException e) {
