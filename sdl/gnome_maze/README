@@ -1,0 +1,27 @@
+
+Gnome Maze Demo
+---------------
+
+This package includes copyright material and may not be used for commercial
+purposes.  This software is provided as-is with no warranty of any kind and is
+used at the user's own risk.
+
+Lib dependencies:
+	SDL
+	SDL_image
+	OpenGL
+	GLU
+
+To run on Ubuntu, required packages include:
+	libsdl1.2debian
+	libsd-image1.2
+	libgl1-mesa-glx
+	libglu1-mesa
+
+A crude Makefile is included for building on Linux.  The -dev variants of the
+packages listed above will need to be installed first.
+
+For more info:
+http://www.libsdl.org/
+http://www.opengl.org/
+
