@@ -1,8 +1,12 @@
 
+// TODO: create a BoardData class to better separate data from UI code
+
 package com.bushidoburrito.go;
 
 import java.awt.*;
 import java.awt.image.*;
+
+import java.util.*;
 
 enum StoneColor { EMPTY, BLACK, WHITE }
 
@@ -18,6 +22,8 @@ public class BoardComponent extends Component
 
 	private StoneColor[] boardData;
 
+	ArrayList<Group> groups;
+
 	public BoardComponent() {
 		isBlackTurn = true;
 
@@ -25,6 +31,8 @@ public class BoardComponent extends Component
 		for (int i = 0; i < boardData.length; i++) {
 			boardData[i] = StoneColor.EMPTY;
 		}
+
+		groups = new ArrayList<Group>();
 	}
 
 	public boolean takeMove(int x, int y) {
@@ -40,15 +48,60 @@ public class BoardComponent extends Component
 	}
 
 	private void updateGroups() {
-		// TODO: populate group data here
-		// TODO: remove stones from dead groups here
+		groups.clear();
+		for (int i = 0; i < boardData.length; i++) {
+			if (boardData[i] != StoneColor.EMPTY) {
+				int x = i % boardWidth;
+				int y = i / boardWidth;
+				Stone stone = findStone(x, y);
+
+				if (stone == null) {
+					stone = new Stone();
+					stone.color = boardData[i];
+					stone.x = x;
+					stone.y = y;
+
+					Group group = new Group();
+					group.createFromStone(stone, this);
+					if (group.getLibertiesCount(this) == 0) {
+						clearStones(group);
+					} else {
+						groups.add(group);
+					}
+				}
+			}
+		}
+
+	}
+
+	private void clearStones(Group group) {
+		for (Iterator i = group.stones.iterator(); i.hasNext(); ) {
+			Stone stone = (Stone) i.next();
+			stone.color = StoneColor.EMPTY;
+			boardData[stone.y * boardWidth + stone.x] = StoneColor.EMPTY;
+		}
+	}
+
+	private Stone findStone(int x, int y) {
+		if (boardData[y * boardWidth + x] == StoneColor.EMPTY) {
+			return null;
+		}
+		for (Iterator i = groups.iterator(); i.hasNext(); ) {
+			Group group = (Group) i.next();
+
+		}
+		return null;
 	}
 
 	public void setStone(int x, int y, StoneColor s) {
+		if (x < 0 || y < 0 || x > boardWidth || y > boardHeight) { return; }
 		boardData[y * boardWidth + x] = s;
 	}
 
 	public StoneColor getStone(int x, int y) {
+		if (x < 0 || y < 0 || x > boardWidth || y > boardHeight) {
+			return StoneColor.EMPTY;
+		}
 		return boardData[y * boardWidth + x];
 	}
 
