@@ -26,8 +26,8 @@ public class GoApplet extends JApplet implements MouseListener
 		setLayout(new BorderLayout());
 
 		board = new BoardComponent();
-		board.whiteStone = loadImage("white_stone.png");
-		board.blackStone = loadImage("black_stone.png");
+		board.whiteStone = loadImage("img/white_stone.png");
+		board.blackStone = loadImage("img/black_stone.png");
 		board.addMouseListener(this);
 		add("Center", board);
 	}
