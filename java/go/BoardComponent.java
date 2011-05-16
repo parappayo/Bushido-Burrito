@@ -1,108 +1,34 @@
 
-// TODO: create a BoardData class to better separate data from UI code
-
 package com.bushidoburrito.go;
 
 import java.awt.*;
 import java.awt.image.*;
 
-import java.util.*;
-
-enum StoneColor { EMPTY, BLACK, WHITE }
-
 public class BoardComponent extends Component
 {
-	boolean isBlackTurn;
-
-	int boardWidth = 19;
-	int boardHeight = 19;
-
 	BufferedImage whiteStone = null;
 	BufferedImage blackStone = null;
 
-	private StoneColor[] boardData;
-
-	ArrayList<Group> groups;
+	BoardData boardData;
 
 	public BoardComponent() {
-		isBlackTurn = true;
-
-		boardData = new StoneColor[boardWidth * boardHeight];
-		for (int i = 0; i < boardData.length; i++) {
-			boardData[i] = StoneColor.EMPTY;
-		}
-
-		groups = new ArrayList<Group>();
+		startNewGame(19, 19);
 	}
 
+	public void startNewGame(int width, int height) {
+		boardData = new BoardData(width, height);
+	}
+
+	/** Takes x, y as pixel coordinates */
 	public boolean takeMove(int x, int y) {
-		if (getStone(x, y) != StoneColor.EMPTY) {
-			return false;
+		int boardX = x / getStoneWidth();
+		int boardY = y / getStoneHeight();
+
+		boolean retval = boardData.takeMove(boardX, boardY);
+		if (retval) {
+			repaint();
 		}
-		StoneColor s = isBlackTurn ? StoneColor.BLACK : StoneColor.WHITE;
-		isBlackTurn = !isBlackTurn;
-		setStone(x, y, s);
-		updateGroups();
-		repaint();
-		return true;
-	}
-
-	private void updateGroups() {
-		groups.clear();
-		for (int i = 0; i < boardData.length; i++) {
-			if (boardData[i] != StoneColor.EMPTY) {
-				int x = i % boardWidth;
-				int y = i / boardWidth;
-				Stone stone = findStone(x, y);
-
-				if (stone == null) {
-					stone = new Stone();
-					stone.color = boardData[i];
-					stone.x = x;
-					stone.y = y;
-
-					Group group = new Group();
-					group.createFromStone(stone, this);
-					if (group.getLibertiesCount(this) == 0) {
-						clearStones(group);
-					} else {
-						groups.add(group);
-					}
-				}
-			}
-		}
-
-	}
-
-	private void clearStones(Group group) {
-		for (Iterator i = group.stones.iterator(); i.hasNext(); ) {
-			Stone stone = (Stone) i.next();
-			stone.color = StoneColor.EMPTY;
-			boardData[stone.y * boardWidth + stone.x] = StoneColor.EMPTY;
-		}
-	}
-
-	private Stone findStone(int x, int y) {
-		if (boardData[y * boardWidth + x] == StoneColor.EMPTY) {
-			return null;
-		}
-		for (Iterator i = groups.iterator(); i.hasNext(); ) {
-			Group group = (Group) i.next();
-
-		}
-		return null;
-	}
-
-	public void setStone(int x, int y, StoneColor s) {
-		if (x < 0 || y < 0 || x > boardWidth || y > boardHeight) { return; }
-		boardData[y * boardWidth + x] = s;
-	}
-
-	public StoneColor getStone(int x, int y) {
-		if (x < 0 || y < 0 || x > boardWidth || y > boardHeight) {
-			return StoneColor.EMPTY;
-		}
-		return boardData[y * boardWidth + x];
+		return retval;
 	}
 
 	public int getStoneWidth() {
@@ -119,8 +45,8 @@ public class BoardComponent extends Component
 
 	public Dimension getPreferredSize() {
 		return new Dimension(
-			boardWidth * getStoneWidth(),
-			boardHeight * getStoneHeight()
+			boardData.getWidth() * getStoneWidth(),
+			boardData.getHeight() * getStoneHeight()
 			);
 	}
 
@@ -132,6 +58,9 @@ public class BoardComponent extends Component
 
 		int w = getStoneWidth();
 		int h = getStoneHeight();
+
+		int boardWidth = boardData.getWidth();
+		int boardHeight = boardData.getHeight();
 
 		g.setColor(Color.BLACK);
 		for (int x = 0; x < boardWidth; x++) {
@@ -147,15 +76,15 @@ public class BoardComponent extends Component
 			g.drawLine(x1, y1, x2, y1);
 		}
 
-		for (int i = 0; i < boardData.length; i++) {
-			int x = (i % boardWidth) * w;
-			int y = (i / boardWidth) * h;
-			StoneColor color = boardData[i];
+		for (int y = 0; y < boardHeight; y++) {
+			for (int x = 0; x < boardWidth; x++) {
+				StoneColor color = boardData.getStone(x, y);
 
-			if (color == StoneColor.BLACK) {
-				g.drawImage(blackStone, x, y, null);
-			} else if (color == StoneColor.WHITE) {
-				g.drawImage(whiteStone, x, y, null);
+				if (color == StoneColor.BLACK) {
+					g.drawImage(blackStone, x*w, y*h, null);
+				} else if (color == StoneColor.WHITE) {
+					g.drawImage(whiteStone, x*w, y*h, null);
+				}
 			}
 		}
 	}

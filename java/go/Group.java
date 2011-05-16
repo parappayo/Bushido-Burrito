@@ -5,13 +5,13 @@ import java.util.*;
 
 public class Group
 {
-	Set<Stone> stones;
+	ArrayList<Stone> stones;
 
 	public StoneColor color;
 
 	public Group() {
-		stones = new HashSet<Stone>();
-		color = StoneColor.EMPTY;
+		stones = new ArrayList<Stone>();
+		color = StoneColor.NONE;
 	}
 
 	public boolean contains(Stone stone) {
@@ -27,8 +27,8 @@ public class Group
 		return false;
 	}
 
-	public void createFromStone(Stone stone, BoardComponent board) {
-		if (stone.color == StoneColor.EMPTY) {
+	public void createFromStone(Stone stone, BoardData board) {
+		if (stone.color == StoneColor.NONE) {
 			// TODO: throw an exception here
 			System.out.println("error: tried to add empty stone");
 			return;
@@ -38,7 +38,7 @@ public class Group
 			System.out.println("error: stone already has group");
 			return;
 		}
-		if (color == StoneColor.EMPTY) {
+		if (color == StoneColor.NONE) {
 			color = stone.color;
 		} else if (color != stone.color) {
 			// TODO: throw an exception here
@@ -68,7 +68,7 @@ public class Group
 		}
 	}
 
-	private void addNeighbourStone(int x, int y, BoardComponent board) {
+	private void addNeighbourStone(int x, int y, BoardData board) {
 		Stone neighbour = new Stone();
 		neighbour.color = color;
 		neighbour.x = x;
@@ -78,7 +78,7 @@ public class Group
 		}
 	}
 
-	public int getLibertiesCount(BoardComponent board) {
+	public int getLibertiesCount(BoardData board) {
 		int retval = 0;
 		for (Iterator i = stones.iterator(); i.hasNext(); ) {
 			Stone stone = (Stone) i.next();
@@ -87,25 +87,25 @@ public class Group
 		return retval;
 	}
 
-	public int getLibertiesCount(Stone stone, BoardComponent board) {
+	public int getLibertiesCount(Stone stone, BoardData board) {
 		int retval = 0;
 		if (stone.x > 0 &&
-			board.getStone(stone.x - 1, stone.y) == StoneColor.EMPTY) {
+			board.getStone(stone.x - 1, stone.y) == StoneColor.NONE) {
 
 			retval += 1;
 		}
-		if (stone.x < board.boardWidth - 1 &&
-			board.getStone(stone.x + 1, stone.y) == StoneColor.EMPTY) {
+		if (stone.x < board.getWidth() - 1 &&
+			board.getStone(stone.x + 1, stone.y) == StoneColor.NONE) {
 
 			retval += 1;
 		}
 		if (stone.y > 0 &&
-			board.getStone(stone.x, stone.y - 1) == StoneColor.EMPTY) {
+			board.getStone(stone.x, stone.y - 1) == StoneColor.NONE) {
 
 			retval += 1;
 		}
-		if (stone.y < board.boardHeight - 1 &&
-			board.getStone(stone.x, stone.y + 1) == StoneColor.EMPTY) {
+		if (stone.y < board.getHeight() - 1 &&
+			board.getStone(stone.x, stone.y + 1) == StoneColor.NONE) {
 
 			retval += 1;
 		}

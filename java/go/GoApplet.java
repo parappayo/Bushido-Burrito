@@ -42,9 +42,7 @@ public class GoApplet extends JApplet implements MouseListener
 	}
 
 	public void mousePressed(MouseEvent e) {
-		int x = e.getX() / board.getStoneWidth();
-		int y = e.getY() / board.getStoneHeight();
-		board.takeMove(x, y);
+		board.takeMove(e.getX(), e.getY());
 	}
 
 	public void mouseClicked(MouseEvent e) {}
