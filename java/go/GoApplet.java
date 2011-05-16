@@ -16,6 +16,8 @@ import javax.swing.event.*;
 
 public class GoApplet extends JApplet implements MouseListener
 {
+	private static final long serialVersionUID = 1;
+
 	BoardComponent board;
 
 	public void start() {

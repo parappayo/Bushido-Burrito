@@ -6,6 +6,8 @@ import java.awt.image.*;
 
 public class BoardComponent extends Component
 {
+	private static final long serialVersionUID = 1;
+
 	BufferedImage whiteStone = null;
 	BufferedImage blackStone = null;
 

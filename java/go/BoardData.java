@@ -27,9 +27,13 @@ public class BoardData
 	public int getWidth() { return width; }
 	public int getHeight() { return height; }
 
+	public boolean isEmpty(int x, int y) {
+		return getStone(x, y) == StoneColor.NONE;
+	}
+
 	/** Takes x, y as stone coordinates */
 	public boolean takeMove(int x, int y) {
-		if (getStone(x, y) != StoneColor.NONE) {
+		if (!isEmpty(x, y)) {
 			return false;
 		}
 		StoneColor s = isBlackTurn ? StoneColor.BLACK : StoneColor.WHITE;
@@ -75,7 +79,7 @@ public class BoardData
 	}
 
 	private Stone findStone(int x, int y) {
-		if (stoneColor[y * width + x] == StoneColor.NONE) {
+		if (isEmpty(x, y)) {
 			return null;
 		}
 		for (Iterator i = groups.iterator(); i.hasNext(); ) {

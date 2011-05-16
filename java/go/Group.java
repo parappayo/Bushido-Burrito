@@ -82,32 +82,7 @@ public class Group
 		int retval = 0;
 		for (Iterator i = stones.iterator(); i.hasNext(); ) {
 			Stone stone = (Stone) i.next();
-			retval += getLibertiesCount(stone, board);
-		}
-		return retval;
-	}
-
-	public int getLibertiesCount(Stone stone, BoardData board) {
-		int retval = 0;
-		if (stone.x > 0 &&
-			board.getStone(stone.x - 1, stone.y) == StoneColor.NONE) {
-
-			retval += 1;
-		}
-		if (stone.x < board.getWidth() - 1 &&
-			board.getStone(stone.x + 1, stone.y) == StoneColor.NONE) {
-
-			retval += 1;
-		}
-		if (stone.y > 0 &&
-			board.getStone(stone.x, stone.y - 1) == StoneColor.NONE) {
-
-			retval += 1;
-		}
-		if (stone.y < board.getHeight() - 1 &&
-			board.getStone(stone.x, stone.y + 1) == StoneColor.NONE) {
-
-			retval += 1;
+			retval += stone.getLibertiesCount(board);
 		}
 		return retval;
 	}
