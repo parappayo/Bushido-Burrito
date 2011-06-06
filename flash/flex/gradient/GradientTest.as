@@ -77,23 +77,24 @@ public class GradientTest extends UIComponent
 		}
 	}
 
-	public function radialDistanceGradient(bitmapData :BitmapData) :void
-	{
-		var scale :Number = 512 / bitmapData.width;
-
-		var origin :Point = new Point();
-		origin.x = bitmapData.width / 2;
-		origin.y = bitmapData.height / 2;
-
-		radialDistanceGradient2(bitmapData, scale, origin);
-	}
-
-	public function radialDistanceGradient2(
+	public function radialDistanceGradient(
 			bitmapData :BitmapData,
-			scale :Number,
-			origin :Point
+			scale :Number = NaN,
+			origin :Point = null
 			) :void
 	{
+		if (isNaN(scale))
+		{
+			scale = 512 / bitmapData.width;
+		}
+
+		if (origin == null)
+		{
+			origin = new Point();
+			origin.x = bitmapData.width / 2;
+			origin.y = bitmapData.height / 2;
+		}
+
 		var p :Point = new Point();
 		for (p.y = 0; p.y < bitmapData.height; p.y++)
 		{
@@ -113,24 +114,27 @@ public class GradientTest extends UIComponent
 		}
 	}
 
-	public function sphericalGradient(bitmapData :BitmapData) :void
-	{
-		var scale :Number = 1;
-
-		var origin :Point = new Point();
-		origin.x = bitmapData.width / 2;
-		origin.y = bitmapData.height / 2;
-
-		sphericalGradient2(bitmapData, scale, origin);
-	}
-
-	public function sphericalGradient2(
+	/**
+	 *  note: this function is broken
+	 */
+	public function sphericalGradient(
 			bitmapData :BitmapData,
-			scale :Number,
-			origin :Point
+			scale :Number = NaN,
+			origin :Point = null
 			) :void
 	{
+		if (isNaN(scale))
+		{
+			scale = 1;
+		}
 		scale *= 256;
+
+		if (origin == null)
+		{
+			origin = new Point();
+			origin.x = bitmapData.width / 2;
+			origin.y = bitmapData.height / 2;
+		}
 
 		var p :Point = new Point();
 		for (p.y = 0; p.y < bitmapData.height; p.y++)
