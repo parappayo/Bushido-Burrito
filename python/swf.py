@@ -72,6 +72,32 @@ tag_codes = {
 		91: 'DefineFont4',
 		}
 
+# note: action codes >= 0x80 have a data payload
+action_codes = {
+		# SWF 3 Action Model
+		0x04: 'ActionNextFrame',
+		0x05: 'ActionPrevFrame',
+		0x06: 'ActionPlay',
+		0x07: 'ActionStop',
+		0x08: 'ActionToggleQuality',
+		0x09: 'ActionStopSounds',
+		0x81: 'ActionGotoFrame',
+		0x83: 'ActionGetURL',
+		0x8A: 'ActionWaitForFrame',
+		0x8B: 'ActionSetTarget',
+		0x8C: 'ActionGotoLabel',
+
+		# SWF 4 Action Model
+		0x0A: 'ActionAdd',
+		0x0B: 'ActionSubtract',
+		0x0C: 'ActionMultiply',
+		0x0D: 'ActionDivide',
+		0x0E: 'ActionEquals',
+		0x0F: 'ActionLess',
+		0x17: 'ActionPop',
+		0x96: 'ActionPush',
+		}
+
 def parse_string(data):
 	pos = 0
 	retval = ''
@@ -80,25 +106,6 @@ def parse_string(data):
 		pos += 1
 	pos += 1 # skip the null
 	return pos, retval
-
-# used by ImportAssets, ExportAssets, ImportAssets2 tags
-def parse_asset(assets, data):
-	pos = 0
-	asset = {}
-
-	format = '<H'
-	size = struct.calcsize(format)
-	raw = struct.unpack(format, data[pos:pos+size])
-	pos += size
-	asset['id'] = raw[0]
-
-	size, name = parse_string(data[pos:])
-	asset['name'] = name
-	pos += size
-
-	assets.append(asset)
-
-	return pos
 
 class Tag:
 
@@ -148,6 +155,8 @@ class Tag:
 			self.tag = None
 		elif self.code == 56:
 			self.tag = ExportAssetsTag()
+		elif self.code == 59:
+			self.tag = DoInitActionTag()
 		elif self.code == 71:
 			self.tag = ImportAssets2Tag()
 		if self.tag:
@@ -208,6 +217,55 @@ class Rect:
 
 		return size
 
+class Asset:
+
+	def __init__(self):
+		self.id = 0
+		self.name = ''
+
+	def __str__(self):
+		return 'asset name: ' + self.name
+
+	def parse(self, data):
+		pos = 0
+
+		format = '<H'
+		size = struct.calcsize(format)
+		raw = struct.unpack(format, data[pos:pos+size])
+		pos += size
+		self.id = raw[0]
+
+		size, name = parse_string(data[pos:])
+		self.name = name
+		pos += size
+
+		return pos
+
+class Action:
+
+	def __init__(self):
+		self.action_code = 0
+		self.data = None
+
+	def __str__(self):
+		action_str = ''
+		if self.action_code in action_codes:
+			action_str = action_codes[self.action_code]
+		else:
+			action_str = str(self.action_code)
+		return 'action code: ' + action_str
+
+	def parse(self, data):
+		pos = 0
+
+		format = '<B'
+		size = struct.calcsize(format)
+		raw = struct.unpack(format, data[pos:pos+size])
+		pos += size
+		self.action_code = raw[0]
+
+		return pos
+
 class ExportAssetsTag:
 
 	def __init__(self):
@@ -218,7 +276,7 @@ class ExportAssetsTag:
 		retval = ''
 		for asset in self.assets:
 			if len(retval) > 0: retval += '\n'
-			retval += 'asset name: ' + asset['name']
+			retval += 'asset name: ' + asset.name
 		return retval
 
 	def parse(self, data):
@@ -231,7 +289,38 @@ class ExportAssetsTag:
 		self.count = raw[0]
 
 		for i in range(0, self.count):
-			pos += parse_asset(self.assets, data[pos:])
+			asset = Asset()
+			pos += asset.parse(data[pos:])
+			self.assets.append(asset)
+
+		return pos
+
+class DoInitActionTag:
+
+	def __init__(self):
+		self.sprite_id = 0
+		self.actions = []
+
+	def __str__(self):
+		retval = ''
+		for action in self.actions:
+			if len(retval) > 0: retval += '\n'
+			retval += str(action)
+		return retval
+
+	def parse(self, data):
+		pos = 0
+
+		format = '<H'
+		size = struct.calcsize(format)
+		raw = struct.unpack(format, data[pos:pos+size])
+		pos += size
+		self.sprite_id = raw[0]
+
+		while data[pos] != 0:
+			action = Action()
+			pos += action.parse(data[pos:])
+			self.actions.append(action)
 
 		return pos
 
@@ -243,10 +332,10 @@ class ImportAssets2Tag:
 		self.assets = []
 
 	def __str__(self):
-		retval = 'URL: ' + self.url
+		retval = 'url: ' + self.url
 		for asset in self.assets:
 			retval += '\n'
-			retval += 'asset name: ' + asset['name']
+			retval += 'asset name: ' + asset.name
 		return retval
 
 	def parse(self, data):
@@ -263,7 +352,9 @@ class ImportAssets2Tag:
 		self.count = raw[2]
 
 		for i in range(0, self.count):
-			pos += parse_asset(self.assets, data[pos:])
+			asset = Asset()
+			pos += asset.parse(data[pos:])
+			self.assets.append(asset)
 
 		return pos
 
