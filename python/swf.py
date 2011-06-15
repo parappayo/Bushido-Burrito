@@ -72,6 +72,34 @@ tag_codes = {
 		91: 'DefineFont4',
 		}
 
+def parse_string(data):
+	pos = 0
+	retval = ''
+	while data[pos] != 0:
+		retval += chr(data[pos])
+		pos += 1
+	pos += 1 # skip the null
+	return pos, retval
+
+# used by ImportAssets, ExportAssets, ImportAssets2 tags
+def parse_asset(assets, data):
+	pos = 0
+	asset = {}
+
+	format = '<H'
+	size = struct.calcsize(format)
+	raw = struct.unpack(format, data[pos:pos+size])
+	pos += size
+	asset['id'] = raw[0]
+
+	size, name = parse_string(data[pos:])
+	asset['name'] = name
+	pos += size
+
+	assets.append(asset)
+
+	return pos
+
 class Tag:
 
 	def __init__(self):
@@ -80,7 +108,7 @@ class Tag:
 		self.tag = None
 
 	def __str__(self):
-		retval = tag_codes[self.code]
+		retval = '[' + tag_codes[self.code] + ']'
 		if self.tag:
 			retval += '\n'
 			retval += str(self.tag)
@@ -115,7 +143,12 @@ class Tag:
 
 	def parse_body(self, data):
 		# based on self.code, parse the correct tag data
-		if self.code == 71:
+		if self.code == 0:
+			# End tag, do nothing
+			self.tag = None
+		elif self.code == 56:
+			self.tag = ExportAssetsTag()
+		elif self.code == 71:
 			self.tag = ImportAssets2Tag()
 		if self.tag:
 			self.tag.parse(data)
@@ -175,29 +208,64 @@ class Rect:
 
 		return size
 
+class ExportAssetsTag:
+
+	def __init__(self):
+		self.count = 0
+		self.assets = []
+
+	def __str__(self):
+		retval = ''
+		for asset in self.assets:
+			if len(retval) > 0: retval += '\n'
+			retval += 'asset name: ' + asset['name']
+		return retval
+
+	def parse(self, data):
+		pos = 0
+
+		format = '<H'
+		size = struct.calcsize(format)
+		raw = struct.unpack(format, data[pos:pos+size])
+		pos += size
+		self.count = raw[0]
+
+		for i in range(0, self.count):
+			pos += parse_asset(self.assets, data[pos:])
+
+		return pos
+
 class ImportAssets2Tag:
 
 	def __init__(self):
 		self.url = ''
 		self.count = 0
+		self.assets = []
 
 	def __str__(self):
-		return self.url
+		retval = 'URL: ' + self.url
+		for asset in self.assets:
+			retval += '\n'
+			retval += 'asset name: ' + asset['name']
+		return retval
 
 	def parse(self, data):
-
 		pos = 0
 
-		# parse the URL string
-		while data[pos] != 0:
-			self.url += chr(data[pos])
-			pos += 1
+		size, url = parse_string(data[pos:])
+		pos += size
+		self.url = url
 
 		format = '<BBH'
 		size = struct.calcsize(format)
-		raw = struct.unpack('<BBH', data[pos:pos+size])
+		raw = struct.unpack(format, data[pos:pos+size])
+		pos += size
 		self.count = raw[2]
 
+		for i in range(0, self.count):
+			pos += parse_asset(self.assets, data[pos:])
+
+		return pos
 
 class FlashDocument:
 
@@ -217,7 +285,6 @@ class FlashDocument:
 			retval += str(tag)
 			retval += '\n\n'
 		return retval
-		
 
 	def as_dict(self):
 		retval = {}
@@ -288,7 +355,7 @@ def main(args):
 	for filename in files:
 		doc = FlashDocument()
 		doc.from_file(filename)
-		print(filename)
+		print('File: ' + filename)
 		print(doc)
 
 if __name__ == '__main__':
