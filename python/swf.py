@@ -1,4 +1,4 @@
-import sys, struct, math, zlib
+import sys, glob, struct, math, zlib
 
 #
 #  The code in this file makes much more sense if you refer to the specs for
@@ -77,6 +77,14 @@ class Tag:
 	def __init__(self):
 		self.code = 0
 		self.length = 0
+		self.tag = None
+
+	def __str__(self):
+		retval = tag_codes[self.code]
+		if self.tag:
+			retval += '\n'
+			retval += str(self.tag)
+		return retval
 
 	def parse(self, data):
 		pos = 0
@@ -106,7 +114,11 @@ class Tag:
 		return size
 
 	def parse_body(self, data):
-		# TODO: based on self.code, parse the correct tag data
+		# based on self.code, parse the correct tag data
+		if self.code == 71:
+			self.tag = ImportAssets2Tag()
+		if self.tag:
+			self.tag.parse(data)
 		return self.length
 
 class Rect:
@@ -163,6 +175,30 @@ class Rect:
 
 		return size
 
+class ImportAssets2Tag:
+
+	def __init__(self):
+		self.url = ''
+		self.count = 0
+
+	def __str__(self):
+		return self.url
+
+	def parse(self, data):
+
+		pos = 0
+
+		# parse the URL string
+		while data[pos] != 0:
+			self.url += chr(data[pos])
+			pos += 1
+
+		format = '<BBH'
+		size = struct.calcsize(format)
+		raw = struct.unpack('<BBH', data[pos:pos+size])
+		self.count = raw[2]
+
+
 class FlashDocument:
 
 	def __init__(self):
@@ -172,9 +208,16 @@ class FlashDocument:
 		self.frame_size = Rect()
 		self.frame_rate = 0
 		self.frame_count = 0
+		self.tags = []
 
 	def __str__(self):
-		return str(self.as_dict())
+		retval = str(self.as_dict())
+		retval += '\n'
+		for tag in self.tags:
+			retval += str(tag)
+			retval += '\n\n'
+		return retval
+		
 
 	def as_dict(self):
 		retval = {}
@@ -209,7 +252,7 @@ class FlashDocument:
 		while pos < len(data):
 			tag = Tag()
 			pos += tag.parse(data[pos:])
-			print(tag_codes[tag.code])
+			self.tags.append(tag)
 
 		return
 
@@ -240,11 +283,13 @@ def main(args):
 	if len(args) < 1:
 		print('path to input file needed')
 		return
-	input_filename = args[0]
 
-	doc = FlashDocument()
-	doc.from_file(input_filename)
-	print(doc)
+	files = glob.glob(args[0])
+	for filename in files:
+		doc = FlashDocument()
+		doc.from_file(filename)
+		print(filename)
+		print(doc)
 
 if __name__ == '__main__':
 	main(sys.argv[1:])
