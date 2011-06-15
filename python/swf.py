@@ -94,8 +94,41 @@ action_codes = {
 		0x0D: 'ActionDivide',
 		0x0E: 'ActionEquals',
 		0x0F: 'ActionLess',
+		0x10: 'ActionAnd',
+		0x11: 'ActionOr',
+		0x12: 'ActionNot',
+		0x13: 'ActionStringEquals',
+		0x14: 'ActionStringLength',
+		0x15: 'ActionStringExtract',
 		0x17: 'ActionPop',
+		0x18: 'ActionToInteger',
+		0x1C: 'ActionGetVariable',
+		0x1D: 'ActionSetVariable',
+		0x20: 'ActionSetTarget2',
+		0x21: 'ActionStringAdd',
+		0x22: 'ActionGetProperty',
+		0x23: 'ActionGetProperty',
+		0x24: 'ActionCloneSprite',
+		0x25: 'ActionRemoveSprite',
+		0x26: 'ActionTrace',
+		0x27: 'ActionStartDrag',
+		0x28: 'ActionEndDrag',
+		0x29: 'ActionStringLess',
+		0x30: 'ActionRandomNumber',
+		0x31: 'ActionMBStringLength',
+		0x32: 'ActionToAscii',
+		0x33: 'ActionAsciiToChar',
+		0x34: 'ActionGetTime',
+		0x35: 'ActionMBStringExtract',
+		0x36: 'ActionMBCharToAscii',
+		0x37: 'ActionMBAsciiToChar',
+		0x8D: 'ActionWaitForFrame2',
 		0x96: 'ActionPush',
+		0x99: 'ActionJump',
+		0x9A: 'ActionGetURL2',
+		0x9D: 'ActionIf',
+		0x9E: 'ActionCall',
+		0x9F: 'ActionGotoFrame2',
 		}
 
 def parse_string(data):
@@ -153,6 +186,10 @@ class Tag:
 		if self.code == 0:
 			# End tag, do nothing
 			self.tag = None
+		elif self.code == 12:
+			self.tag = DoActionTag()
+		elif self.code == 39:
+			self.tag = DefineSpriteTag()
 		elif self.code == 56:
 			self.tag = ExportAssetsTag()
 		elif self.code == 59:
@@ -266,6 +303,64 @@ class Action:
 
 		return pos
 
+class DoActionTag:
+
+	def __init__(self):
+		self.actions = []
+
+	def __str__(self):
+		retval = ''
+		for action in self.actions:
+			if len(retval) > 0: retval += '\n'
+			retval += str(action)
+		return retval
+
+	def parse(self, data):
+		pos = 0
+
+		while data[pos] != 0:
+			action = Action()
+			pos += action.parse(data[pos:])
+			self.actions.append(action)
+
+		return pos
+
+class DefineSpriteTag:
+
+	def __init__(self):
+		self.sprite_id = 0
+		self.frame_count = 0
+		self.control_tags = []
+
+	def __str__(self):
+		retval = ''
+		retval += 'sprite id: ' + str(self.sprite_id)
+		retval += '\nframe count: ' + str(self.frame_count)
+		retval += '\ncontrol tags:'
+		for tag in self.control_tags:
+			retval += '\n' + str(tag)
+		return retval
+
+	def parse(self, data):
+		pos = 0
+
+		format = '<HH'
+		size = struct.calcsize(format)
+		raw = struct.unpack(format, data[pos:pos+size])
+		pos += size
+		self.sprite_id = raw[0]
+		self.frame_count = raw[1]
+
+		tag = Tag()
+		pos += tag.parse(data[pos:])
+		self.control_tags.append(tag)
+		while tag.code != 0: # End tag
+			tag = Tag()
+			pos += tag.parse(data[pos:])
+			self.control_tags.append(tag)
+
+		return pos
+
 class ExportAssetsTag:
 
 	def __init__(self):
@@ -303,9 +398,9 @@ class DoInitActionTag:
 
 	def __str__(self):
 		retval = ''
+		retval += 'sprite id: ' + str(self.sprite_id)
 		for action in self.actions:
-			if len(retval) > 0: retval += '\n'
-			retval += str(action)
+			retval += '\n' + str(action)
 		return retval
 
 	def parse(self, data):
