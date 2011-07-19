@@ -74,6 +74,8 @@ namespace FileHomer
 			mConfig = new Config();
 			mIndexer = new DirectoryIndexer();
 			mIndexer.ProjectRoot = mConfig.ProjectRoot;
+			mIndexer.MaxIndexSize = mConfig.MaxIndexSize;
+			mIndexer.MaxSearchResults = mConfig.MaxSearchResults;
 			mIndexer.IndexingThread.Start();
 			
 			mStatusUpdateTimer = new Timer();
@@ -135,17 +137,15 @@ namespace FileHomer
 
 		private void DoSearch()
 		{
-			// TODO: sanitize user input here
+			mSearchListBox.Items.Clear();
+			if (mSearchTextBox.Text.Length < 3) { return; }			
+			
 			StringBuilder searchPattern = new StringBuilder();
 			searchPattern.Append(mSearchTextBox.Text);
 
 			string[] files = mIndexer.GetFiles(searchPattern.ToString());
 
-			mSearchListBox.Items.Clear();
-			foreach (string file in files)
-			{
-				mSearchListBox.Items.Add(file);
-			}
+			mSearchListBox.Items.AddRange(files);
 		}
 
 		private void MainForm_FormClosed(object sender, FormClosedEventArgs e)

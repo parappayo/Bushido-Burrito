@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.IO;
 using System.Xml;
 
@@ -27,12 +27,28 @@ namespace FileHomer
 		{
 			mConfigXml = new XmlDocument();
 			mConfigXml.Load(filename);
+			
+			XmlNodeList nodeList;
 
-			XmlNodeList nodeList = mConfigXml.GetElementsByTagName("ProjectRoot");
+			nodeList = mConfigXml.GetElementsByTagName("ProjectRoot");
 			foreach (XmlNode node in nodeList)
 			{
 				mProjectRoot = node.InnerText;
 				break;  // TODO: process the whole list
+			}
+			
+			nodeList = mConfigXml.GetElementsByTagName("MaxIndexSize");
+			foreach (XmlNode node in nodeList)
+			{
+				mMaxIndexSize = Convert.ToUInt32(node.InnerText);
+				break;
+			}
+
+			nodeList = mConfigXml.GetElementsByTagName("MaxSearchResults");
+			foreach (XmlNode node in nodeList)
+			{
+				mMaxSearchResults = Convert.ToUInt32(node.InnerText);
+				break;
 			}
 		}
 
@@ -48,8 +64,17 @@ namespace FileHomer
 
 			node = mConfigXml.CreateElement("ProjectRoot");
 			root.AppendChild(node);
-
 			XmlText x = mConfigXml.CreateTextNode(ProjectRoot);
+			node.AppendChild(x);
+
+			node = mConfigXml.CreateElement("MaxIndexSize");
+			root.AppendChild(node);
+			x = mConfigXml.CreateTextNode(Convert.ToString(mMaxIndexSize));
+			node.AppendChild(x);
+
+			node = mConfigXml.CreateElement("MaxSearchResults");
+			root.AppendChild(node);
+			x = mConfigXml.CreateTextNode(Convert.ToString(mMaxSearchResults));
 			node.AppendChild(x);
 
 			mConfigXml.Save(filename);
@@ -64,9 +89,23 @@ namespace FileHomer
 		}
 		private string mProjectRoot;
 
+		public uint MaxIndexSize
+		{
+			get { return mMaxIndexSize; }	
+		}
+		private uint mMaxIndexSize;
+		
+		public uint MaxSearchResults
+		{
+			get { return mMaxSearchResults; }	
+		}
+		private uint mMaxSearchResults;
+		
 		private void SetDefaults()
 		{
 			mProjectRoot = Environment.GetFolderPath(Environment.SpecialFolder.Personal);
+			mMaxIndexSize = 20000;
+			mMaxSearchResults = 50;
 		}
 	}
 }
