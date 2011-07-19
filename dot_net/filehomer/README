@@ -1,0 +1,18 @@
+
+File Homer
+----------
+
+Motivation:
+
+I work on a project that has some odd four thousand source files. A major productivity hurdle for me is to be able to find any given source file quickly from a partial file name. Windows doesn't provide a good search tool for this, however Visual Assist X by Whole Tomato software adds a feature to Visual Studio which is very much like what I want. I decided to write my own project loosely based off of their interface so that I can use my own editor (gVim) without having to rely on Visual Studio. I am targeting Mono so that the project can be used in Linux and Mac OS X environments as well as Windows.
+
+Build Instructions:
+
+Mono version: "make clean" and "make all".
+
+Windows version: use filehomer.sln.  This project file was created with SharpDevelop, but you can also build it with Visual Studio Express.
+
+SharpDevelop web site: http://www.icsharpcode.net/OpenSource/SD/
+
+For Linux users there is also MonoDevelop.
+
