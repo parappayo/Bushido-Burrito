@@ -14,17 +14,15 @@ int main(int argc, char** argv)
 	video_init();
 	set_video_mode(0x13); // VGA 256 color
 
+	blocks_init();
+
 	while (!is_key_down(KEY_ESC))
 	{
 		paddle_clear();
 		ball_clear();
-		blocks_clear();
 
 		paddle_update();
 		ball_update();
-		blocks_update();
-
-		//video_clear();
 
 		blocks_draw();
 		ball_draw();
