@@ -11,4 +11,3 @@ void ball_draw(void);
 
 #endif // __BALL_H__
 
-

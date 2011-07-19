@@ -16,15 +16,15 @@ int main(int argc, char** argv)
 
 	while (!is_key_down(KEY_ESC))
 	{
-		//paddle_clear();
-		//ball_clear();
-		//blocks_clear();
+		paddle_clear();
+		ball_clear();
+		blocks_clear();
 
 		paddle_update();
 		ball_update();
 		blocks_update();
 
-		video_clear();
+		//video_clear();
 
 		blocks_draw();
 		ball_draw();

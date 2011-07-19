@@ -15,6 +15,14 @@ static int paddle_min_pos_x = 0;
 static int paddle_max_pos_x = SCREEN_WIDTH - 20; // 20 = paddle_width
 
 //------------------------------------------------------------------------------
+void paddle_get_pos(int* x_out, int* y_out, int* width_out)
+{
+	*x_out = paddle_pos_x;
+	*y_out = paddle_pos_y;
+	*width_out = paddle_width;
+}
+
+//------------------------------------------------------------------------------
 void paddle_draw_color(int c)
 {
 	int x, y;
