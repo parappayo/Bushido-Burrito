@@ -11,27 +11,30 @@
 int main(int argc, char** argv)
 {
 	init_input();
+	video_init();
 	set_video_mode(0x13); // VGA 256 color
 
 	while (!is_key_down(KEY_ESC))
 	{
-		paddle_clear();
-		ball_clear();
-		blocks_clear();
+		//paddle_clear();
+		//ball_clear();
+		//blocks_clear();
 
 		paddle_update();
 		ball_update();
 		blocks_update();
 
-		//video_clear();
+		video_clear();
 
 		blocks_draw();
 		ball_draw();
 		paddle_draw();
+
 		video_swap();
 	}
 
 	set_video_mode(0x03); // return to text mode
+	video_fin();
 	fin_input();
 	return 0;
 }
