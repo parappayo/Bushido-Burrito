@@ -7,6 +7,7 @@
 #include "input.h"
 
 // globals
+static int paddle_speed = 2;
 static int paddle_pos_x = 50;
 static int paddle_pos_y = SCREEN_HEIGHT - 10;
 static int paddle_width = 20;
@@ -62,11 +63,11 @@ void paddle_update(void)
 {
 	if (is_key_down(KEY_RIGHT))
 	{
-		paddle_move_x(1);
+		paddle_move_x(paddle_speed);
 	}
 	else if (is_key_down(KEY_LEFT))
 	{
-		paddle_move_x(-1);
+		paddle_move_x(-paddle_speed);
 	}
 }
 

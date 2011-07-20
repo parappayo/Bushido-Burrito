@@ -12,7 +12,7 @@
 #define BLOCK_STATE_CLEAR		4
 
 // globals
-static int block_field_x = 10;
+static int block_field_x = 20;
 static int block_field_y = 10;
 static int block_height = 10;
 static int block_width = 20;
@@ -21,12 +21,38 @@ static char blocks_changed = 1;
 static char block_state[NUM_BLOCKS_X * NUM_BLOCKS_Y];
 
 //------------------------------------------------------------------------------
-//  args are in block grid space, NOT pixels
-//------------------------------------------------------------------------------
-void clear_block(int block_x, int block_y)
+void blocks_check_collision(int x, int y, int* x_collision, int* y_collision)
 {
-	block_state[NUM_BLOCKS_X * block_y + block_x] = BLOCK_STATE_CLEAR_ME;
-	blocks_changed = 1;
+	// TODO: bug - need to take ball size into account
+
+	int block_y = (y - block_field_y) / block_height;
+	if (block_y < 0 || block_y >= NUM_BLOCKS_Y)
+	{
+		return;
+	}
+
+	int block_x = (x - block_field_x) / block_width;
+	if (block_x < 0 || block_x >= NUM_BLOCKS_X)
+	{
+		return;
+	}
+
+	int i = block_y * NUM_BLOCKS_X + block_x;
+	char state = block_state[i];
+
+	if (state == BLOCK_STATE_DRAWN)
+	{
+		int block_inner_x = x - (block_x * block_width + block_field_x);
+		int block_inner_y = y - (block_y * block_height + block_field_y);
+
+		if (block_inner_x < 2) { *x_collision = 1; }
+		if (block_inner_x >= block_width - 2) { *x_collision = 1; }
+		if (block_inner_y < 2) { *y_collision = 1; }
+		if (block_inner_y >= block_height - 2) { *y_collision = 1; }
+
+		block_state[i] = BLOCK_STATE_CLEAR_ME;
+		blocks_changed = 1;
+	}
 }
 
 //------------------------------------------------------------------------------
@@ -81,12 +107,14 @@ void blocks_draw(void)
 			case BLOCK_STATE_DRAW_ME:
 				{
 					draw_block(i % NUM_BLOCKS_X, i / NUM_BLOCKS_X, 30, 20);
+					block_state[i] = BLOCK_STATE_DRAWN;
 				}
 				break;
 
 			case BLOCK_STATE_CLEAR_ME:
 				{
 					draw_block(i % NUM_BLOCKS_X, i / NUM_BLOCKS_X, COLOR_BLACK, COLOR_BLACK);
+					block_state[i] = BLOCK_STATE_CLEAR;
 				}
 				break;
 

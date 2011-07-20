@@ -43,7 +43,7 @@ void ball_update(void)
 	ball_pos_x += ball_velocity_x;
 	ball_pos_y += ball_velocity_y;
 
-	// TODO: check blocks collision
+	blocks_check_collision(ball_pos_x, ball_pos_y, &x_collision, &y_collision);
 
 	// check paddle collision
 	int paddle_x, paddle_y, paddle_width;
