@@ -68,6 +68,6 @@ void video_swap(void)
 	//while ((inp(INPUT_STATUS_1) & VRETRACE));
 	//while (!(inp(INPUT_STATUS_1) & VRETRACE));
 
-	memcpy(vram, frame_buffer, SCREEN_WIDTH * SCREEN_HEIGHT * sizeof(t_pixel));
+	memmove(vram, frame_buffer, SCREEN_WIDTH * SCREEN_HEIGHT * sizeof(t_pixel));
 }
 
