@@ -16,3 +16,12 @@ Contents
 
 Programs are loosely organized by platform.
 
+
+Git Tips
+---
+
+Some good stuff to know about Git:
+
+- Always use "git config --global core.autoclrf true"
+
+
