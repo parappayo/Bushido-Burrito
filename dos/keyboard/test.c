@@ -17,7 +17,7 @@ int done = 0;
 //------------------------------------------------------------------------------
 void __far interrupt keyboard_handler()
 {
-	char key_code = inp(0x60);
+	unsigned char key_code = inp(0x60);
 	outp(0x20, 0x20); // acknowledgement
 
 	printf("key event: %u\n", key_code);
