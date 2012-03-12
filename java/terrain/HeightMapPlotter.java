@@ -18,7 +18,7 @@ public class HeightMapPlotter {
 
 		if (data < 0.0f) { data = 0.0f; }
 
-		float temp = (float) 0xff * data / 100.0f;
+		float temp = (float) 0xff * data / HeightMap.MaxValue;
 		byte b = (byte) temp;
 		int color = (int) b + (int) b * 0x100 + (int) b * 0x10000;
 

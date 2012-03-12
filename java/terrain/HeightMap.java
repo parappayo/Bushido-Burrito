@@ -9,6 +9,9 @@ public class HeightMap {
 	public int GetHeight() { return mHeight; }
 	public int GetWidth()  { return mWidth; }
 
+	// height map will be from 0 to this value
+	public static final float MaxValue = 1.0f;
+
 	public HeightMap(int height, int width) {
 
 		mHeight = height;
@@ -51,7 +54,10 @@ public class HeightMap {
 
 		// the diamond step - generate a center point with some randomness
 		float centerData = (topLeftData + topRightData + bottomLeftData + bottomRightData) / 4.0f;
-		centerData += (Math.random() - 0.5f) * scale * 100.0f;
+		double rand = Math.random() - 0.5f;
+		centerData += rand * scale * MaxValue;
+		centerData += rand * (1.0f - scale) * MaxValue * 0.1f; // extra noise
+		if (centerData > MaxValue) { centerData = MaxValue; }
 		SetData( center, centerData );
 
 		// the square step - generate data for the four edge points
@@ -96,7 +102,7 @@ public class HeightMap {
 		SetData( left, 0.0f );
 		SetData( bottom, 0.0f );
 		SetData( right, 0.0f );
-		SetData( center, 100.0f );
+		SetData( center, MaxValue );
 
 		GenerateRecursive( topLeft, center, 0.5f );
 		GenerateRecursive( center, bottomRight, 0.5f );
