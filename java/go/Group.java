@@ -15,8 +15,8 @@ public class Group
 	}
 
 	public boolean contains(Stone stone) {
-		for (Iterator i = stones.iterator(); i.hasNext(); ) {
-			Stone groupStone = (Stone) i.next();
+		for (Iterator<Stone> i = stones.iterator(); i.hasNext(); ) {
+			Stone groupStone = i.next();
 			if (stone.x == groupStone.x &&
 				stone.y == groupStone.y) {
 
@@ -80,8 +80,8 @@ public class Group
 
 	public int getLibertiesCount(BoardData board) {
 		int retval = 0;
-		for (Iterator i = stones.iterator(); i.hasNext(); ) {
-			Stone stone = (Stone) i.next();
+		for (Iterator<Stone> i = stones.iterator(); i.hasNext(); ) {
+			Stone stone = i.next();
 			retval += stone.getLibertiesCount(board);
 		}
 		return retval;

@@ -71,8 +71,8 @@ public class BoardData
 	}
 
 	private void clearStones(Group group) {
-		for (Iterator i = group.stones.iterator(); i.hasNext(); ) {
-			Stone stone = (Stone) i.next();
+		for (Iterator<Stone> i = group.stones.iterator(); i.hasNext(); ) {
+			Stone stone = i.next();
 			stone.color = StoneColor.NONE;
 			stoneColor[stone.y * width + stone.x] = StoneColor.NONE;
 		}
@@ -82,8 +82,8 @@ public class BoardData
 		if (isEmpty(x, y)) {
 			return null;
 		}
-		for (Iterator i = groups.iterator(); i.hasNext(); ) {
-			Group group = (Group) i.next();
+		for (Iterator<Group> i = groups.iterator(); i.hasNext(); ) {
+			Group group = i.next();
 		}
 		return null;
 	}
