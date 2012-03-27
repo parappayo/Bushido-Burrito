@@ -100,7 +100,7 @@ class MazeData:
 				neighbours.append([x, y+1, i, MazeData.NORTH])
 		return neighbours
 
-	def generate_depth_first(self, x, y, visited = None):
+	def generate_depth_first(self, x = 1, y = 1, visited = None):
 		if visited == None:
 			visited = []
 			for i in range(0, self.width * self.height):
@@ -125,7 +125,7 @@ class MazeData:
 			else:
 				visited[i] = True
 
-	def generate_prims(self, x, y):
+	def generate_prims(self, x = 1, y = 1):
 		"""Uses Prim's Algorithm to generate a random maze."""
 
 		walls = []
@@ -151,10 +151,27 @@ class MazeData:
 				neighbours.extend(self.get_neighbours(x, y, visited))
 			visited[i] = True
 
+	def generate_simple_binary_tree(self):
+		for y in range(0, self.height-2):
+			if y % 2 == 0: continue
+			for x in range(0, self.width-2):
+				if x % 2 == 0: continue
+
+				i = y * self.width + x
+				self.data[i] = MazeData.OPEN
+
+				if random.random() < 0.5:
+					i = (y + 1) * self.width + x
+					self.data[i] = MazeData.OPEN
+				else:
+					i = y * self.width + (x + 1)
+					self.data[i] = MazeData.OPEN
+
 if __name__ == '__main__':
 	maze_data = MazeData()
 	maze_data.clear(80, 40)
-	# maze_data.generate_depth_first(1, 1)
-	maze_data.generate_prims(1, 1)
+	# maze_data.generate_depth_first()
+	maze_data.generate_prims()
+	# maze_data.generate_simple_binary_tree()
 	print(maze_data)
 
