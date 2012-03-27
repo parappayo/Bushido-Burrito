@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6" />
+	<Project>
+		<Option title="GLTest1" />
+		<Option pch_mode="2" />
+		<Option compiler="gcc" />
+		<Build>
+			<Target title="Debug">
+				<Option output="bin\Debug\GLTest1" prefix_auto="1" extension_auto="1" />
+				<Option object_output="obj\Debug\" />
+				<Option type="1" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-g" />
+				</Compiler>
+			</Target>
+			<Target title="Release">
+				<Option output="bin\Release\GLTest1" prefix_auto="1" extension_auto="1" />
+				<Option object_output="obj\Release\" />
+				<Option type="0" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-O2" />
+				</Compiler>
+				<Linker>
+					<Add option="-s" />
+				</Linker>
+			</Target>
+		</Build>
+		<Compiler>
+			<Add option="-Wall" />
+			<Add option="-std=c99" />
+			<Add directory="include" />
+		</Compiler>
+		<Linker>
+			<Add library="opengl32" />
+			<Add library="glu32" />
+			<Add library="gdi32" />
+			<Add library="libpng" />
+			<Add directory="lib" />
+		</Linker>
+		<ExtraCommands>
+			<Add after="cmd /c copy libpng3.dll $(TARGET_OUTPUT_DIR)" />
+			<Add after="cmd /c copy zlib1.dll $(TARGET_OUTPUT_DIR)" />
+			<Add after="cmd /c copy test.png $(TARGET_OUTPUT_DIR)" />
+		</ExtraCommands>
+		<Unit filename="bullet.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="bullet.h" />
+		<Unit filename="game.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="game.h" />
+		<Unit filename="game_math.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="game_math.h" />
+		<Unit filename="load_png.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="load_png.h" />
+		<Unit filename="main.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="render.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="render.h" />
+		<Unit filename="sprite.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="sprite.h" />
+		<Unit filename="texture.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="texture.h" />
+		<Extensions>
+			<code_completion />
+			<debugger />
+		</Extensions>
+	</Project>
+</CodeBlocks_project_file>
