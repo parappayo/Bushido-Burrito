@@ -71,15 +71,15 @@ class MazeData:
 				self.is_wall(x+1, y) and
 				self.is_wall(x+1, y+1) )
 
-	def generate_depth_first(self, x, y, visited = None):
-		if visited == None:
-			visited = []
-			for i in range(0, self.width * self.height):
-				visited.append(False)
-
-		i = y * self.width + x
-		self.data[i] = MazeData.OPEN
-		visited[i] = True
+	def get_neighbours(self, x, y, visited):
+		"""Returns a list of neighbouring, unvisited locations.
+		Only north, south, east, and west neighbours are considered.
+		Return value is a list of tuples, each tuple contains
+			(x, y, i, dir)
+		where x,y are grid coords, i is a grid index, and dir
+		is the opposite direction that the neighbour is in, or
+		in other words the direction of the source location from
+		the neighbour cell's point of reference."""
 
 		neighbours = []
 		if x > 1:
@@ -98,22 +98,63 @@ class MazeData:
 			i = (y + 1) * self.width + x
 			if not visited[i]:
 				neighbours.append([x, y+1, i, MazeData.NORTH])
+		return neighbours
 
+	def generate_depth_first(self, x, y, visited = None):
+		if visited == None:
+			visited = []
+			for i in range(0, self.width * self.height):
+				visited.append(False)
+
+		i = y * self.width + x
+		self.data[i] = MazeData.OPEN
+		visited[i] = True
+
+		neighbours = self.get_neighbours(x, y, visited)
 		while len(neighbours) > 0:
 			n = random.choice(neighbours)
 			neighbours.remove(n)
+
 			x = n[0]
 			y = n[1]
 			i = n[2]
 			from_dir = n[3]
+
 			if self.can_carve(x, y, from_dir):
 				self.generate_depth_first(x, y, visited)
 			else:
 				visited[i] = True
 
+	def generate_prims(self, x, y):
+		"""Uses Prim's Algorithm to generate a random maze."""
+
+		walls = []
+		visited = []
+		for i in range(0, self.width * self.height):
+			visited.append(False)
+
+		i = y * self.width + x
+		self.data[i] = MazeData.OPEN
+
+		neighbours = self.get_neighbours(x, y, visited)
+		while len(neighbours) > 0:
+			n = random.choice(neighbours)
+			neighbours.remove(n)
+
+			x = n[0]
+			y = n[1]
+			i = n[2]
+			from_dir = n[3]
+
+			if self.can_carve(x, y, from_dir):
+				self.data[i] = MazeData.OPEN
+				neighbours.extend(self.get_neighbours(x, y, visited))
+			visited[i] = True
+
 if __name__ == '__main__':
 	maze_data = MazeData()
 	maze_data.clear(80, 40)
-	maze_data.generate_depth_first(1, 1)
+	# maze_data.generate_depth_first(1, 1)
+	maze_data.generate_prims(1, 1)
 	print(maze_data)
 
