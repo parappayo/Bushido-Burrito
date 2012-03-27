@@ -42,7 +42,7 @@ class Vector:
     def len(self): return math.sqrt(self.sqlen())
 
     def show(self):
-        print "%4.4f %4.4f %4.4f" % (self.v[0], self.v[1], self.v[2])
+        print("%4.4f %4.4f %4.4f" % (self.v[0], self.v[1], self.v[2]))
 
 
 # vec.point and vec.vector return new objects of class Vector; the
