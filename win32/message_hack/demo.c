@@ -62,13 +62,13 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
     wcex.cbWndExtra     = 0;
     wcex.hInstance      = hInstance;
     wcex.hIcon          = LoadIcon(hInstance,
-         MAKEINTRESOURCE(IDI_APPLICATION));
+         MAKEINTRESOURCE((int) IDI_APPLICATION));
     wcex.hCursor        = LoadCursor(NULL, IDC_ARROW);
     wcex.hbrBackground  = (HBRUSH)(COLOR_WINDOW+1);
     wcex.lpszMenuName   = NULL;
     wcex.lpszClassName  = szWindowClass;
     wcex.hIconSm        = LoadIcon(wcex.hInstance,
-        MAKEINTRESOURCE(IDI_APPLICATION));
+        MAKEINTRESOURCE((int) IDI_APPLICATION));
  
     if (!RegisterClassEx(&wcex)) {
         MessageBox(NULL,
