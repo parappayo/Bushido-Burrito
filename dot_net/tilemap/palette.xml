@@ -1,0 +1,8 @@
+
+<TilePalette
+	id="test"
+	source="detail_tile.png"
+	tile_width="32"
+	tile_height="32"
+	/>
+
