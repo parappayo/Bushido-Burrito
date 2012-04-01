@@ -100,8 +100,9 @@ valid_fox_move_([[X1, Y1], [X2, Y2], BoardState]) :-
 	X2 =:= X1 - 1.
 
 valid_fox_move([Pos1, Pos2, [Fox | Hounds]]) :-
-	valid_fox_move_([Pos1, Pos2, [Fox | Hounds]]),
-	Pos1 == Fox.
+	board_state([Fox | Hounds]),
+	Pos1 = Fox,
+	valid_fox_move_([Pos1, Pos2, [Fox | Hounds]]).
 
 no_hounds_moves_left(BoardState) :-
 	valid_hound_move([_, _, BoardState]), !, fail ; true.
