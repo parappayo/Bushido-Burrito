@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<mx:Application
+			xmlns:mx="http://www.adobe.com/2006/mxml"
+			xmlns:local="*"
+			layout="absolute"
+			>
+	
+	<mx:VBox>
+		<local:GridFontEditor />
+	</mx:VBox>
+			
+</mx:Application>
