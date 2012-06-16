@@ -7,6 +7,7 @@
 package {
 
 import mx.core.UIComponent;
+import flash.events.MouseEvent;
 
 public class GridFontEditor extends UIComponent
 {
@@ -19,6 +20,13 @@ public class GridFontEditor extends UIComponent
 
 		_testGlyph.x = 50;
 		_testGlyph.y = 20;
+		
+		addEventListener(MouseEvent.CLICK, handleClick);
+	}
+	
+	public function handleClick(e :MouseEvent) :void
+	{
+		_testGlyph.ToggleLineFromPos(e.localX, e.localY);
 	}
 }
 

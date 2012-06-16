@@ -7,6 +7,7 @@
 package {
 
 import flash.display.Sprite;
+import flash.geom.Point;
 
 public class GridFontGlyph extends Sprite
 {
@@ -60,7 +61,9 @@ public class GridFontGlyph extends Sprite
 
 	private function Draw() :void
 	{
-		graphics.beginFill(0xffffffff);
+		graphics.lineStyle(0, 0x000000, 0); // hide
+		//graphics.beginFill(0xffffffff);
+		graphics.beginFill(0xa0a0ff);  // debug: let's make the position of the glyph obvious for now
 		graphics.drawRect(0, 0, _width, _height);
 		graphics.endFill();
 
@@ -127,7 +130,19 @@ public class GridFontGlyph extends Sprite
 			}
 		}
 	}
+	
+	public function ToggleLineFromPos(pos_x :Number, pos_y :Number) :void
+	{
+		var cell_x :int = Math.round(pos_x / _cellSize);
+		var cell_y :int = Math.round(pos_y / _cellSize);
+		var cell_i :int = cell_y * _gridWidth + cell_x;
 
+		// for now, let's just use the closest(?) vertical line
+		_verticalLines[cell_i] = !_verticalLines[cell_i];
+
+		Draw();
+	}
+	
 	public function set gridWidth(value :Number) :void
 	{
 		_gridWidth = value;
