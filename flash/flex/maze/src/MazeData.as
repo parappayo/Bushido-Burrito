@@ -1,5 +1,6 @@
 package 
 {
+	import flash.geom.Point;
 	public class MazeData
 	{
 		private var height :int;
@@ -22,14 +23,38 @@ package
 			}
 		}
 		
-		public function getCell(x :int, y :int) :int
+		public function getCell(pos :Point) :int
 		{
-			return data[y * width + x];
+			return data[pos.y * width + pos.x];
 		}
 		
-		public function setCell(x :int, y :int, value :int) :void
+		public function setCell(pos :Point, value :int) :void
 		{
-			data[y * width + x] = value;
+			data[pos.y * width + pos.x] = value;
+		}
+		
+		public function toString() :String
+		{
+			var retval :String = "";
+			
+			for (var y :int = 0; y < height; y++)
+			{
+				for (var x :int = 0; x < width; x++)
+				{
+					var cell :int = data[y * width + x];
+					if (cell == CELL_WALL)
+					{
+						retval += "#";
+					}
+					else
+					{
+						retval += ".";
+					}
+				}
+				retval += "\n";
+			}
+			
+			return retval;
 		}
 	}
 	
