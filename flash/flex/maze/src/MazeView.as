@@ -50,15 +50,15 @@ package
 			for (var y :int = 0; y <= drawDepth; y++)
 			{
 				pos.x = -1;
-				pos.y = y;	
+				pos.y = -y;	
 				cellData[y * 3 + 0] = getCellFromPlayerPOV(pos);
 				
 				pos.x = 0;
-				pos.y = y;	
+				pos.y = -y;	
 				cellData[y * 3 + 1] = getCellFromPlayerPOV(pos);
 				
 				pos.x = 1;
-				pos.y = y;	
+				pos.y = -y;	
 				cellData[y * 3 + 2] = getCellFromPlayerPOV(pos);
 			}
 
@@ -174,44 +174,7 @@ package
 		}
 		
 		/**
-		 * Translates cell coordinates to the offset in cells from the player's point of view.
-		 */
-		public function getCellRelativeToPlayer(pos :Point) :int
-		{
-			var temp :Number;
-
-			pos = pos.subtract(viewPos);
-			
-			switch (viewDir)
-			{
-				case DIR_NORTH:
-					pos.y = -pos.y;
-					break;
-				
-				case DIR_SOUTH:
-					pos.x = -pos.x;
-					break;
-					
-				case DIR_EAST:
-					temp = -pos.x;
-					pos.x = pos.y;
-					pos.y = temp;
-					break;
-					
-				case DIR_WEST:
-					temp = pos.x;
-					pos.x = -pos.y;
-					pos.y = temp;
-					break;
-			}
-			
-			return data.getCell(pos);
-		}
-
-		/**
 		 * Translates a cell offset from the player's point of view to absolute cell coordinates.
-		 * 
-		 * This is the inverse of getCellRelativeToPlayer().
 		 */
 		public function getCellFromPlayerPOV(pos :Point) :int
 		{
@@ -220,22 +183,22 @@ package
 			switch (viewDir)
 			{
 				case DIR_NORTH:
-					pos.y = -pos.y;
 					break;
 				
 				case DIR_SOUTH:
 					pos.x = -pos.x;
+					pos.y = -pos.y;
 					break;
 					
 				case DIR_EAST:
-					temp = -pos.x;
-					pos.x = pos.y;
+					temp = pos.x;
+					pos.x = -pos.y;
 					pos.y = temp;
 					break;
 					
 				case DIR_WEST:
-					temp = pos.x;
-					pos.x = -pos.y;
+					temp = -pos.x;
+					pos.x = pos.y;
 					pos.y = temp;
 					break;
 			}
