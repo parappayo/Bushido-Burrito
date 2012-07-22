@@ -50,15 +50,15 @@ package
 			for (var y :int = 0; y <= drawDepth; y++)
 			{
 				pos.x = -1;
-				pos.y = -y;	
+				pos.y = -y;
 				cellData[y * 3 + 0] = getCellFromPlayerPOV(pos);
 				
 				pos.x = 0;
-				pos.y = -y;	
+				pos.y = -y;
 				cellData[y * 3 + 1] = getCellFromPlayerPOV(pos);
 				
 				pos.x = 1;
-				pos.y = -y;	
+				pos.y = -y;
 				cellData[y * 3 + 2] = getCellFromPlayerPOV(pos);
 			}
 
@@ -208,24 +208,36 @@ package
 			return data.getCell(pos);
 		}
 		
+		public function tryMove(x :int, y :int) :Boolean
+		{
+			if (data.getCellXY(viewPos.x + x, viewPos.y + y) == MazeData.CELL_WALL)
+			{
+				return false;
+			}
+			
+			viewPos.x += x;
+			viewPos.y += y;
+			return true;
+		}
+		
 		public function moveForward() :void
 		{
 			switch (viewDir)
 			{
 				case DIR_NORTH:
-					viewPos.y -= 1;
+					tryMove(0, -1);
 					break;
 					
 				case DIR_SOUTH:
-					viewPos.y += 1;
+					tryMove(0, 1);
 					break;
 					
 				case DIR_EAST:
-					viewPos.x += 1;
+					tryMove(1, 0);
 					break;
 					
 				case DIR_WEST:
-					viewPos.x -= 1;
+					tryMove( -1, 0);
 					break;
 			}
 		}
@@ -235,19 +247,19 @@ package
 			switch (viewDir)
 			{
 				case DIR_NORTH:
-					viewPos.y += 1;
+					tryMove(0, 1);
 					break;
 					
 				case DIR_SOUTH:
-					viewPos.y -= 1;
+					tryMove(0, -1);
 					break;
 					
 				case DIR_EAST:
-					viewPos.x -= 1;
+					tryMove( -1, 0);
 					break;
 					
 				case DIR_WEST:
-					viewPos.x += 1;
+					tryMove(1, 0);
 					break;
 			}
 		}
@@ -292,6 +304,50 @@ package
 					
 				case DIR_WEST:
 					viewDir = DIR_NORTH;
+					break;
+			}
+		}
+
+		public function shiftLeft() :void
+		{
+			switch (viewDir)
+			{
+				case DIR_NORTH:
+					tryMove( -1, 0);
+					break;
+					
+				case DIR_SOUTH:
+					tryMove(1, 0);
+					break;
+					
+				case DIR_EAST:
+					tryMove(0, -1);
+					break;
+					
+				case DIR_WEST:
+					tryMove(0, 1);
+					break;
+			}
+		}
+		
+		public function shiftRight() :void
+		{
+			switch (viewDir)
+			{
+				case DIR_NORTH:
+					tryMove(1, 0);
+					break;
+					
+				case DIR_SOUTH:
+					tryMove( -1, 0);
+					break;
+					
+				case DIR_EAST:
+					tryMove(0, 1);
+					break;
+					
+				case DIR_WEST:
+					tryMove(0, -1);
 					break;
 			}
 		}

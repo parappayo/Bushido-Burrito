@@ -10,12 +10,13 @@ package
 		
 		public function MainComponent()
 		{
-			mazeData = new MazeData(16, 16);
-			mazeData.populate();  // TODO: random gen here
+			mazeData = new MazeData(64, 64);
+			mazeData.populate();
+			//trace(mazeData.toString());
 			
 			mazeView = new MazeView(mazeData);
-			mazeView.viewPos.x = 3;
-			mazeView.viewPos.y = 3;
+			mazeView.viewPos.x = 1;
+			mazeView.viewPos.y = 1;
 			addChild(mazeView);
 		}
 	
@@ -28,24 +29,38 @@ package
 		
 		public function handleKeyDown(event :KeyboardEvent) :void
 		{
-			if (event.keyCode == 38) // up arrow
+			if (event.keyCode == 38 || // up arrow
+				event.keyCode == 87) // W key
 			{
 				mazeView.moveForward();
 				mazeView.draw();
 			}
-			else if (event.keyCode == 40)
+			else if (event.keyCode == 40 || // back arrow
+				event.keyCode == 83) // S key
 			{
 				mazeView.moveBack();
 				mazeView.draw();
 			}
-			else if (event.keyCode == 37)
+			else if (event.keyCode == 37 || // left arrow
+				event.keyCode == 65) // A key
 			{
 				mazeView.turnLeft();
 				mazeView.draw();
 			}
-			else if (event.keyCode == 39)
+			else if (event.keyCode == 39 || // right arrow
+				event.keyCode == 68) // D key
 			{
 				mazeView.turnRight();
+				mazeView.draw();
+			}
+			else if (event.keyCode == 81) // Q key
+			{
+				mazeView.shiftLeft();
+				mazeView.draw();
+			}
+			else if (event.keyCode == 69) // E key
+			{
+				mazeView.shiftRight();
 				mazeView.draw();
 			}
 		}

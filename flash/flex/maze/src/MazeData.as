@@ -28,6 +28,11 @@ package
 			return data[pos.y * width + pos.x];
 		}
 		
+		public function getCellXY(x :int, y :int) :int
+		{
+			return data[y * width + x];
+		}
+
 		public function setCell(pos :Point, value :int) :void
 		{
 			data[pos.y * width + pos.x] = value;
@@ -35,10 +40,78 @@ package
 		
 		public function populate() :void
 		{
-			// some test data for now
-			setCell(new Point(1, 1), CELL_WALL);
-			setCell(new Point(2, 1), CELL_WALL);
-			setCell(new Point(4, 1), CELL_WALL);
+			generateBinaryTree();
+		}
+		
+		/**
+		 * Populate the maze using Prim's Algorithm.
+		 */
+		// TODO: finish implementing Prim's
+		/*
+		public function generatePrims() :void
+		{
+			var walls :Array = new Array();
+			var visited :Array = new Array();
+			var i, x, y :int;
+			
+			for (i = 0; i < width * height; i++)
+			{
+				visited[i] = false;
+				data[i] = CELL_WALL;
+			}
+			
+			x = (width / 2);
+			y = (height / 2);
+			data[y * width + x] = CELL_EMPTY;
+			
+			var neighbours :Array = getNeighbours(x, y, visited);
+			while (neighbours.length > 0)
+			{
+				i = Math.floor(Math.random() * neighbours.length);
+				
+			}
+		}
+		*/
+		
+		/**
+		 * A simple random maze using binary tree carving.
+		 */
+		public function generateBinaryTree() :void
+		{
+			var i :int, x :int, y :int;
+			
+			for (i = 0; i < width * height; i++)
+			{
+				data[i] = CELL_WALL;
+			}
+
+			for (y = 1; y < height - 2; y += 2)
+			{
+				for (x = 1; x < width - 2; x += 2)
+				{
+					data[y * width + x] = CELL_EMPTY;
+					
+					// force a border path around the periphery,
+					// otherwise maze is not guaranteed to be connected
+					if (x <= 1 || x >= width - 3)
+					{
+						data[(y + 1) * width + x] = CELL_EMPTY;						
+					}
+					if (y <= 1 || y >= height - 3)
+					{
+						data[y * width + (x + 1)] = CELL_EMPTY;						
+					}
+					
+					if (Math.random() < 0.5)
+					{
+						data[(y + 1) * width + x] = CELL_EMPTY;
+					}
+					else
+					{
+						data[y * width + (x + 1)] = CELL_EMPTY;
+					}
+				}
+			}
 		}
 		
 		public function toString() :String
