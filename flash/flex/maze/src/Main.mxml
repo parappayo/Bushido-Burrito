@@ -3,6 +3,10 @@
 		xmlns:mx="http://www.adobe.com/2006/mxml"
 		xmlns:local="*"
 		layout="absolute"
-		applicationComplete="mazeView.init()" >
-	<local:MazeView id="mazeView" />
+		applicationComplete="main.init()" >
+		
+		<mx:VBox>
+			<local:MainComponent id="main" />
+		</mx:VBox>
+		
 </mx:Application>

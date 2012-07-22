@@ -33,6 +33,14 @@ package
 			data[pos.y * width + pos.x] = value;
 		}
 		
+		public function populate() :void
+		{
+			// some test data for now
+			setCell(new Point(1, 1), CELL_WALL);
+			setCell(new Point(2, 1), CELL_WALL);
+			setCell(new Point(4, 1), CELL_WALL);
+		}
+		
 		public function toString() :String
 		{
 			var retval :String = "";

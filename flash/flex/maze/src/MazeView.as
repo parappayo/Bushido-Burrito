@@ -8,8 +8,8 @@ package
 	{
 		public var data :MazeData;
 		
-		public var playerPos :Point;
-		public var playerDir :int; // dir enum
+		public var viewPos :Point;
+		public var viewDir :int; // dir enum
 		
 		// dir enum
 		public static const DIR_NORTH :int = 0;
@@ -22,45 +22,25 @@ package
 		public var cellSize :Number; // as a ratio of the view dims
 		public var drawDepth :Number; // in cells
 		
-		public function MazeView() 
+		public function MazeView(data :MazeData) 
 		{
-			data = new MazeData(16, 16);
+			this.data = data;
 			
-			playerPos = new Point(0, 0);
-			playerDir = DIR_NORTH;
+			viewPos = new Point(0, 0);
+			viewDir = DIR_NORTH;
 			
 			// default settings
 			cellSize = 1.5;
 			drawDepth = 4;
 		}
 		
-		public function init() :void
-		{
-			// test data
-			playerPos.x = 3;
-			playerPos.y = 3;
-
-			//data.setCell(new Point(2, 0), MazeData.CELL_WALL);
-			//data.setCell(new Point(2, 1), MazeData.CELL_WALL);
-			//data.setCell(new Point(2, 2), MazeData.CELL_WALL);
-			//data.setCell(new Point(2, 3), MazeData.CELL_WALL);
-			//data.setCell(new Point(2, 4), MazeData.CELL_WALL);
-
-			//data.setCell(new Point(4, 0), MazeData.CELL_WALL);
-			//data.setCell(new Point(4, 1), MazeData.CELL_WALL);
-			//data.setCell(new Point(4, 2), MazeData.CELL_WALL);
-			//data.setCell(new Point(4, 3), MazeData.CELL_WALL);
-			//data.setCell(new Point(4, 4), MazeData.CELL_WALL);
-
-			//data.setCell(new Point(2, 2), MazeData.CELL_WALL);
-			//data.setCell(new Point(3, 2), MazeData.CELL_WALL);			
-			//data.setCell(new Point(4, 3), MazeData.CELL_WALL);			
-			
-			draw();
-		}
-		
 		public function draw() :void
 		{
+			graphics.lineStyle(0);
+			graphics.beginFill(0xffffff);
+			graphics.drawRect(0, 0, stage.stageWidth, stage.stageHeight);
+			graphics.endFill();
+			
 			// TODO: make linestyle a setting
 			graphics.lineStyle(2, 0x000000);
 			
@@ -200,9 +180,9 @@ package
 		{
 			var temp :Number;
 
-			pos = pos.subtract(playerPos);
+			pos = pos.subtract(viewPos);
 			
-			switch (playerDir)
+			switch (viewDir)
 			{
 				case DIR_NORTH:
 					pos.y = -pos.y;
@@ -237,7 +217,7 @@ package
 		{
 			var temp :Number;
 			
-			switch (playerDir)
+			switch (viewDir)
 			{
 				case DIR_NORTH:
 					pos.y = -pos.y;
@@ -260,9 +240,97 @@ package
 					break;
 			}
 			
-			pos = pos.add(playerPos);
+			pos = pos.add(viewPos);
 
 			return data.getCell(pos);
+		}
+		
+		public function moveForward() :void
+		{
+			switch (viewDir)
+			{
+				case DIR_NORTH:
+					viewPos.y -= 1;
+					break;
+					
+				case DIR_SOUTH:
+					viewPos.y += 1;
+					break;
+					
+				case DIR_EAST:
+					viewPos.x += 1;
+					break;
+					
+				case DIR_WEST:
+					viewPos.x -= 1;
+					break;
+			}
+		}
+		
+		public function moveBack() :void
+		{
+			switch (viewDir)
+			{
+				case DIR_NORTH:
+					viewPos.y += 1;
+					break;
+					
+				case DIR_SOUTH:
+					viewPos.y -= 1;
+					break;
+					
+				case DIR_EAST:
+					viewPos.x -= 1;
+					break;
+					
+				case DIR_WEST:
+					viewPos.x += 1;
+					break;
+			}
+		}
+		
+		public function turnLeft() :void
+		{
+			switch (viewDir)
+			{
+				case DIR_NORTH:
+					viewDir = DIR_WEST;
+					break;
+					
+				case DIR_SOUTH:
+					viewDir = DIR_EAST;
+					break;
+					
+				case DIR_EAST:
+					viewDir = DIR_NORTH;
+					break;
+					
+				case DIR_WEST:
+					viewDir = DIR_SOUTH;
+					break;
+			}
+		}
+
+		public function turnRight() :void
+		{
+			switch (viewDir)
+			{
+				case DIR_NORTH:
+					viewDir = DIR_EAST;
+					break;
+					
+				case DIR_SOUTH:
+					viewDir = DIR_WEST;
+					break;
+					
+				case DIR_EAST:
+					viewDir = DIR_SOUTH;
+					break;
+					
+				case DIR_WEST:
+					viewDir = DIR_NORTH;
+					break;
+			}
 		}
 	}
 }
