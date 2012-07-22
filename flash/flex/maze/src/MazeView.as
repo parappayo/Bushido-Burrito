@@ -39,12 +39,22 @@ package
 			// test data
 			playerPos.x = 3;
 			playerPos.y = 3;
-			data.setCell(new Point(2, 0), MazeData.CELL_WALL);
-			data.setCell(new Point(2, 1), MazeData.CELL_WALL);
+
+			//data.setCell(new Point(2, 0), MazeData.CELL_WALL);
+			//data.setCell(new Point(2, 1), MazeData.CELL_WALL);
 			//data.setCell(new Point(2, 2), MazeData.CELL_WALL);
-			data.setCell(new Point(2, 3), MazeData.CELL_WALL);
+			//data.setCell(new Point(2, 3), MazeData.CELL_WALL);
 			//data.setCell(new Point(2, 4), MazeData.CELL_WALL);
-			//trace(data.toString());
+
+			//data.setCell(new Point(4, 0), MazeData.CELL_WALL);
+			//data.setCell(new Point(4, 1), MazeData.CELL_WALL);
+			//data.setCell(new Point(4, 2), MazeData.CELL_WALL);
+			//data.setCell(new Point(4, 3), MazeData.CELL_WALL);
+			//data.setCell(new Point(4, 4), MazeData.CELL_WALL);
+
+			//data.setCell(new Point(2, 2), MazeData.CELL_WALL);
+			//data.setCell(new Point(3, 2), MazeData.CELL_WALL);			
+			//data.setCell(new Point(4, 3), MazeData.CELL_WALL);			
 			
 			draw();
 		}
@@ -163,9 +173,19 @@ package
 			{
 				graphics.moveTo(farRect.left, farRect.top);
 				graphics.lineTo(farRect.right, farRect.top);
-				
-				graphics.moveTo(farRect.left, farRect.bottom);
+
+				if (cellData[(depth + 1) * 3 + 2] != MazeData.CELL_WALL)
+				{
+					graphics.lineTo(farRect.right, farRect.bottom);
+				}
+
+				graphics.moveTo(farRect.right, farRect.bottom);
 				graphics.lineTo(farRect.left, farRect.bottom);
+				
+				if (cellData[(depth + 1) * 3 + 0] != MazeData.CELL_WALL)
+				{
+					graphics.lineTo(farRect.left, farRect.top);
+				}
 			}
 			else if (depth < drawDepth)
 			{
