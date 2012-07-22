@@ -39,8 +39,10 @@ package
 			// test data
 			playerPos.x = 3;
 			playerPos.y = 3;
+			data.setCell(new Point(2, 0), MazeData.CELL_WALL);
 			data.setCell(new Point(2, 1), MazeData.CELL_WALL);
-			//data.setCell(new Point(2, 3), MazeData.CELL_WALL);
+			//data.setCell(new Point(2, 2), MazeData.CELL_WALL);
+			data.setCell(new Point(2, 3), MazeData.CELL_WALL);
 			//data.setCell(new Point(2, 4), MazeData.CELL_WALL);
 			//trace(data.toString());
 			
@@ -69,168 +71,105 @@ package
 				pos.y = y;	
 				cellData[y * 3 + 2] = getCellFromPlayerPOV(pos);
 			}
-			
-			var farRect :Rectangle = new Rectangle();
-			farRect.width = stage.stageWidth / cellSize;
-			farRect.height = stage.stageHeight / cellSize;
-			farRect.x = (stage.stageWidth - farRect.width) / 2;
-			farRect.y = (stage.stageHeight - farRect.height) / 2;
 
-			// cell immediately to the left
-			if (cellData[0] == MazeData.CELL_WALL)
-			{
-				// draw the wall
-				graphics.moveTo(0, 0);
-				graphics.lineTo(farRect.left, farRect.top);
-				graphics.lineTo(farRect.left, farRect.bottom);
-				graphics.lineTo(0, stage.stageHeight);
-			}
-			else
-			{
-				// draw the floor
-				graphics.moveTo(0, stage.stageHeight);
-				graphics.lineTo(farRect.left, farRect.bottom);
-				graphics.lineTo(0, farRect.bottom);
-			}
-			
-			// cell immediately to the right
-			if (cellData[2] == MazeData.CELL_WALL)
-			{
-				// draw the wall
-				graphics.moveTo(stage.stageWidth, 0);
-				graphics.lineTo(farRect.right, farRect.top);
-				graphics.lineTo(farRect.right, farRect.bottom);
-				graphics.lineTo(stage.stageWidth, stage.stageHeight);
-			}
-			else
-			{
-				// draw the floor
-				graphics.moveTo(stage.stageWidth, stage.stageHeight);
-				graphics.lineTo(farRect.right, farRect.bottom);
-				graphics.lineTo(stage.stageWidth, farRect.bottom);
-			}			
-
-			// all other cells
-			for (var i :int = 1; i <= drawDepth; i++)
-			{
-				drawCellsAtDepth(i, cellData);
-			}
+			drawCellsAtDepth(0, cellData); // recursive
 		}
 		
 		/**
 		 * Takes a depth in number of cells and draws the walls.
 		 * 
 		 * @param cellData contains pre-computed cell states.
+		 * The cellData is in 3 column wide rows where depth*3+0 is the left side,
+		 * depth*3+1 is the center, and depth*3+2 is the right side.
 		 */
 		public function drawCellsAtDepth(depth :int, cellData :Array) :void
 		{
-			var nearestRect :Rectangle = new Rectangle();
+			var nearRect :Rectangle = new Rectangle();
 			if (depth > 0)
 			{
-				nearestRect.width = stage.stageWidth / (cellSize * (depth - 1));
-				nearestRect.height = stage.stageHeight / (cellSize * (depth - 1));
-				nearestRect.x = (stage.stageWidth - nearestRect.width) / 2;
-				nearestRect.y = (stage.stageHeight - nearestRect.height) / 2;
+				nearRect.width = stage.stageWidth / (cellSize * depth);
+				nearRect.height = stage.stageHeight / (cellSize * depth);
+				nearRect.x = (stage.stageWidth - nearRect.width) / 2;
+				nearRect.y = (stage.stageHeight - nearRect.height) / 2;
 			}
 			else
 			{
-				nearestRect.width = stage.stageWidth;
-				nearestRect.height = stage.stageHeight;
-				nearestRect.x = 0;
-				nearestRect.y = 0;
+				nearRect.width = stage.stageWidth;
+				nearRect.height = stage.stageHeight;
+				nearRect.x = 0;
+				nearRect.y = 0;				
 			}
-			
-			var nearRect :Rectangle = new Rectangle();
-			nearRect.width = stage.stageWidth / (cellSize * depth);
-			nearRect.height = stage.stageHeight / (cellSize * depth);
-			nearRect.x = (stage.stageWidth - nearRect.width) / 2;
-			nearRect.y = (stage.stageHeight - nearRect.height) / 2;
 			
 			var farRect :Rectangle = new Rectangle();
 			farRect.width = stage.stageWidth / (cellSize * (depth + 1));
 			farRect.height = stage.stageHeight / (cellSize * (depth + 1));
 			farRect.x = (stage.stageWidth - farRect.width) / 2;
 			farRect.y = (stage.stageHeight - farRect.height) / 2;
-			
-			// cell in front
-			if (cellData[depth * 3 + 1] == MazeData.CELL_WALL)
+		
+			// immediate left
+			if (cellData[depth * 3 + 0] == MazeData.CELL_WALL)
 			{
-				// draw the wall
-				graphics.drawRect(nearRect.x, nearRect.y, nearRect.width, nearRect.height);
-			}
-			else
-			{
-				// draw the floor
-				graphics.moveTo(nearRect.left, nearRect.bottom);
-				graphics.lineTo(nearRect.right, nearRect.bottom);
-				graphics.lineTo(farRect.right, farRect.bottom);
-				graphics.lineTo(farRect.left, farRect.bottom);
+				graphics.moveTo(nearRect.left, nearRect.top);
+				graphics.lineTo(farRect.left, farRect.top);
+				
+				if (cellData[(depth + 1) * 3 + 0] == MazeData.CELL_WALL)
+				{
+					graphics.moveTo(farRect.left, farRect.bottom);
+				}
+				else
+				{
+					graphics.lineTo(farRect.left, farRect.bottom);
+				}
+				
 				graphics.lineTo(nearRect.left, nearRect.bottom);
 			}
-			
-			// cell in front and left
-			if (cellData[depth * 3] == MazeData.CELL_WALL)
+			else if (cellData[(depth + 1) * 3 + 0] == MazeData.CELL_WALL)
 			{
-				var occluded :Boolean = false;
-
-				// front wall
-				for (var i :int = depth-1; i >= 0; i--)
-				{
-					// TODO: fix this, totally wrong
-					occluded = occluded || (cellData[i * 3] == MazeData.CELL_WALL);
-				}
-				if (!occluded)
-				{
-					graphics.moveTo(nearestRect.left, nearRect.top);
-					graphics.lineTo(nearRect.left, nearRect.top);
-					graphics.lineTo(nearRect.left, nearRect.bottom);
-					graphics.lineTo(nearestRect.left, nearRect.bottom);
-				}
+				graphics.moveTo(nearRect.left, farRect.top);
+				graphics.lineTo(farRect.left, farRect.top);
 				
-				// side wall
-				for (var i :int = depth; i >= 0; i--)
-				{
-					// TODO: fix this, totally wrong
-					occluded = occluded || (cellData[i * 3 + 1] == MazeData.CELL_WALL);
-				}
-				if (!occluded)
-				{
-					graphics.moveTo(nearRect.left, nearRect.top);
-					graphics.lineTo(farRect.left, farRect.top);
-					graphics.lineTo(farRect.left, farRect.bottom);
-					graphics.lineTo(nearRect.left, nearRect.bottom);
-					graphics.lineTo(nearRect.left, nearRect.top);
-				}
+				graphics.moveTo(nearRect.left, farRect.bottom);
+				graphics.lineTo(farRect.left, farRect.bottom);
 			}
-			else // draw the floor
+			
+			// immediate right
+			if (cellData[depth * 3 + 2] == MazeData.CELL_WALL)
 			{
-				// front wall
-				for (var i :int = depth-1; i >= 0; i--)
+				graphics.moveTo(nearRect.right, nearRect.top);
+				graphics.lineTo(farRect.right, farRect.top);
+				
+				if (cellData[(depth + 1) * 3 + 2] == MazeData.CELL_WALL)
 				{
-					// TODO: fix this, totally wrong
-					occluded = occluded || (cellData[i * 3] == MazeData.CELL_WALL);
+					graphics.moveTo(farRect.right, farRect.bottom);
 				}
-				if (!occluded)
+				else
 				{
-					graphics.moveTo(nearRect.left, nearRect.bottom);
-					graphics.lineTo(nearestRect.left, nearRect.bottom);
-					
-					graphics.moveTo(nearRect.left, farRect.bottom);
-					graphics.lineTo(nearestRect.left, farRect.bottom);
+					graphics.lineTo(farRect.right, farRect.bottom);
 				}
 				
-				// side wall
-				for (var i :int = depth; i >= 0; i--)
-				{
-					// TODO: fix this, totally wrong
-					occluded = occluded || (cellData[i * 3 + 1] == MazeData.CELL_WALL);
-				}
-				if (!occluded)
-				{
-					graphics.moveTo(nearRect.left, nearRect.bottom);
-					graphics.lineTo(farRect.left, farRect.bottom);
-					graphics.lineTo(nearRect.left, farRect.bottom);
-				}
+				graphics.lineTo(nearRect.right, nearRect.bottom);
+			}
+			else if (cellData[(depth + 1) * 3 + 2] == MazeData.CELL_WALL)
+			{
+				graphics.moveTo(nearRect.right, farRect.top);
+				graphics.lineTo(farRect.right, farRect.top);
+				
+				graphics.moveTo(nearRect.right, farRect.bottom);
+				graphics.lineTo(farRect.right, farRect.bottom);
+			}
+			
+			// front and center
+			if (cellData[(depth + 1) * 3 + 1] == MazeData.CELL_WALL)
+			{
+				graphics.moveTo(farRect.left, farRect.top);
+				graphics.lineTo(farRect.right, farRect.top);
+				
+				graphics.moveTo(farRect.left, farRect.bottom);
+				graphics.lineTo(farRect.left, farRect.bottom);
+			}
+			else if (depth < drawDepth)
+			{
+				drawCellsAtDepth(depth + 1, cellData);
 			}
 		}
 		
@@ -278,8 +217,6 @@ package
 		{
 			var temp :Number;
 			
-			trace("pos = (" + pos.x + ", " + pos.y + ")");
-
 			switch (playerDir)
 			{
 				case DIR_NORTH:
@@ -304,8 +241,6 @@ package
 			}
 			
 			pos = pos.add(playerPos);
-
-			trace("-> (" + pos.x + ", " + pos.y + ")");
 
 			return data.getCell(pos);
 		}
