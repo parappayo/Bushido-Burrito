@@ -10,7 +10,7 @@ static t_texture test_tex;
 void sprite_system_init(void)
 {
     texture_init(&test_tex);
-    texture_load_from_disk(&test_tex, "test.png");
+    texture_load_from_disk(&test_tex, "plane01.png");
     texture_move_to_vram(&test_tex);
 }
 

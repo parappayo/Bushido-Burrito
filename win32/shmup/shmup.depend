@@ -1,0 +1,201 @@
+# depslib dependency file v1.0
+1323045887 source:e:\jason\programming\abyssal\gltest1\main.c
+	<stdbool.h>
+	<windows.h>
+	<gl/gl.h>
+	"load_png.h"
+	"game.h"
+	"render.h"
+
+1244180412 e:\jason\programming\abyssal\gltest1\include\png.h
+	"zlib.h"
+	"pngconf.h"
+	<crtdbg.h>
+
+1121686010 e:\jason\programming\abyssal\gltest1\include\zlib.h
+	"zconf.h"
+
+1121906426 e:\jason\programming\abyssal\gltest1\include\zconf.h
+	<windows.h>
+	<sys/types.h>
+	<unistd.h>
+	<unixio.h>
+
+1244180412 e:\jason\programming\abyssal\gltest1\include\pngconf.h
+	"pngusr.h"
+	"config.h"
+	<windows.h>
+	<stdio.h>
+	<stdio.h>
+	<sys/types.h>
+	<setjmp.h>
+	<strings.h>
+	<string.h>
+	<stdlib.h>
+	<fp.h>
+	<math.h>
+	<m68881.h>
+	<mem.h>
+	<alloc.h>
+	<malloc.h>
+	<time.h>
+	<dos.h>
+
+1322993913 e:\jason\programming\abyssal\gltest1\load_png.h
+	<stdbool.h>
+	<png.h>
+	<gl/gl.h>
+
+1322993913 source:e:\jason\programming\abyssal\gltest1\load_png.c
+	"load_png.h"
+	<malloc.h>
+
+1323044354 e:\jason\programming\abyssal\gltest1\game.h
+	<stdbool.h>
+	"bullet.h"
+
+1323045820 e:\jason\programming\abyssal\gltest1\render.h
+	<gl/gl.h>
+	"game.h"
+
+1323046643 source:e:\jason\programming\abyssal\gltest1\render.c
+	"render.h"
+	"texture.h"
+	"sprite.h"
+
+1323046423 source:e:\jason\programming\abyssal\gltest1\game.c
+	"game.h"
+	<string.h>
+	<assert.h>
+	"game_math.h"
+
+1322993913 e:\jason\programming\abyssal\gltest1\texture.h
+	<gl/gl.h>
+	"load_png.h"
+
+1322993913 source:e:\jason\programming\abyssal\gltest1\texture.c
+	"texture.h"
+	<malloc.h>
+
+1323042377 source:e:\jason\programming\abyssal\gltest1\bullet.c
+	"bullet.h"
+	<string.h>
+
+1322993913 e:\jason\programming\abyssal\gltest1\bullet.h
+	<gl/gl.h>
+	"sprite.h"
+
+1322993913 e:\jason\programming\abyssal\gltest1\sprite.h
+	<gl/gl.h>
+
+1323046723 source:e:\jason\programming\abyssal\gltest1\sprite.c
+	"sprite.h"
+	<string.h>
+	"texture.h"
+
+1323044544 e:\jason\programming\abyssal\gltest1\game_math.h
+
+1323044593 source:e:\jason\programming\abyssal\gltest1\game_math.c
+	"game_math.h"
+	<math.h>
+
+1347730279 source:e:\jason\programming\bushido-burrito\win32\shmup\game.c
+	"game.h"
+	<string.h>
+	<assert.h>
+	"game_math.h"
+
+1333234674 e:\jason\programming\bushido-burrito\win32\shmup\game.h
+	<stdbool.h>
+	"bullet.h"
+
+1333234654 e:\jason\programming\bushido-burrito\win32\shmup\bullet.h
+	<gl/gl.h>
+	"sprite.h"
+
+1333234654 e:\jason\programming\bushido-burrito\win32\shmup\sprite.h
+	<gl/gl.h>
+
+1333234674 e:\jason\programming\bushido-burrito\win32\shmup\game_math.h
+
+1347730279 source:e:\jason\programming\bushido-burrito\win32\shmup\game_math.c
+	"game_math.h"
+	<math.h>
+
+1347730279 source:e:\jason\programming\bushido-burrito\win32\shmup\load_png.c
+	"load_png.h"
+	<malloc.h>
+
+1333234674 e:\jason\programming\bushido-burrito\win32\shmup\load_png.h
+	<stdbool.h>
+	<png.h>
+	<gl/gl.h>
+
+1244184012 e:\jason\programming\bushido-burrito\win32\shmup\include\png.h
+	"zlib.h"
+	"pngconf.h"
+	<crtdbg.h>
+
+1121689610 e:\jason\programming\bushido-burrito\win32\shmup\include\zlib.h
+	"zconf.h"
+
+1121910026 e:\jason\programming\bushido-burrito\win32\shmup\include\zconf.h
+	<windows.h>
+	<sys/types.h>
+	<unistd.h>
+	<unixio.h>
+
+1244184012 e:\jason\programming\bushido-burrito\win32\shmup\include\pngconf.h
+	"pngusr.h"
+	"config.h"
+	<windows.h>
+	<stdio.h>
+	<stdio.h>
+	<sys/types.h>
+	<setjmp.h>
+	<strings.h>
+	<string.h>
+	<stdlib.h>
+	<fp.h>
+	<math.h>
+	<m68881.h>
+	<mem.h>
+	<alloc.h>
+	<malloc.h>
+	<time.h>
+	<dos.h>
+
+1347730279 source:e:\jason\programming\bushido-burrito\win32\shmup\main.c
+	<stdbool.h>
+	<windows.h>
+	<gl/gl.h>
+	"load_png.h"
+	"game.h"
+	"render.h"
+
+1333234674 e:\jason\programming\bushido-burrito\win32\shmup\render.h
+	<gl/gl.h>
+	"game.h"
+
+1347730279 source:e:\jason\programming\bushido-burrito\win32\shmup\render.c
+	"render.h"
+	"texture.h"
+	"sprite.h"
+
+1333234674 e:\jason\programming\bushido-burrito\win32\shmup\texture.h
+	<gl/gl.h>
+	"load_png.h"
+
+1347730279 source:e:\jason\programming\bushido-burrito\win32\shmup\texture.c
+	"texture.h"
+	<malloc.h>
+
+1347730279 source:e:\jason\programming\bushido-burrito\win32\shmup\bullet.c
+	"bullet.h"
+	<string.h>
+
+1347730606 source:e:\jason\programming\bushido-burrito\win32\shmup\sprite.c
+	"sprite.h"
+	<string.h>
+	"texture.h"
+
