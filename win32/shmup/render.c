@@ -68,16 +68,13 @@ void render_resize(int width, int height)
 
     //glViewport(0, 0, width, height);
 
-/**/
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
     glOrtho(0, width, height, 0, 0, 1);
     glMatrixMode(GL_MODELVIEW);
 
-/*
-    glMatrixMode(GL_PROJECTION);
-    glLoadIdentity();
-    gluPerspective(FOV, asratio, ZMIN, ZMAX);
-    glMatrixMode(GL_MODELVIEW);
-/**/
+    //glMatrixMode(GL_PROJECTION);
+    //glLoadIdentity();
+    //gluPerspective(FOV, asratio, ZMIN, ZMAX);
+    //glMatrixMode(GL_MODELVIEW);
 }
