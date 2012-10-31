@@ -68,16 +68,26 @@ void render_resize(int width, int height)
 
     //glViewport(0, 0, width, height);
 
+<<<<<<< HEAD
 /**/
+=======
+>>>>>>> 64804cb5ab8e44f688f08e71e1c8fc781727c8dc
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
     glOrtho(0, width, height, 0, 0, 1);
     glMatrixMode(GL_MODELVIEW);
 
+<<<<<<< HEAD
 /*
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
     gluPerspective(FOV, asratio, ZMIN, ZMAX);
     glMatrixMode(GL_MODELVIEW);
 /**/
+=======
+    //glMatrixMode(GL_PROJECTION);
+    //glLoadIdentity();
+    //gluPerspective(FOV, asratio, ZMIN, ZMAX);
+    //glMatrixMode(GL_MODELVIEW);
+>>>>>>> 64804cb5ab8e44f688f08e71e1c8fc781727c8dc
 }
