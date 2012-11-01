@@ -109,11 +109,11 @@
 	<stdbool.h>
 	"bullet.h"
 
-1333234654 e:\jason\programming\bushido-burrito\win32\shmup\bullet.h
+1347734375 e:\jason\programming\bushido-burrito\win32\shmup\bullet.h
 	<gl/gl.h>
 	"sprite.h"
 
-1333234654 e:\jason\programming\bushido-burrito\win32\shmup\sprite.h
+1347734362 e:\jason\programming\bushido-burrito\win32\shmup\sprite.h
 	<gl/gl.h>
 
 1333234674 e:\jason\programming\bushido-burrito\win32\shmup\game_math.h
@@ -165,7 +165,7 @@
 	<time.h>
 	<dos.h>
 
-1347730279 source:e:\jason\programming\bushido-burrito\win32\shmup\main.c
+1347813813 source:e:\jason\programming\bushido-burrito\win32\shmup\main.c
 	<stdbool.h>
 	<windows.h>
 	<gl/gl.h>
@@ -177,7 +177,7 @@
 	<gl/gl.h>
 	"game.h"
 
-1347730279 source:e:\jason\programming\bushido-burrito\win32\shmup\render.c
+1347732118 source:e:\jason\programming\bushido-burrito\win32\shmup\render.c
 	"render.h"
 	"texture.h"
 	"sprite.h"
@@ -190,11 +190,11 @@
 	"texture.h"
 	<malloc.h>
 
-1347730279 source:e:\jason\programming\bushido-burrito\win32\shmup\bullet.c
+1347734564 source:e:\jason\programming\bushido-burrito\win32\shmup\bullet.c
 	"bullet.h"
 	<string.h>
 
-1347730606 source:e:\jason\programming\bushido-burrito\win32\shmup\sprite.c
+1347734688 source:e:\jason\programming\bushido-burrito\win32\shmup\sprite.c
 	"sprite.h"
 	<string.h>
 	"texture.h"

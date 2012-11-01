@@ -43,7 +43,7 @@
 		<ExtraCommands>
 			<Add after="cmd /c copy libpng3.dll $(TARGET_OUTPUT_DIR)" />
 			<Add after="cmd /c copy zlib1.dll $(TARGET_OUTPUT_DIR)" />
-			<Add after="cmd /c copy test.png $(TARGET_OUTPUT_DIR)" />
+			<Add after="cmd /c copy plane01.png $(TARGET_OUTPUT_DIR)" />
 		</ExtraCommands>
 		<Unit filename="bullet.c">
 			<Option compilerVar="CC" />
