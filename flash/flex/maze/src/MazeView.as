@@ -22,6 +22,12 @@ package
 		public var cellSize :Number; // as a ratio of the view dims
 		public var drawDepth :Number; // in cells
 		
+		// local vars, to avoid creating rectangle objects frequently
+		private var cellData :Array;
+		private var pos :Point;
+		private var nearRect :Rectangle;
+		private var farRect :Rectangle;
+		
 		public function MazeView(data :MazeData) 
 		{
 			this.data = data;
@@ -32,6 +38,11 @@ package
 			// default settings
 			cellSize = 1.5;
 			drawDepth = 4;
+			
+			cellData = new Array();
+			pos = new Point();
+			nearRect = new Rectangle();
+			farRect = new Rectangle();
 		}
 		
 		public function draw() :void
@@ -45,8 +56,6 @@ package
 			graphics.lineStyle(2, 0x000000);
 			
 			// player-relative cell data
-			var cellData :Array = new Array();
-			var pos :Point = new Point();
 			for (var y :int = 0; y <= drawDepth; y++)
 			{
 				pos.x = -1;
@@ -74,7 +83,6 @@ package
 		 */
 		public function drawCellsAtDepth(depth :int, cellData :Array) :void
 		{
-			var nearRect :Rectangle = new Rectangle();
 			if (depth > 0)
 			{
 				nearRect.width = stage.stageWidth / (cellSize * depth);
@@ -90,7 +98,6 @@ package
 				nearRect.y = 0;				
 			}
 			
-			var farRect :Rectangle = new Rectangle();
 			farRect.width = stage.stageWidth / (cellSize * (depth + 1));
 			farRect.height = stage.stageHeight / (cellSize * (depth + 1));
 			farRect.x = (stage.stageWidth - farRect.width) / 2;
