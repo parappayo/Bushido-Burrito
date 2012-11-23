@@ -199,3 +199,103 @@
 	<string.h>
 	"texture.h"
 
+1353651650 source:c:\users\jason\documents\bushido-burrito\win32\shmup\game.c
+	"game.h"
+	<string.h>
+	<assert.h>
+	"game_math.h"
+
+1353651650 c:\users\jason\documents\bushido-burrito\win32\shmup\game.h
+	<stdbool.h>
+	"bullet.h"
+
+1353651650 c:\users\jason\documents\bushido-burrito\win32\shmup\bullet.h
+	<gl/gl.h>
+	"sprite.h"
+
+1353651955 c:\users\jason\documents\bushido-burrito\win32\shmup\sprite.h
+	<gl/gl.h>
+
+1353651650 c:\users\jason\documents\bushido-burrito\win32\shmup\game_math.h
+
+1353651650 source:c:\users\jason\documents\bushido-burrito\win32\shmup\game_math.c
+	"game_math.h"
+	<math.h>
+
+1353651650 source:c:\users\jason\documents\bushido-burrito\win32\shmup\load_png.c
+	"load_png.h"
+	<malloc.h>
+
+1353651650 c:\users\jason\documents\bushido-burrito\win32\shmup\load_png.h
+	<stdbool.h>
+	<png.h>
+	<gl/gl.h>
+
+1353651650 c:\users\jason\documents\bushido-burrito\win32\shmup\include\png.h
+	"zlib.h"
+	"pngconf.h"
+	<crtdbg.h>
+
+1353651650 c:\users\jason\documents\bushido-burrito\win32\shmup\include\zlib.h
+	"zconf.h"
+
+1353651650 c:\users\jason\documents\bushido-burrito\win32\shmup\include\zconf.h
+	<windows.h>
+	<sys/types.h>
+	<unistd.h>
+	<unixio.h>
+
+1353651650 c:\users\jason\documents\bushido-burrito\win32\shmup\include\pngconf.h
+	"pngusr.h"
+	"config.h"
+	<windows.h>
+	<stdio.h>
+	<stdio.h>
+	<sys/types.h>
+	<setjmp.h>
+	<strings.h>
+	<string.h>
+	<stdlib.h>
+	<fp.h>
+	<math.h>
+	<m68881.h>
+	<mem.h>
+	<alloc.h>
+	<malloc.h>
+	<time.h>
+	<dos.h>
+
+1353651650 source:c:\users\jason\documents\bushido-burrito\win32\shmup\main.c
+	<stdbool.h>
+	<windows.h>
+	<gl/gl.h>
+	"load_png.h"
+	"game.h"
+	"render.h"
+
+1353651650 c:\users\jason\documents\bushido-burrito\win32\shmup\render.h
+	<gl/gl.h>
+	"game.h"
+
+1353651650 source:c:\users\jason\documents\bushido-burrito\win32\shmup\render.c
+	"render.h"
+	"texture.h"
+	"sprite.h"
+
+1353651650 c:\users\jason\documents\bushido-burrito\win32\shmup\texture.h
+	<gl/gl.h>
+	"load_png.h"
+
+1353651650 source:c:\users\jason\documents\bushido-burrito\win32\shmup\sprite.c
+	"sprite.h"
+	<string.h>
+	"texture.h"
+
+1353651650 source:c:\users\jason\documents\bushido-burrito\win32\shmup\texture.c
+	"texture.h"
+	<malloc.h>
+
+1353651650 source:c:\users\jason\documents\bushido-burrito\win32\shmup\bullet.c
+	"bullet.h"
+	<string.h>
+

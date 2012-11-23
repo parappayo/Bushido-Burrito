@@ -11,6 +11,8 @@ struct t_texture;
 enum t_sprite_type
 {
     SPRITE_DEFAULT,
+    SPRITE_BULLET_01,
+    SPRITE_PLANE_01_SPIN,
 };
 
 /**
