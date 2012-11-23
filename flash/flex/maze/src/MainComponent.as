@@ -12,7 +12,7 @@ package
 		{
 			mazeData = new MazeData(64, 64);
 			mazeData.populate();
-			//trace(mazeData.toString());
+			trace(mazeData.toString());
 			
 			mazeView = new MazeView(mazeData);
 			mazeView.viewPos.x = 1;
