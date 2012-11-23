@@ -12,6 +12,12 @@ enum t_bullet_type
     BULLET_DEFAULT,
 };
 
+/**
+ *  Specifying a bullet position func allows a bullet's behaviour to be
+ *  customized. Otherwise it will just act on its velocity each frame.
+ *  Behaviour can also be customized by switching on the bullet type
+ *  enum inside of bullet_update().
+ */
 struct t_bullet;
 typedef void (*bullet_pos_func)(struct t_bullet* bullet);
 
