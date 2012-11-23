@@ -22,7 +22,10 @@ Git Tips
 
 Some good stuff to know about Git:
 
-- Always use "git config --global core.autocrlf true"
-- Always use "git config --global core.autoclrf true"
-- If you add a file to a commit by accident, use "git reset HEAD <file>"
+- The right way to clone this repo is
+	git clone git@github.com/parappayo/Bushido-Burrito
+- Always use this setting to resolve linefeed char conflicts
+	git config --global core.autocrlf true
+- If you add a file to a commit by accident, unstage it with
+	git reset HEAD <file>
 
