@@ -22,6 +22,6 @@ Git Tips
 
 Some good stuff to know about Git:
 
-- Always use "git config --global core.autoclrf true"
+- Always use "git config --global core.autocrlf true"
 
 
