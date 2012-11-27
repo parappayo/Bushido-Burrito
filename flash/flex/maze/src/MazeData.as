@@ -77,7 +77,8 @@ package
 		
 		public function populate() :void
 		{
-			generateDepthFirst(width/2, height/2, new Array());
+			//generateDepthFirst(width/2, height/2, new Array());
+			generatePrims();
 		}
 		
 		/**
@@ -206,32 +207,55 @@ package
 		/**
 		 * Populate the maze using Prim's Algorithm.
 		 */
-		// TODO: finish implementing Prim's
-		/*
-		public function generatePrims() :void
+		public function generatePrims(startingPoints :Array = null) :void
 		{
 			var walls :Array = new Array();
 			var visited :Array = new Array();
-			var i, x, y :int;
+			var neighbours :Array = new Array();
+			var i :int, x :int, y :int, fromDir :int;
 			
 			for (i = 0; i < width * height; i++)
 			{
 				visited[i] = false;
 				data[i] = CELL_WALL;
 			}
+						
+			if (!startingPoints)
+			{
+				// start from the center by default
+				x = (width / 2);
+				y = (height / 2);
+				data[y * width + x] = CELL_EMPTY;
+				neighbours = neighbours.concat(getNeighbours(x, y, visited));
+			}
+			else
+			{
+				for (var index :String in startingPoints)
+				{
+					var point :Point = startingPoints[index];
+					data[point.y * width + point.x] = CELL_EMPTY;
+					neighbours = neighbours.concat(getNeighbours(point.x, point.y, visited));
+				}
+			}
 			
-			x = (width / 2);
-			y = (height / 2);
-			data[y * width + x] = CELL_EMPTY;
-			
-			var neighbours :Array = getNeighbours(x, y, visited);
 			while (neighbours.length > 0)
 			{
 				i = Math.floor(Math.random() * neighbours.length);
+				var randomNeighbour :Object = neighbours.splice(i, 1)[0];
 				
+				x = randomNeighbour.x;
+				y = randomNeighbour.y
+				i = randomNeighbour.i;
+				fromDir = randomNeighbour.dir;
+				
+				if (canCarve(x, y, fromDir))
+				{
+					data[y * width + x] = CELL_EMPTY;
+					neighbours = neighbours.concat(getNeighbours(x, y, visited));
+				}
+				visited[i] = true;
 			}
 		}
-		*/
 		
 		/**
 		 * A simple random maze using binary tree carving.
