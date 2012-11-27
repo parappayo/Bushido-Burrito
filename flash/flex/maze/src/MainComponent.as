@@ -1,6 +1,7 @@
 package  
 {
 	import flash.events.KeyboardEvent;
+	import flash.geom.Point;
 	import mx.core.UIComponent;
 	
 	public class MainComponent extends UIComponent
@@ -15,8 +16,7 @@ package
 			trace(mazeData.toString());
 			
 			mazeView = new MazeView(mazeData);
-			mazeView.viewPos.x = 1;
-			mazeView.viewPos.y = 1;
+			mazeData.findOpenCell(mazeView.viewPos);
 			addChild(mazeView);
 		}
 	

@@ -53,6 +53,28 @@ package
 			return data[y * width + x] == CELL_WALL;
 		}
 		
+		/**
+		 * Tries to find an open spot in the maze, returns false on fail.
+		 */
+		public function findOpenCell(result :Point) :Boolean
+		{
+			if (!result) { result = new Point(); }
+			
+			for (var y :int = 0; y < height; y++)
+			{
+				for (var x :int = 0; x < width; x++)
+				{
+					if (!isWall(x, y))
+					{
+						result.x = x;
+						result.y = y;
+						return true;
+					}
+				}
+			}
+			return false;
+		}
+		
 		public function populate() :void
 		{
 			generateDepthFirst(width/2, height/2, new Array());
