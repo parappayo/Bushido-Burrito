@@ -39,7 +39,7 @@ LevelManager.method('update', function() {
 	if (this.levelDone) { return; }
 
 	if (this.eventIndex >= this.currentLevel.length) {
-		levelDone = true;
+		this.levelDone = true;
 		return;
 	}
 
