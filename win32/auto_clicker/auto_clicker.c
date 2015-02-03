@@ -3,97 +3,54 @@
 #include <windows.h>
 #include <winuser.h>
 
-// MinGW may need these
-#ifndef HWND_MESSAGE
-#define HWND_MESSAGE (HWND)-3
-#endif
-#ifndef ATTACH_PARENT_PROCESS
-#define ATTACH_PARENT_PROCESS (DWORD)-1
-#endif
+const char* gHelpText = "Auto-Clicker Help:\n \
+- Press 1 to register the active window as where to send click messages.\n \
+- Press 2 to register the current mouse position as the coordinate to click.\n \
+\n";
 
-static char* szWindowClass = "bbautoclicker";
-static char* szTitle       = "Auto-Clicker";
-
+// dirty globals
 HHOOK gNextKeyHook;
- 
-LRESULT CALLBACK WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
-{
-    switch (msg) {
+HWND gTargetWindow;
+POINT gMousePos;
 
-		case WM_KEYDOWN:
-			//printf("hey\t");
-			break;
  
-        case WM_DESTROY:
-            PostQuitMessage(0);
-            break;
- 
-        default:
-            return DefWindowProc(hwnd, msg, wParam, lParam);
-            break;
-    }
- 
-    return 0;
-}
-
 LRESULT CALLBACK KeyboardProc(int code, WPARAM wParam, LPARAM lParam)
 {
-	printf("hey\t");
+	// only listen for key-down messages
+	if (code != HC_ACTION || (HIWORD(lParam) & (KF_UP | KF_REPEAT)) != 0)
+	{
+		return;
+	}
+
+	int keyCode = (char) wParam;
+
+	switch (keyCode)
+	{
+		case 0x31: // KeyCodes.VK_1
+			{
+				gTargetWindow = GetForegroundWindow();
+				printf("registered target window = 0x%x\n", gTargetWindow);
+			}
+			break;
+
+		case 0x32: // KeyCodes.VK_2
+			{
+				GetCursorPos(&gMousePos);
+				printf("registered mouse position = %d, %d\n", gMousePos.x, gMousePos.y);
+			}
+			break;
+	}
 
 	CallNextHookEx(gNextKeyHook, code, wParam, lParam);
 }
  
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow)
 {
-/*
-    WNDCLASSEX wcex;
- 
-    wcex.cbSize			= sizeof(WNDCLASSEX);
-    wcex.style          = CS_HREDRAW | CS_VREDRAW;
-    wcex.lpfnWndProc    = WndProc;
-    wcex.cbClsExtra     = 0;
-    wcex.cbWndExtra     = 0;
-    wcex.hInstance      = hInstance;
-    wcex.hIcon          = NULL; //LoadIcon(hInstance, MAKEINTRESOURCE(IDI_APPLICATION));
-    wcex.hCursor        = LoadCursor(NULL, IDC_ARROW);
-    wcex.hbrBackground  = (HBRUSH)(COLOR_WINDOW+1);
-    wcex.lpszMenuName   = NULL;
-    wcex.lpszClassName  = szWindowClass;
-    wcex.hIconSm        = NULL; //LoadIcon(wcex.hInstance, MAKEINTRESOURCE(IDI_APPLICATION));
- 
-    if (!RegisterClassEx(&wcex)) {
-        MessageBox(NULL,
-            "Call to RegisterClassEx failed!",
-            "Error",
-            MB_OK | MB_ICONERROR);
-        return 1;
-    }
- 
-    HWND hWnd = CreateWindowEx(
-		0,
-        szWindowClass,
-        szTitle,
-        WS_POPUP,
-        CW_USEDEFAULT, CW_USEDEFAULT,
-        400, 300,
-        HWND_MESSAGE,
-        NULL,
-        hInstance,
-        NULL);
-
-    if (!hWnd) {
-        MessageBox(NULL,
-            "CreateWindow failed",
-            "Error",
-            MB_OK | MB_ICONERROR);
-        return 1;
-    }
-
-    ShowWindow(hWnd, nCmdShow);
-    UpdateWindow(hWnd);
-*/
-
-	gNextKeyHook = SetWindowsHookEx(WH_KEYBOARD, (HOOKPROC) KeyboardProc, GetModuleHandle("user32"), 0);
+	gNextKeyHook = SetWindowsHookEx(
+		WH_KEYBOARD,
+		(HOOKPROC) KeyboardProc,
+		GetModuleHandle("user32"),
+		0);
 
 	FreeConsole();
 	if (!AllocConsole()
@@ -109,7 +66,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	freopen("CONOUT$", "wb", stdout);
 	freopen("CONOUT$", "wb", stderr);
 
-	printf("Auto-Clicker Ready\n");
+	printf(gHelpText);
  
     MSG msg;
     while (GetMessage(&msg, NULL, 0, 0)) {
