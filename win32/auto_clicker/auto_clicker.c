@@ -156,8 +156,12 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 			{
 				if (gSpamClicks)
 				{
+					RECT targetRect;
+					GetWindowRect(gTargetWindow, &targetRect);
+					//MapWindowPoints(HWND_DESKTOP, ???, (LPPOINT) &targetRect, 2);
+
 					//SendClick(gTargetWindow, gMousePos);
-					PostMessage(gTargetWindow, WM_LBUTTONDOWN, MK_LBUTTON, MAKELONG(gMousePos.x, gMousePos.y));
+					PostMessage(gTargetWindow, WM_LBUTTONDOWN, MK_LBUTTON, MAKELONG(gMousePos.x - targetRect.left, gMousePos.y - targetRect.top));
 				}
 			}
 			break;
