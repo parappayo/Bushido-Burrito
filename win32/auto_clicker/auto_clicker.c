@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include <windows.h>
 // #include <winuser.h>
+#include <strsafe.h>
 
 const char* gHelpText = "Auto-Clicker Help:\n \
 - Press 1 to register the active window as where to send click messages.\n \
@@ -18,6 +19,40 @@ BOOL gSpamClicks;
 static char* szWindowClass = "bbautoclicker";
 static char* szTitle	   = "Auto-Clicker";
 
+//
+// https://msdn.microsoft.com/en-us/library/windows/desktop/ms680582(v=vs.85).aspx
+//
+void ErrorExit(LPTSTR lpszFunction) 
+{ 
+	LPVOID lpMsgBuf;
+	LPVOID lpDisplayBuf;
+	DWORD dw = GetLastError();
+
+	gSpamClicks = FALSE;
+
+	FormatMessage(
+		FORMAT_MESSAGE_ALLOCATE_BUFFER | 
+		FORMAT_MESSAGE_FROM_SYSTEM |
+		FORMAT_MESSAGE_IGNORE_INSERTS,
+		NULL,
+		dw,
+		MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT),
+		(LPTSTR) &lpMsgBuf,
+		0, NULL );
+
+	lpDisplayBuf = (LPVOID)LocalAlloc(LMEM_ZEROINIT, 
+		(lstrlen((LPCTSTR)lpMsgBuf) + lstrlen((LPCTSTR)lpszFunction) + 40) * sizeof(TCHAR)); 
+	StringCchPrintf((LPTSTR)lpDisplayBuf, 
+		LocalSize(lpDisplayBuf) / sizeof(TCHAR),
+		TEXT("%s failed with error %d: %s"), 
+		lpszFunction, dw, lpMsgBuf); 
+	MessageBox(NULL, (LPCTSTR)lpDisplayBuf, TEXT("Error"), MB_OK); 
+
+	LocalFree(lpMsgBuf);
+	LocalFree(lpDisplayBuf);
+	ExitProcess(dw); 
+}
+
 void SendClick(HWND targetWindow, POINT mousePos)
 {
 	INPUT click;
@@ -32,12 +67,22 @@ void SendClick(HWND targetWindow, POINT mousePos)
 	click.mi.dwExtraInfo = 0;
 
 	currentThreadId = GetCurrentThreadId();
-	targetThreadId = GetWindowThreadProcessId(targetWindow, 0);
+	targetThreadId = GetWindowThreadProcessId(targetWindow, NULL);
 
-	AttachThreadInput(targetThreadId, currentThreadId, TRUE);
-	SetFocus(targetWindow);
-	SendInput(1, &click, sizeof(INPUT));
-	AttachThreadInput(targetThreadId, currentThreadId, FALSE);
+	if (currentThreadId == targetThreadId)
+	{
+		SendInput(1, &click, sizeof(INPUT));
+	}
+	else if (AttachThreadInput(targetThreadId, currentThreadId, TRUE))
+	{
+		if (!SetFocus(targetWindow)) { ErrorExit("SetFocus"); }
+		if (!SendInput(1, &click, sizeof(INPUT))) { ErrorExit("SendInput"); }
+		AttachThreadInput(targetThreadId, currentThreadId, FALSE);
+	}
+	else
+	{
+		ErrorExit("AttachThreadInput");
+	}
 }
 
 void HandleKeydown(int keyCode)
@@ -106,12 +151,13 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 				free(lpb);
 			}
 			break;
-
+			
 		case WM_TIMER:
 			{
 				if (gSpamClicks)
 				{
-					SendClick(gTargetWindow, gMousePos);
+					//SendClick(gTargetWindow, gMousePos);
+					PostMessage(gTargetWindow, WM_LBUTTONDOWN, MK_LBUTTON, MAKELONG(gMousePos.x, gMousePos.y));
 				}
 			}
 			break;
