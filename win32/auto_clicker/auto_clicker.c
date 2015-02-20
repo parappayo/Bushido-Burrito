@@ -5,9 +5,9 @@
 #include <strsafe.h>
 
 const char* gHelpText = "Auto-Clicker Help:\n \
-- Press 1 to register the active window as where to send click messages.\n \
-- Press 2 to register the current mouse position as the coordinate to click.\n \
-- Press 3 to toggle the spamming of click messages.\n \
+- Press F1 to register the active window as where to send click messages.\n \
+- Press F2 to register the current mouse position as the coordinate to click.\n \
+- Press F3 to toggle the spamming of click messages.\n \
 \n";
 
 // dirty globals
@@ -59,10 +59,10 @@ void SendClick(HWND targetWindow, POINT mousePos)
 	UINT currentThreadId, targetThreadId;
 
 	click.type = INPUT_MOUSE;
-	click.mi.dx = mousePos.x;
-	click.mi.dy = mousePos.y;
+	click.mi.dx = mousePos.x * (65536 / GetSystemMetrics(SM_CXSCREEN));
+	click.mi.dy = mousePos.y * (65536 / GetSystemMetrics(SM_CYSCREEN));
 	click.mi.mouseData = 0;
-	click.mi.dwFlags = MOUSEEVENTF_ABSOLUTE;
+	click.mi.dwFlags = MOUSEEVENTF_ABSOLUTE | MOUSEEVENTF_MOVE | MOUSEEVENTF_LEFTDOWN;
 	click.mi.time = 0;
 	click.mi.dwExtraInfo = 0;
 
@@ -90,6 +90,7 @@ void HandleKeydown(int keyCode)
 	switch (keyCode)
 	{
 	case 0x31: // KeyCodes.VK_1
+	case VK_F1:
 		{
 			gTargetWindow = GetForegroundWindow();
 			printf("registered target window = 0x%x\n", gTargetWindow);
@@ -97,6 +98,7 @@ void HandleKeydown(int keyCode)
 		break;
 
 	case 0x32: // KeyCodes.VK_2
+	case VK_F2:
 		{
 			GetCursorPos(&gMousePos);
 			printf("registered mouse position = %d, %d\n", gMousePos.x, gMousePos.y);
@@ -104,6 +106,7 @@ void HandleKeydown(int keyCode)
 		break;
 
 	case 0x33: // KeyCodes.VK_3
+	case VK_F3:
 		{
 			if (gSpamClicks)
 			{
@@ -157,11 +160,16 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 				if (gSpamClicks)
 				{
 					RECT targetRect;
+					POINT targetPt;
+
 					GetWindowRect(gTargetWindow, &targetRect);
 					//MapWindowPoints(HWND_DESKTOP, ???, (LPPOINT) &targetRect, 2);
 
-					//SendClick(gTargetWindow, gMousePos);
-					PostMessage(gTargetWindow, WM_LBUTTONDOWN, MK_LBUTTON, MAKELONG(gMousePos.x - targetRect.left, gMousePos.y - targetRect.top));
+					targetPt.x = gMousePos.x - targetRect.left;
+					targetPt.y = gMousePos.y - targetRect.top;
+
+					SendClick(gTargetWindow, gMousePos);
+					//PostMessage(gTargetWindow, WM_LBUTTONDOWN, MK_LBUTTON, MAKELONG(targetPt.x, targetPt.y));
 				}
 			}
 			break;
