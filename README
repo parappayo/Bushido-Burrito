@@ -1,31 +1,9 @@
-Bushido Burrito on GitHub
 
-About
----
+Bushido Burrito Code Repo
 
-This is a collection of demos by Jason Estey for a variety of platforms and
-primarily demonstrating game programming related ideas.  It is very much a
-work in progress and is intended to demonstrate a variety of nifty tricks.
-There are also major contributions by some of Jason's friends.
+Directories:
 
-More of Jason's work can be found at http://bushidoburrito.com/
-
-
-Contents
----
-
-Programs are loosely organized by platform.
-
-
-Git Tips
----
-
-Some good stuff to know about Git:
-
-- The right way to clone this repo is
-	git clone git@github.com/parappayo/Bushido-Burrito
-- Always use this setting to resolve linefeed char conflicts
-	git config --global core.autocrlf true
-- If you add a file to a commit by accident, unstage it with
-	git reset HEAD <file>
+jam - game jam projects
+skunk - skunk works projects
+tool - utilities and helper projects
 
