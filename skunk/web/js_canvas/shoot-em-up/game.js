@@ -5,15 +5,16 @@
 "use strict";
 
 var img;  // holds the sprite sheet
-
-var gPlayer = new Player();
-
-var gLevelManager = new LevelManager();
+var gPlayer;
+var gLevelManager;
 
 //------------------------------------------------------------------------------
 //  called when the document is finished loading
 //------------------------------------------------------------------------------
 function init() {
+
+	gPlayer = new Player();
+	gLevelManager = new LevelManager();
 
 	img = new Image();
 	img.onload = game_start;

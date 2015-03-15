@@ -221,7 +221,7 @@ Enemy1Sprite.inherits(Sprite);
 //------------------------------------------------------------------------------
 Enemy1Sprite.method('update', function() {
 
-	const pi8 = Math.PI / 8;
+	var pi8 = Math.PI / 8;
 
 	var dx = this.x - this.last_x;
 	var dy = this.y - this.last_y;

@@ -1,0 +1,19 @@
+<html>
+
+<head>
+<script>
+document.onmousedown = function() {
+	e = event || windows.event;
+	caption = "click at (" + e.clientX + ", " + e.clientY + ")<br>";
+	//alert(caption);
+	document.getElementById('log').innerHTML += caption;
+}
+</script>
+</head>
+
+<body>
+<div id="log" />
+</body>
+
+</html>
+
