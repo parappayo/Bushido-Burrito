@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with TexturePacker http://www.codeandweb.com/texturepacker-->
+<!-- $TexturePacker:SmartUpdate:cb0d67c516b6da8bdda55621dc05b97c:d6b03e09074c58ff9e4d1911fbdf17ad:8a2bcf6183f5f6907875966dbe68a151$ -->
+<TextureAtlas imagePath="UI.png">
+    <SubTexture name="disc_off" x="0" y="0" width="64" height="64"/>
+    <SubTexture name="disc_on" x="64" y="0" width="64" height="64"/>
+    <SubTexture name="lifebar_00" x="128" y="0" width="96" height="32"/>
+    <SubTexture name="lifebar_01" x="0" y="64" width="96" height="32"/>
+    <SubTexture name="lifebar_02" x="96" y="64" width="96" height="32"/>
+    <SubTexture name="lifebar_03" x="0" y="96" width="96" height="32"/>
+    <SubTexture name="lifebar_04" x="96" y="96" width="96" height="32"/>
+    <SubTexture name="lifebar_05" x="0" y="128" width="96" height="32"/>
+    <SubTexture name="lifebar_06" x="96" y="128" width="96" height="32"/>
+</TextureAtlas>

@@ -1,0 +1,26 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 10.00
+# Visual C# Express 2008
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ScreenAutocap", "ScreenAutocap.csproj", "{2CA8DA08-7E9E-4C01-9271-D130C125F56D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ScreenAutocapCmd", "ScreenAutocapCmd.csproj", "{900383C6-9119-4F05-A705-AE157F476409}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{2CA8DA08-7E9E-4C01-9271-D130C125F56D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2CA8DA08-7E9E-4C01-9271-D130C125F56D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2CA8DA08-7E9E-4C01-9271-D130C125F56D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2CA8DA08-7E9E-4C01-9271-D130C125F56D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{900383C6-9119-4F05-A705-AE157F476409}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{900383C6-9119-4F05-A705-AE157F476409}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{900383C6-9119-4F05-A705-AE157F476409}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{900383C6-9119-4F05-A705-AE157F476409}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

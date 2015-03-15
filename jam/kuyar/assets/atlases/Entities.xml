@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with TexturePacker http://www.codeandweb.com/texturepacker-->
+<!-- $TexturePacker:SmartUpdate:33f7f9412df94a97dda94aad81fb80f6:bc1f465b7c884b99fda97b6f9e6486f1:c6f157da29d8ee1b6ff5f53e0035619f$ -->
+<TextureAtlas imagePath="Entities.png">
+    <SubTexture name="barrel" x="38" y="92" width="16" height="16"/>
+    <SubTexture name="block_black" x="38" y="74" width="16" height="16"/>
+    <SubTexture name="block_grey" x="38" y="56" width="16" height="16"/>
+    <SubTexture name="block_white" x="38" y="38" width="16" height="16"/>
+    <SubTexture name="bolder" x="110" y="20" width="16" height="16"/>
+    <SubTexture name="cactus" x="92" y="20" width="16" height="16"/>
+    <SubTexture name="chest" x="74" y="20" width="16" height="16"/>
+    <SubTexture name="chest_open" x="56" y="20" width="16" height="16"/>
+    <SubTexture name="crate" x="38" y="20" width="16" height="16"/>
+    <SubTexture name="demon" x="20" y="110" width="16" height="16"/>
+    <SubTexture name="gate" x="20" y="92" width="16" height="16"/>
+    <SubTexture name="grave1" x="20" y="74" width="16" height="16"/>
+    <SubTexture name="grave2" x="20" y="56" width="16" height="16"/>
+    <SubTexture name="key" x="20" y="38" width="16" height="16"/>
+    <SubTexture name="ladder" x="20" y="20" width="16" height="16"/>
+    <SubTexture name="locked_door" x="110" y="2" width="16" height="16"/>
+    <SubTexture name="obelisk" x="92" y="2" width="16" height="16"/>
+    <SubTexture name="signpost" x="74" y="2" width="16" height="16"/>
+    <SubTexture name="skull_steer" x="56" y="2" width="16" height="16"/>
+    <SubTexture name="spike" x="38" y="2" width="16" height="16"/>
+    <SubTexture name="stairs_down" x="20" y="2" width="16" height="16"/>
+    <SubTexture name="stairs_up" x="2" y="110" width="16" height="16"/>
+    <SubTexture name="switch_left" x="2" y="92" width="16" height="16"/>
+    <SubTexture name="switch_right" x="2" y="74" width="16" height="16"/>
+    <SubTexture name="tree_bushy" x="2" y="56" width="16" height="16"/>
+    <SubTexture name="tree_palm" x="2" y="38" width="16" height="16"/>
+    <SubTexture name="tree_pine" x="2" y="20" width="16" height="16"/>
+    <SubTexture name="tree_wither" x="2" y="2" width="16" height="16"/>
+</TextureAtlas>

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with TexturePacker http://www.codeandweb.com/texturepacker-->
+<!-- $TexturePacker:SmartUpdate:69a3762c7938f68fd3086f1491ae6438:903193002f7cacba17517317f735919d:c6f157da29d8ee1b6ff5f53e0035619f$ -->
+<TextureAtlas imagePath="Entities.png">
+    <SubTexture name="hero_stand" x="100" y="2" width="20" height="30"/>
+    <SubTexture name="hero_walk_left1" x="100" y="2" width="20" height="30"/>
+    <SubTexture name="hero_walk_left2" x="78" y="2" width="20" height="30"/>
+    <SubTexture name="old_guy_stand" x="2" y="66" width="30" height="30"/>
+    <SubTexture name="old_guy_walk_left1" x="2" y="34" width="30" height="30"/>
+    <SubTexture name="old_guy_walk_left2" x="2" y="2" width="30" height="30"/>
+    <SubTexture name="troll_stand" x="56" y="2" width="20" height="30"/>
+    <SubTexture name="troll_walk_right1" x="56" y="2" width="20" height="30"/>
+    <SubTexture name="troll_walk_right2" x="34" y="2" width="20" height="30"/>
+</TextureAtlas>

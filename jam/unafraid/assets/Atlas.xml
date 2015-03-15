@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with TexturePacker http://texturepacker.com-->
+<!-- $TexturePacker:SmartUpdate:264688ef597f2e4bbbfa60f63f171ab5$ -->
+<TextureAtlas imagePath="Atlas.png">
+    <SubTexture name="campfire" x="2" y="2" width="64" height="64"/>
+    <SubTexture name="explosion" x="68" y="2" width="32" height="32"/>
+    <SubTexture name="ghostGreen1" x="102" y="2" width="64" height="64"/>
+    <SubTexture name="ghostGreen2" x="168" y="2" width="64" height="64"/>
+    <SubTexture name="ghostPurple1" x="234" y="2" width="64" height="64"/>
+    <SubTexture name="ghostPurple2" x="300" y="2" width="64" height="64"/>
+    <SubTexture name="ghostRed1" x="366" y="2" width="64" height="64"/>
+    <SubTexture name="ghostRed2" x="432" y="2" width="64" height="64"/>
+    <SubTexture name="playerWalk1" x="2" y="68" width="64" height="64"/>
+    <SubTexture name="playerWalk2" x="68" y="68" width="64" height="64"/>
+    <SubTexture name="playerWalk3" x="2" y="68" width="64" height="64"/>
+    <SubTexture name="playerWalk4" x="134" y="68" width="64" height="64"/>
+    <SubTexture name="shrine" x="200" y="68" width="256" height="256"/>
+    <SubTexture name="wall" x="2" y="326" width="64" height="64"/>
+</TextureAtlas>

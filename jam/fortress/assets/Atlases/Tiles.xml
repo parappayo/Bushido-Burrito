@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with TexturePacker http://www.codeandweb.com/texturepacker-->
+<!-- $TexturePacker:SmartUpdate:9e9407ed8e4cd87887457da72cdd9ede:0bdd32fc14ff79249752d3521fe14841:c785b4273239e28e744ba35e32e04c8d$ -->
+<TextureAtlas imagePath="Tiles.png">
+    <SubTexture name="floor_bricks" x="0" y="0" width="64" height="64"/>
+    <SubTexture name="floortile1" x="64" y="0" width="64" height="64"/>
+    <SubTexture name="floortile2" x="128" y="0" width="64" height="64"/>
+    <SubTexture name="groundtile1" x="192" y="0" width="64" height="64"/>
+    <SubTexture name="groundtile2" x="256" y="0" width="64" height="64"/>
+    <SubTexture name="groundtile3" x="320" y="0" width="64" height="64"/>
+    <SubTexture name="groundtile4" x="384" y="0" width="64" height="64"/>
+    <SubTexture name="groundtile5" x="448" y="0" width="64" height="64"/>
+    <SubTexture name="smooth_tile" x="0" y="64" width="64" height="64"/>
+    <SubTexture name="wallbrick_bottom_cornerleft" x="64" y="64" width="64" height="64"/>
+    <SubTexture name="wallbrick_bottom_cornerright" x="128" y="64" width="64" height="64"/>
+    <SubTexture name="wallbrick_bottom_mid" x="192" y="64" width="64" height="64"/>
+    <SubTexture name="wallbrick_door" x="256" y="64" width="64" height="64"/>
+    <SubTexture name="wallbrick_left_corner" x="320" y="64" width="64" height="64"/>
+    <SubTexture name="wallbrick_left_mid" x="384" y="64" width="64" height="64"/>
+    <SubTexture name="wallbrick_left_topleft" x="448" y="64" width="64" height="64"/>
+    <SubTexture name="wallbrick_right_corner" x="0" y="128" width="64" height="64"/>
+    <SubTexture name="wallbrick_right_mid" x="64" y="128" width="64" height="64"/>
+    <SubTexture name="wallbrick_right_topleft" x="128" y="128" width="64" height="64"/>
+    <SubTexture name="wallbrick_top_left" x="192" y="128" width="64" height="64"/>
+    <SubTexture name="wallbrick_top_mid" x="256" y="128" width="64" height="64"/>
+    <SubTexture name="wallbrick_top_right" x="320" y="128" width="64" height="64"/>
+    <SubTexture name="walltile1" x="384" y="128" width="64" height="64"/>
+    <SubTexture name="walltile2" x="448" y="128" width="64" height="64"/>
+    <SubTexture name="walltile3" x="0" y="192" width="64" height="64"/>
+    <SubTexture name="wallunit1" x="64" y="192" width="64" height="64"/>
+    <SubTexture name="wallunit2" x="128" y="192" width="64" height="64"/>
+    <SubTexture name="wallunit3" x="192" y="192" width="64" height="64"/>
+</TextureAtlas>

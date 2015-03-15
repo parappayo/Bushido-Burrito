@@ -1,0 +1,36 @@
+
+ScreenAutocap Documentation
+---------------------------
+
+How to Use It:
+
+- Windowed version:  Launch it, and so long as it is open (including while it
+  is minimized), pressing PrntScr (or whatever variation on Print Screen your
+  keyboard has) will cause a desktop screen capture to be written to a file.
+
+- Command Line version: A screen capture is written to file every time the
+  command line version is launched.  An output directory may be specified
+  as an optional parameter.
+
+- All files are written to the current working directory of the program.
+  The command line version offers an option to specify an output directory.
+
+- Output files are in PNG format: http://www.libpng.org/pub/png/
+
+- Ouput files are named screen.png, screen0.png, screen1.png, etc.
+  Existing files will not be overwritten.
+
+Ideas for Future Development:
+
+- Allow WinForms version to minimize to the system tray
+- WinForms version ability to output to a specified directory
+
+Credit:
+
+Much of the heavy lifting is done by code generously donated on the web by
+the following two sources:
+
+http://stackoverflow.com/questions/158151/how-can-i-save-a-screenshot-directly-to-a-file-in-windows
+
+http://forum.cheatengine.org/viewtopic.php?t=192699&sid=d25bb4a9d48a3518bba28ec63d6510a2
+

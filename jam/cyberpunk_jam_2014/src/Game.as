@@ -1,0 +1,273 @@
+
+package  
+{
+	import flash.geom.Rectangle;
+	import starling.display.Quad;
+	import starling.display.QuadBatch;
+	import starling.events.Event;
+	import starling.display.Sprite;
+	import starling.display.Image;
+	import starling.textures.Texture;
+	import starling.events.EnterFrameEvent;
+		
+	import common.*;
+	import entities.*;
+	import wyverntail.core.*;
+	import wyverntail.ogmo.*;
+	import wyverntail.collision.*;
+	
+	import ui.flows.RootFlow;
+	import ui.flows.FlowStates;
+	
+	import sim.*;
+
+	CONFIG::Ouya
+	{
+		import flash.desktop.NativeApplication;
+	}
+
+	public class Game extends starling.display.Sprite
+	{
+		public var gameSim :wyverntail.core.Entity;
+		
+		private var _rootFlow :RootFlow;
+		
+		// all UI elements that should be on top of gameplay go here
+		public var UISprite :Sprite; // TODO: fix this to not be public
+		
+		private var _gameplaySprite :Sprite;		
+		private var _gameplayScene :Scene;
+		private var _globalScene :Scene;
+		
+		public function Game() 
+		{
+			Assets.init();
+
+			_gameplaySprite = new Sprite();
+			_gameplayScene = new Scene();
+			_globalScene = new Scene();
+
+			UISprite = new Sprite();
+			_rootFlow = new RootFlow(this);
+			_rootFlow.changeState(ui.flows.FlowStates.FRONT_END_FLOW);
+			
+			addEventListener(Event.ADDED_TO_STAGE, handleAddedToStage);
+			addEventListener(EnterFrameEvent.ENTER_FRAME, handleEnterFrame);
+
+			CONFIG::Ouya
+			{
+				NativeApplication.nativeApplication.addEventListener(flash.events.Event.DEACTIVATE, handleAppFocusLost);
+			}
+			
+			addChild(_gameplaySprite);
+			addChild(UISprite);
+			
+//			var tint :Quad = new Quad(Settings.ScreenWidth * 2, Settings.ScreenHeight * 2, Settings.TintColour);
+//			tint.x = -(Settings.ScreenWidth / 2);
+//			tint.y = -(Settings.ScreenHeight / 2);
+//			tint.alpha = Settings.TintAlpha;
+//			addChild(tint);
+
+			_gameplaySprite.scaleX = 1.5;
+			_gameplaySprite.scaleY = 1.5;
+			UISprite.scaleX = 1.5;
+			UISprite.scaleY = 1.5;
+
+			// scanlines drawing
+			_gameplaySprite.scaleY *= 1.25;
+			UISprite.scaleY *= 1.25;
+			var quadBatch :QuadBatch = new QuadBatch();
+			quadBatch.alpha = 0.2;
+			addChild(quadBatch);
+			for (var y :Number = 4; y < Settings.ScreenHeight * _gameplaySprite.scaleY; y += 5)
+			{
+				var quad :Quad = new Quad(Settings.ScreenWidth * _gameplaySprite.scaleX, 2, 0x000000, false);
+				quad.x = 0;
+				quad.y = y;
+				quadBatch.addQuad(quad);
+			}
+			
+			Settings.ScreenScaleX = _gameplaySprite.scaleX;
+			Settings.ScreenScaleY = _gameplaySprite.scaleY;
+		}
+		
+		protected function handleAddedToStage(event :starling.events.Event) :void
+		{
+			removeEventListener(Event.ADDED_TO_STAGE, handleAddedToStage);
+			
+			addChild(new InputHandler(this));
+		}
+		
+		public function handleEnterFrame(event :EnterFrameEvent) :void
+		{
+			_rootFlow.update(event.passedTime);
+		}
+
+		public function handleSignal(signal :int, sender :Object, args :Object) :Boolean
+		{
+			if (_rootFlow.handleSignal(signal, sender, args)) { return true; }
+			if (_globalScene.handleSignal(signal, sender, args)) { return true; }
+			if (_gameplayScene.handleSignal(signal, sender, args)) { return true; }
+			return false;
+		}
+		
+		// called only while the game is running, not paused
+		public function updateSim(elapsed :Number) :void
+		{
+			_globalScene.update(elapsed);
+			_gameplayScene.update(elapsed);
+		}
+		
+		public function unloadLevel() :void
+		{
+			_gameplayScene.destroy();
+		}
+		
+		public function loadLevel(levelData :Class, spawnPointName :String) :void
+		{
+			// prevent two levels from being loaded together
+			unloadLevel();
+			
+			_gameplaySprite.removeChildren(0, -1, true);
+			
+			// TODO: ideally the layer definitions and their properties come out of loading the Ogmo project XML (oep) file
+			var level :Level = new Level();
+			level.defineLayer("walkmesh", Layer.LAYER_TYPE_GRID);
+			level.defineLayer("entities", Layer.LAYER_TYPE_ENTITIES);
+			level.defineLayer("background", Layer.LAYER_TYPE_TILES);
+			level.init(levelData);
+			
+			var backgroundLayer :TileLayer = level.layers["background"] as TileLayer;
+			backgroundLayer.tilesAtlas = Assets.TilesAtlas;			
+			var background :TileSprite = new TileSprite();
+			background.setTiles(level.layers["background"] as TileData);
+			background.setParent(_gameplaySprite);
+			
+			var walkmeshLayer :GridLayer = level.layers["walkmesh"] as GridLayer;
+			var cellgrid :CellGrid = new CellGrid(level.width / Settings.TileWidth, Settings.TileWidth, Settings.TileHeight);
+			cellgrid.addData(walkmeshLayer.bitstring);
+
+			var factory :Factory = new Factory();
+
+			factory.addPrefab("camera",
+				Vector.<Class>([ Position2D, Camera ]),
+				{});
+			var camera :wyverntail.core.Entity = factory.spawn(_gameplayScene, "camera", { target : _gameplaySprite } );
+
+			factory.addPrefab("player",
+				Vector.<Class>([ Position2D, MovieClip, Hitbox, CameraPusher, Movement4Way, Player ]),
+				{
+					game : this,
+					parentSprite : _gameplaySprite,
+					scaleX : 2,
+					scaleY : 2,
+					walkmesh : cellgrid,
+					camera : camera,
+					cameraPusherDeadzone : new Rectangle(
+							-Settings.ScreenWidth * 0.3,
+							-Settings.ScreenHeight * 0.3,
+							Settings.ScreenWidth * 0.6,
+							Settings.ScreenHeight * 0.6 )
+				});
+			var player :wyverntail.core.Entity = factory.spawn(_gameplayScene, "player", { worldX : 0, worldY : 0 } );
+			
+			if (!gameSim)
+			{
+				factory.addPrefab("sim",
+					Vector.<Class>([ PlayerInventory, TimeOfDay, StockMarket ]),
+					{
+					});
+				gameSim = factory.spawn(_globalScene, "sim", { } );
+			}
+			
+			factory.addPrefab("player_spawn",
+				Vector.<Class>([ Position2D, PlayerTeleportDestination ]),
+				{
+					game : this,
+					player : player
+				});
+				
+			factory.addPrefab("level_transition",
+				Vector.<Class>([ Position2D, ProximityTrigger ]),
+				{
+					game : this,
+					player : player,
+					triggerRadius : Settings.TileWidth + 6,
+					signal : Signals.LEVEL_TRANSITION,
+					canRepeat : true
+				});
+
+			factory.addPrefab("npc",
+				Vector.<Class>([ Position2D, wyverntail.core.Sprite, ActionButtonTrigger, CellCollider ]),
+				{
+					game : this,
+					player : player,
+					triggerRadius : Settings.TileWidth + 12,
+					signal : Signals.SHOW_DIALOG,
+					canRepeat : true,
+					parentSprite : _gameplaySprite,
+					texture : Assets.EntitiesAtlas.getTexture("demon"),
+					width : Settings.TileWidth,
+					height : Settings.TileHeight,
+					cellgrid : cellgrid
+				});
+			factory.addPrefab("signpost",
+				Vector.<Class>([ Position2D, wyverntail.core.Sprite, ActionButtonTrigger, CellCollider ]),
+				{
+					game : this,
+					player : player,
+					triggerRadius : Settings.TileWidth + 12,
+					signal : Signals.SHOW_DIALOG,
+					parentSprite : _gameplaySprite,
+					texture : Assets.EntitiesAtlas.getTexture("signpost"),
+					width : Settings.TileWidth,
+					height : Settings.TileHeight,
+					cellgrid : cellgrid
+				});
+				
+			factory.addPrefab("goal",
+				Vector.<Class>([ Position2D, ProximityTrigger, Goal ]),
+				{
+					game : this,
+					player : player,
+					triggerRadius : Settings.TileWidth + 12,
+					signal : Signals.ACTIVATE_GOAL,
+					canRepeat : true
+				});
+			factory.addPrefab("vendor",
+				Vector.<Class>([ Position2D, ProximityTrigger, Vendor ]),
+				{
+					game : this,
+					player : player,
+					triggerRadius : Settings.TileWidth + 12,
+					signal : Signals.ACTIVATE_VENDOR,
+					canRepeat : true
+				});
+
+			addPropPrefab(factory, "barrel", cellgrid);
+			addPropPrefab(factory, "crate", cellgrid);
+			
+			var entityLayer :EntityLayer = level.layers["entities"] as EntityLayer;
+			entityLayer.spawn(_gameplayScene, factory);
+			
+			handleSignal(Signals.TELEPORT_PLAYER, this, { destinationName : spawnPointName } );
+			handleSignal(Signals.LEVEL_LOAD_COMPLETE, this, { } );
+		}
+		
+		protected function addPropPrefab(factory :Factory, name :String, cellgrid :CellGrid) :void
+		{
+			factory.addPrefab(name,
+				Vector.<Class>([ Position2D, wyverntail.core.Sprite, CellCollider ]),
+				{
+					parentSprite : _gameplaySprite,
+					texture : Assets.EntitiesAtlas.getTexture(name),
+					width : Settings.TileWidth,
+					height : Settings.TileHeight,
+					cellgrid : cellgrid
+				});
+		}
+		
+	} // class
+
+} // package
+

@@ -1,0 +1,80 @@
+<level width="1280" height="720">
+  <Walkmesh exportMode="Bitstring">00000000000000000000
+01111111111111111110
+01111100111111111110
+01111100111111111110
+01111111111111111110
+01111111111111111110
+01111111111111111110
+01111111111111111110
+01111111111111111110
+01111111111111111110
+00000000000000000000
+00000000000000000000</Walkmesh>
+  <TilesWall tileset="Wall" exportMode="XML">
+    <tile x="0" y="0" id="0" />
+    <tile x="0" y="1" id="0" />
+    <tile x="0" y="2" id="0" />
+    <tile x="0" y="3" id="0" />
+    <tile x="0" y="4" id="0" />
+    <tile x="0" y="5" id="0" />
+    <tile x="0" y="6" id="0" />
+    <tile x="0" y="7" id="0" />
+    <tile x="0" y="8" id="0" />
+    <tile x="0" y="9" id="0" />
+    <tile x="0" y="10" id="0" />
+    <tile x="1" y="0" id="0" />
+    <tile x="1" y="10" id="0" />
+    <tile x="2" y="0" id="0" />
+    <tile x="2" y="10" id="0" />
+    <tile x="3" y="0" id="0" />
+    <tile x="3" y="10" id="0" />
+    <tile x="4" y="0" id="0" />
+    <tile x="4" y="10" id="0" />
+    <tile x="5" y="0" id="0" />
+    <tile x="5" y="10" id="0" />
+    <tile x="6" y="0" id="0" />
+    <tile x="6" y="10" id="0" />
+    <tile x="7" y="0" id="0" />
+    <tile x="7" y="10" id="0" />
+    <tile x="8" y="0" id="0" />
+    <tile x="8" y="10" id="0" />
+    <tile x="9" y="0" id="0" />
+    <tile x="9" y="10" id="0" />
+    <tile x="10" y="0" id="0" />
+    <tile x="10" y="10" id="0" />
+    <tile x="11" y="0" id="0" />
+    <tile x="11" y="10" id="0" />
+    <tile x="12" y="0" id="0" />
+    <tile x="12" y="10" id="0" />
+    <tile x="13" y="0" id="0" />
+    <tile x="13" y="10" id="0" />
+    <tile x="14" y="0" id="0" />
+    <tile x="14" y="10" id="0" />
+    <tile x="15" y="0" id="0" />
+    <tile x="15" y="10" id="0" />
+    <tile x="16" y="0" id="0" />
+    <tile x="16" y="10" id="0" />
+    <tile x="17" y="0" id="0" />
+    <tile x="17" y="10" id="0" />
+    <tile x="18" y="0" id="0" />
+    <tile x="18" y="10" id="0" />
+    <tile x="19" y="0" id="0" />
+    <tile x="19" y="1" id="0" />
+    <tile x="19" y="2" id="0" />
+    <tile x="19" y="3" id="0" />
+    <tile x="19" y="4" id="0" />
+    <tile x="19" y="5" id="0" />
+    <tile x="19" y="6" id="0" />
+    <tile x="19" y="7" id="0" />
+    <tile x="19" y="8" id="0" />
+    <tile x="19" y="9" id="0" />
+    <tile x="19" y="10" id="0" />
+  </TilesWall>
+  <Objects>
+    <Hero id="0" x="160" y="544" />
+    <Ghost id="1" x="1024" y="128" />
+    <Ghost id="2" x="1152" y="192" />
+    <Shrine id="3" x="416" y="160" />
+  </Objects>
+</level>

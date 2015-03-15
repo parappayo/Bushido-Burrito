@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with TexturePacker http://www.codeandweb.com/texturepacker-->
+<!-- $TexturePacker:SmartUpdate:321cb89f0fd7e5f3ef70d2c085419d20:1/1$ -->
+<TextureAtlas imagePath="Tiles.png">
+    <SubTexture name="groundtile1" x="0" y="0" width="33" height="32"/>
+    <SubTexture name="groundtile2" x="33" y="0" width="32" height="32"/>
+    <SubTexture name="groundtile3" x="65" y="0" width="32" height="32"/>
+    <SubTexture name="groundtile4" x="97" y="0" width="32" height="32"/>
+    <SubTexture name="groundtile5" x="129" y="0" width="32" height="32"/>
+    <SubTexture name="stairs_down" x="161" y="0" width="32" height="32"/>
+    <SubTexture name="stairs_up" x="193" y="0" width="33" height="32"/>
+    <SubTexture name="walltile1" x="0" y="32" width="64" height="64"/>
+    <SubTexture name="walltile2" x="64" y="32" width="64" height="64"/>
+    <SubTexture name="walltile3" x="128" y="32" width="64" height="64"/>
+    <SubTexture name="wallunit1" x="192" y="32" width="32" height="32"/>
+    <SubTexture name="wallunit2" x="224" y="32" width="32" height="32"/>
+    <SubTexture name="wallunit3" x="0" y="96" width="32" height="32"/>
+</TextureAtlas>

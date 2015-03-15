@@ -1,0 +1,66 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<application xmlns="http://ns.adobe.com/air/application/3.5">
+  <id>com.ghostpxs.BlackSquare</id>
+  <versionNumber>1.0.1</versionNumber>
+  <supportedProfiles>desktop extendedDesktop mobileDevice tv extendedTV</supportedProfiles>
+  <filename>BlackSquare</filename>
+  <name>Black Square</name>
+  <android>
+    <manifestAdditions><![CDATA[<manifest android:installLocation="auto">
+	<uses-sdk android:minSdkVersion="8" />
+	<uses-permission android:name="android.permission.INTERNET" />
+	<uses-feature android:required="true" android:name="android.hardware.touchscreen.multitouch" />
+	<application android:enabled="true">
+		<activity android:excludeFromRecents="false">
+			<intent-filter>
+				<action android:name="android.intent.action.MAIN" />
+				<category android:name="android.intent.category.LAUNCHER" />
+				<category android:name="tv.ouya.intent.category.GAME" />
+			</intent-filter>
+		</activity>
+	</application>
+</manifest>
+]]></manifestAdditions>
+  </android>
+  <iPhone>
+    <InfoAdditions><![CDATA[<key>UIStatusBarStyle</key>
+<string>UIStatusBarStyleBlackOpaque</string>
+<key>UIRequiresPersistentWiFi</key>
+<string>NO</string>
+<key>UIPrerenderedIcon</key>
+<true />
+<key>UIApplicationExitsOnSuspend</key>
+<true />
+<key>UIDeviceFamily</key>
+<array>
+	<!-- iPhone support -->
+	<string>1</string>
+	<!-- iPad support -->
+	<!--<string>2</string>-->
+</array>]]></InfoAdditions>
+    <requestedDisplayResolution>high</requestedDisplayResolution>
+  </iPhone>
+  <initialWindow>
+    <title>Black Square</title>
+    <content>DragonheadAndroid.swf</content>
+    <visible>true</visible>
+    <fullScreen>true</fullScreen>
+    <renderMode>direct</renderMode>
+    <systemChrome>standard</systemChrome>
+    <aspectRatio>landscape</aspectRatio>
+    <autoOrients>false</autoOrients>
+  </initialWindow>
+  <icon>
+    <image72x72>icons/icon_72.png</image72x72>
+  </icon>
+  <!-- 
+	AIR options:
+	http://livedocs.adobe.com/flex/3/html/File_formats_1.html#1043413
+	
+	AIR mobile options:
+	http://help.adobe.com/en_US/air/build/WSfffb011ac560372f-5d0f4f25128cc9cd0cb-7ffe.html
+	
+	Android manifest documentation:
+	http://developer.android.com/guide/topics/manifest/manifest-intro.html
+	-->
+</application>

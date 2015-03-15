@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with TexturePacker http://www.codeandweb.com/texturepacker-->
+<!-- $TexturePacker:SmartUpdate:1568eee83ee85127c70a6e690e4d6db1:1/1$ -->
+<TextureAtlas imagePath="UI.png">
+    <SubTexture name="lifebar_00" x="0" y="0" width="128" height="32"/>
+    <SubTexture name="lifebar_01" x="128" y="0" width="128" height="32"/>
+    <SubTexture name="lifebar_02" x="0" y="32" width="128" height="32"/>
+    <SubTexture name="lifebar_03" x="128" y="32" width="128" height="32"/>
+    <SubTexture name="lifebar_04" x="0" y="64" width="128" height="32"/>
+    <SubTexture name="lifebar_05" x="128" y="64" width="128" height="32"/>
+    <SubTexture name="pistol_indicator" x="0" y="96" width="64" height="32"/>
+    <SubTexture name="smg_indicator" x="64" y="96" width="64" height="32"/>
+</TextureAtlas>

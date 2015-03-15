@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with TexturePacker http://www.codeandweb.com/texturepacker-->
+<!-- $TexturePacker:SmartUpdate:8f54c7b860873ba17bc7decaf85f3583:5aac6fa9bd0a124f0f36a1f1bfe50d26:7414d95fdd6cc705bc3b3311aebd3d33$ -->
+<TextureAtlas imagePath="Tiles.png">
+    <SubTexture name="tile00" x="0" y="0" width="16" height="16"/>
+    <SubTexture name="tile01" x="18" y="0" width="16" height="16"/>
+    <SubTexture name="tile02" x="36" y="0" width="16" height="16"/>
+    <SubTexture name="tile03" x="54" y="0" width="16" height="16"/>
+    <SubTexture name="tile04" x="72" y="0" width="16" height="16"/>
+    <SubTexture name="tile05" x="90" y="0" width="16" height="16"/>
+    <SubTexture name="tile06" x="108" y="0" width="16" height="16"/>
+    <SubTexture name="tile07" x="0" y="18" width="16" height="16"/>
+    <SubTexture name="tile08" x="18" y="18" width="16" height="16"/>
+    <SubTexture name="tile09" x="36" y="18" width="16" height="16"/>
+    <SubTexture name="tile10" x="54" y="18" width="16" height="16"/>
+    <SubTexture name="tile11" x="72" y="18" width="16" height="16"/>
+    <SubTexture name="tile12" x="90" y="18" width="16" height="16"/>
+    <SubTexture name="tile13" x="108" y="18" width="16" height="16"/>
+    <SubTexture name="tile14" x="0" y="36" width="16" height="16"/>
+    <SubTexture name="tile15" x="18" y="36" width="16" height="16"/>
+    <SubTexture name="tile16" x="36" y="36" width="16" height="16"/>
+    <SubTexture name="tile17" x="54" y="36" width="16" height="16"/>
+    <SubTexture name="tile18" x="72" y="36" width="16" height="16"/>
+    <SubTexture name="tile19" x="90" y="36" width="16" height="16"/>
+    <SubTexture name="tile20" x="108" y="36" width="16" height="16"/>
+    <SubTexture name="tile21" x="0" y="54" width="16" height="16"/>
+    <SubTexture name="tile22" x="18" y="54" width="16" height="16"/>
+    <SubTexture name="tile23" x="36" y="54" width="16" height="16"/>
+    <SubTexture name="tile24" x="54" y="54" width="16" height="16"/>
+    <SubTexture name="tile25" x="72" y="54" width="16" height="16"/>
+    <SubTexture name="tile26" x="90" y="54" width="16" height="16"/>
+    <SubTexture name="tile27" x="108" y="54" width="16" height="16"/>
+    <SubTexture name="tile28" x="0" y="72" width="16" height="16"/>
+    <SubTexture name="tile29" x="18" y="72" width="16" height="16"/>
+    <SubTexture name="tile30" x="36" y="72" width="16" height="16"/>
+    <SubTexture name="tile31" x="54" y="72" width="16" height="16"/>
+    <SubTexture name="tile32" x="72" y="72" width="16" height="16"/>
+    <SubTexture name="tile33" x="90" y="72" width="16" height="16"/>
+    <SubTexture name="tile34" x="108" y="72" width="16" height="16"/>
+    <SubTexture name="tile35" x="0" y="90" width="16" height="16"/>
+    <SubTexture name="tile36" x="18" y="90" width="16" height="16"/>
+    <SubTexture name="tile37" x="36" y="90" width="16" height="16"/>
+    <SubTexture name="tile38" x="54" y="90" width="16" height="16"/>
+    <SubTexture name="tile39" x="72" y="90" width="16" height="16"/>
+    <SubTexture name="tile40" x="90" y="90" width="16" height="16"/>
+    <SubTexture name="tile41" x="108" y="90" width="16" height="16"/>
+    <SubTexture name="tile42" x="0" y="108" width="16" height="16"/>
+    <SubTexture name="tile43" x="18" y="108" width="16" height="16"/>
+    <SubTexture name="tile44" x="36" y="108" width="16" height="16"/>
+    <SubTexture name="tile45" x="54" y="108" width="16" height="16"/>
+    <SubTexture name="tile46" x="72" y="108" width="16" height="16"/>
+    <SubTexture name="tile47" x="90" y="108" width="16" height="16"/>
+    <SubTexture name="tile48" x="108" y="108" width="16" height="16"/>
+    <SubTexture name="tile49" x="0" y="126" width="16" height="16"/>
+    <SubTexture name="tile50" x="18" y="126" width="16" height="16"/>
+</TextureAtlas>

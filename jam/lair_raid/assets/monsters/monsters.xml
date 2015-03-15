@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with TexturePacker http://texturepacker.com-->
+<!-- $TexturePacker:SmartUpdate:575a3d1cd955d679745d59c2b205b2b4$ -->
+<TextureAtlas imagePath="monsters.png">
+    <SubTexture name="demon" x="0" y="0" width="160" height="160"/>
+    <SubTexture name="ogre" x="160" y="0" width="160" height="160"/>
+    <SubTexture name="slime" x="320" y="0" width="32" height="32"/>
+    <SubTexture name="spider" x="352" y="0" width="32" height="32"/>
+    <SubTexture name="titan" x="0" y="160" width="160" height="160"/>
+    <SubTexture name="troll" x="160" y="160" width="160" height="160"/>
+    <SubTexture name="vampire" x="320" y="160" width="160" height="160"/>
+    <SubTexture name="viper" x="480" y="160" width="32" height="32"/>
+    <SubTexture name="wraith" x="0" y="320" width="32" height="32"/>
+    <SubTexture name="zombie" x="32" y="320" width="32" height="32"/>
+</TextureAtlas>
