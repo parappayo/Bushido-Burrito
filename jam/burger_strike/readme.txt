@@ -3,6 +3,10 @@ Burger Strike
 
 A demo / game for Ludum Dare 32 (theme: An Unconventional Weapon)
 
+Note that this project uses assets imported from the Unity Asset Store,
+for which links are provided below. These assets are the property of their
+respective creators and are not included in this project repository.
+
 
 Unity Asset Store Links
 
