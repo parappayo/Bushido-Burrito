@@ -40,6 +40,7 @@ GameObject:
   - 4: {fileID: 456170}
   - 95: {fileID: 9528820}
   - 114: {fileID: 11470764}
+  - 114: {fileID: 11428746}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -286,6 +287,19 @@ MonoBehaviour:
   Target: {fileID: 174882}
   Axis: {x: 0, y: 1, z: 0}
   Speed: 2000
+--- !u!114 &11428746
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 114900}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f0ed8349ccaf8424f8e601b53d3db38a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Explosion: {fileID: 148010, guid: 0736bd1dbbf8a7e49ad87df7a03b09e1, type: 2}
+  ShootRefreshTime: .200000003
 --- !u!114 &11470764
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -297,8 +311,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c54c7f91907df004faf2124fbacab6d5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ForwardSpeed: 20
-  LateralSpeed: 10
+  ForwardThrust: 20
+  LateralThrust: 10
+  RotationThrust: 5
 --- !u!137 &13770092
 SkinnedMeshRenderer:
   m_ObjectHideFlags: 1
