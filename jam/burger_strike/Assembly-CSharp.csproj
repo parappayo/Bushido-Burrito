@@ -46,10 +46,11 @@
 	</Reference>
   </ItemGroup>
   <ItemGroup>
+     <Compile Include="Assets\Explosion\DespawnTimer.cs" />
+     <Compile Include="Assets\Explosion\ExplodeOnTouch.cs" />
      <Compile Include="Assets\FollowCamera.cs" />
      <Compile Include="Assets\Player\Movement.cs" />
      <Compile Include="Assets\Player\SpinAnim.cs" />
-     <Compile Include="Assets\Terrain\ExplodeOnTouch.cs" />
      <None Include="Assets\AssetStore\Quantum Theory\Quantum Cold\Documentation.txt" />
      <None Include="Assets\AssetStore\iMG Explosion FX\ReadME.txt" />
  <Reference Include="UnityEngine.UI">

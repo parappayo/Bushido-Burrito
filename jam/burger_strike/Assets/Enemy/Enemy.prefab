@@ -98,6 +98,7 @@ GameObject:
   - 95: {fileID: 9541014}
   - 54: {fileID: 5464218}
   - 65: {fileID: 6508782}
+  - 114: {fileID: 11479172}
   m_Layer: 0
   m_Name: Enemy
   m_TagString: Untagged
@@ -778,6 +779,18 @@ Animator:
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
+--- !u!114 &11479172
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 153164}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6d133266a331c9f42bcbfa7265b2bdd7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Explosion: {fileID: 148010, guid: 0736bd1dbbf8a7e49ad87df7a03b09e1, type: 2}
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1
