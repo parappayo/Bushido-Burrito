@@ -31,6 +31,11 @@ public class Shoot : MonoBehaviour {
 		if (Physics.Raycast(transform.position, transform.up, out hit, 200.0f))
 		{
 			Instantiate(Explosion, hit.point, Quaternion.identity);
+
+			if (hit.collider.gameObject.CompareTag("Enemy"))
+			{
+				hit.collider.gameObject.SendMessage("Strike");
+			}
 		}
 	}
 }

@@ -10,6 +10,7 @@ GameObject:
   - 4: {fileID: 440334}
   - 33: {fileID: 3390912}
   - 23: {fileID: 2309772}
+  - 114: {fileID: 11474750}
   m_Layer: 0
   m_Name: AA_Rocket-Launcher
   m_TagString: Untagged
@@ -102,7 +103,7 @@ GameObject:
   - 114: {fileID: 11466830}
   m_Layer: 0
   m_Name: Enemy
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -334,7 +335,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 153164}
   m_LocalRotation: {x: 0, y: .871727467, z: 0, w: .489991128}
-  m_LocalPosition: {x: 34.5, y: -8.30000019, z: -259.100006}
+  m_LocalPosition: {x: 33.2000008, y: -6.51999998, z: -258.299988}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 440334}
@@ -793,6 +794,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   SpawnObject: {fileID: 105038, guid: bf9170adc0563694dba5480c87b8d20e, type: 2}
   SpawnOffset: {x: 0, y: 100, z: 0}
+--- !u!114 &11474750
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 119050}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c2ae2fc4b6af59141bd4f94407cd2af5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Target: {fileID: 119050}
+  Axis: {x: 0, y: 1, z: 0}
+  Speed: 20
 --- !u!114 &11479172
 MonoBehaviour:
   m_ObjectHideFlags: 1

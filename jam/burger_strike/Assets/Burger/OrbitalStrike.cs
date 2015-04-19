@@ -27,11 +27,7 @@ public class OrbitalStrike : MonoBehaviour {
 			{
 				if (hit.rigidbody == _Rigidbody)
 				{
-					_AlreadySpawned = true;
-					Instantiate(
-						SpawnObject,
-						hit.point + SpawnOffset,
-						Quaternion.LookRotation(Vector3.up, Vector3.forward));
+					Strike();
 				}
 			}
 		}
@@ -52,5 +48,16 @@ public class OrbitalStrike : MonoBehaviour {
 		
 		pos = Vector2.zero;
 		return false;
+	}
+
+	void Strike()
+	{
+		if (_AlreadySpawned) { return; }
+		_AlreadySpawned = true;
+
+		Instantiate(
+			SpawnObject,
+			transform.position + SpawnOffset,
+			Quaternion.LookRotation(Vector3.up, Vector3.forward));
 	}
 }
