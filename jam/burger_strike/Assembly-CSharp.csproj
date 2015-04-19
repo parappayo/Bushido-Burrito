@@ -48,6 +48,7 @@
   <ItemGroup>
      <Compile Include="Assets\Burger\OrbitalStrike.cs" />
      <Compile Include="Assets\DespawnTimer.cs" />
+     <Compile Include="Assets\Enemy\DestroyedByBurger.cs" />
      <Compile Include="Assets\Explosion\ExplodeOnTouch.cs" />
      <Compile Include="Assets\Player\FollowCamera.cs" />
      <Compile Include="Assets\Player\Movement.cs" />
