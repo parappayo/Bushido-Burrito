@@ -1,11 +1,12 @@
 ﻿<Properties>
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="MonoDevelop.Default" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Burger\OrbitalStrike.cs">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Player\Movement.cs">
     <Files>
-      <File FileName="Assets\Player\Movement.cs" Line="20" Column="1" />
-      <File FileName="Assets\Explosion\ExplodeOnTouch.cs" Line="7" Column="1" />
-      <File FileName="Assets\Player\Shoot.cs" Line="24" Column="3" />
+      <File FileName="Assets\Player\Movement.cs" Line="1" Column="1" />
+      <File FileName="Assets\Explosion\ExplodeOnTouch.cs" Line="1" Column="1" />
+      <File FileName="Assets\Player\Shoot.cs" Line="1" Column="1" />
       <File FileName="Assets\Burger\OrbitalStrike.cs" Line="40" Column="36" />
+      <File FileName="Assets\Enemy\DestroyedByBurger.cs" Line="14" Column="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

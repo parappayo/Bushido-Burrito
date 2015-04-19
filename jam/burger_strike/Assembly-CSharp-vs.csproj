@@ -50,6 +50,7 @@
      <Compile Include="Assets\DespawnTimer.cs" />
      <Compile Include="Assets\Enemy\DestroyedByBurger.cs" />
      <Compile Include="Assets\Explosion\ExplodeOnTouch.cs" />
+     <Compile Include="Assets\GameState.cs" />
      <Compile Include="Assets\Player\FollowCamera.cs" />
      <Compile Include="Assets\Player\Movement.cs" />
      <Compile Include="Assets\Player\Shoot.cs" />
