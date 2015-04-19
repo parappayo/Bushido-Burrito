@@ -4,6 +4,7 @@ using System.Collections;
 public class GameState : MonoBehaviour
 {
 	public GameObject Player;
+	public GameObject Enemies;
 	public GUIStyle TextStyle;
 	
 	enum eState
@@ -30,7 +31,7 @@ public class GameState : MonoBehaviour
 		{
 			GUI.Label(
 				new Rect(Screen.width * 0.2f, Screen.height * 0.3f, Screen.width * 0.6f, Screen.height * 0.3f),
-				"BURGER STRIKE\n\nclick to begin",
+				"BURGER STRIKE\nclick to begin",
 				TextStyle);
 			
 			if (Input.GetMouseButtonUp(0))
@@ -57,10 +58,7 @@ public class GameState : MonoBehaviour
 
 		case eState.RUNNING:
 		{
-			// TODO: check if all enemies are toast
-			bool isComplete = false;
-
-			if (isComplete)
+			if (AreAllEnemiesDestroyed())
 			{
 				Player.SetActive(false);
 				State = eState.LEVEL_COMPLETE;
@@ -70,7 +68,7 @@ public class GameState : MonoBehaviour
 			
 		case eState.LEVEL_COMPLETE:
 		{
-			string caption = string.Format("MISSION ACCOMPLISHED");
+			string caption = string.Format("MISSION\nACCOMPLISHED");
 			
 			GUI.Label(
 				new Rect(Screen.width * 0.2f, Screen.height * 0.3f, Screen.width * 0.6f, Screen.height * 0.3f),
@@ -79,6 +77,11 @@ public class GameState : MonoBehaviour
 		}
 		break;
 		} // switch
+	}
+
+	bool AreAllEnemiesDestroyed()
+	{
+		return Enemies.transform.childCount < 1;
 	}
 	
 } // class
