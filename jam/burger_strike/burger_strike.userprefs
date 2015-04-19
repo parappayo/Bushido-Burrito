@@ -1,9 +1,9 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="MonoDevelop.Default" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Terrain\ExplodeOnTouch.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Burger\Spawn.cs">
     <Files>
-      <File FileName="Assets\Player\Movement.cs" Line="26" Column="24" />
-      <File FileName="Assets\Terrain\ExplodeOnTouch.cs" Line="14" Column="37" />
+      <File FileName="Assets\Player\Movement.cs" Line="23" Column="36" />
+      <File FileName="Assets\Burger\Spawn.cs" Line="1" Column="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
