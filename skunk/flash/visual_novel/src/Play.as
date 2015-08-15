@@ -2,12 +2,18 @@ package
 {
 	import flash.utils.ByteArray;
 	import flash.utils.Dictionary;
-	import starling.display.Sprite;
+	import starling.display.*;
+	import starling.textures.Texture;
 	
 	public class Play 
 	{
 		public var actors :Dictionary;
 		public var chapters :Dictionary;
+		
+		private var _portrait :Image;
+		private var _parent :Sprite;
+		private var _scene :Scene;
+		private var _lineIndex :int;
 		
 		public function Play() 
 		{
@@ -58,21 +64,60 @@ package
 			}
 		}
 		
-		public function runScene(chapterId :String, sceneId :String, parent :Sprite) :void
+		public function setActorPortrait(actorId :String, expressionId :String, portraitTexture :Texture) :void
+		{
+			var actor :Actor = actors[actorId];
+			actor.portraits[expressionId] = portraitTexture;
+		}
+		
+		public function run(chapterId :String, sceneId :String, parent :Sprite) :void
 		{
 			var chapter :Chapter = chapters[chapterId];
 			var scene :Scene = chapter.scenes[sceneId];
 			
-			run(scene, parent);
+			runScene(scene, parent);
 		}
 		
-		public function run(scene :Scene, parent :Sprite) :void
+		public function runScene(scene :Scene, parent :Sprite) :void
 		{
-			for each (var line :Line in scene.lines)
+			if (_parent)
 			{
-				trace(line.speaker);
-				trace(line.dialogue);
+				_parent.removeChild(_portrait);
 			}
+			_parent = parent;
+			
+			_scene = scene;
+			_lineIndex = 0;
+			runLine(_scene.lines[0]);
+		}
+		
+		public function runNextLine() :void
+		{
+			if (_lineIndex < _scene.lines.length - 1)
+			{
+				_lineIndex++;
+				runLine(_scene.lines[_lineIndex]);
+			}
+		}
+		
+		public function runLine(line :Line) :void
+		{
+			trace(line.speaker);
+			trace(line.dialogue);
+			
+			var actor :Actor = actors[line.speaker];
+			
+			if (!actor)
+			{
+				throw Error("unknown actor found in dialogue: " + line.speaker);
+			}
+			
+			// TODO: support for currentPortraitId
+			var portraitTexture :Texture = actor.portraits["default"];
+			
+			_parent.removeChild(_portrait);
+			_portrait = new Image(portraitTexture);
+			_parent.addChild(_portrait);
 		}
 	}
 

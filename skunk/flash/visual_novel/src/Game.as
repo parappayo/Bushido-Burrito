@@ -11,7 +11,9 @@ package
 			
 			var hamlet :Play = new Play();
 			hamlet.init(Assets.HamletXML);
-			hamlet.runScene("1", "1", this);
+			hamlet.setActorPortrait("BERNARDO", "default", Assets.BernardoTexture);
+			hamlet.setActorPortrait("FRANCISCO", "default", Assets.FranciscoTexture);
+			hamlet.run("1", "1", this);
 			
 			// menu test
 			/*
