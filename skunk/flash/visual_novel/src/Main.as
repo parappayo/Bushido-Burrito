@@ -2,35 +2,23 @@ package
 {
 	import flash.display.Sprite;
 	import flash.events.Event;
+	import flash.geom.Rectangle;
+	import flash.display.Sprite;
+	import starling.core.Starling;
+	import starling.utils.*;
 	
+	[SWF(width=1280, height=800, frameRate=60, backgroundColor=0x999999)]
 	public class Main extends Sprite 
 	{
 		public var mainMenu :Menu;
 		
 		public function Main() :void
 		{
-			if (stage)
-			{
-				init();
-			}
-			else
-			{
-				addEventListener(Event.ADDED_TO_STAGE, init);
-			}
+			stage.fullScreenSourceRect = new Rectangle(0, 0, Settings.ScreenWidth, Settings.ScreenHeight);
+			var starling :Starling = new Starling(Game, stage, null, null, "auto", "baseline");
+			starling.showStats = Settings.ShowStats;
+			starling.antiAliasing = Settings.AntiAliasing;
+			starling.start();
 		}
-		
-		private function init(e :Event = null) :void 
-		{
-			removeEventListener(Event.ADDED_TO_STAGE, init);
-			
-			var numSlots :int = 3;
-			
-			mainMenu = new Menu(numSlots);
-			mainMenu.addItem(new MenuItem("New Game")); // TODO: localize me
-			mainMenu.addItem(new MenuItem("Continue")); // TODO: localize me
-			mainMenu.refresh();
-			addChild(mainMenu);
-		}
-		
 	}
 }

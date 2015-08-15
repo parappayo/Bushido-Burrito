@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<play>
+
+<actor id="BERNARDO">
+	<portrait id="default" img="portraits/Bernardo.png" />
+</actor>
+<actor id="FRANCISCO">
+	<portrait id="default" img="portraits/Francisco.png" />
+</actor>
+
+<chapter id="1" title="Act I">
+<scene id="1" location="Elsinore. A platform before the castle.">
+	<line speaker="BERNARDO">Who's there?</line>
+	<line speaker="FRANCISCO">Nay, answer me: stand, and unfold yourself.</line>
+	<line speaker="BERNARDO">Long live the king!</line>
+</scene>
+</chapter>
+
+</play>
