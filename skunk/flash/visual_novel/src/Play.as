@@ -3,6 +3,7 @@ package
 	import flash.utils.ByteArray;
 	import flash.utils.Dictionary;
 	import starling.display.*;
+	import starling.text.TextField;
 	import starling.textures.Texture;
 	
 	public class Play 
@@ -10,8 +11,10 @@ package
 		public var actors :Dictionary;
 		public var chapters :Dictionary;
 		
-		private var _portrait :Image;
-		private var _parent :Sprite;
+		private var _portrait :Sprite;
+		private var _portraitImage :Image;
+		private var _dialogue :TextField;
+		
 		private var _scene :Scene;
 		private var _lineIndex :int;
 		
@@ -70,21 +73,22 @@ package
 			actor.portraits[expressionId] = portraitTexture;
 		}
 		
-		public function run(chapterId :String, sceneId :String, parent :Sprite) :void
+		public function run(chapterId :String, sceneId :String, portrait :Sprite, dialogue :TextField) :void
 		{
 			var chapter :Chapter = chapters[chapterId];
 			var scene :Scene = chapter.scenes[sceneId];
 			
-			runScene(scene, parent);
+			runScene(scene, portrait, dialogue);
 		}
 		
-		public function runScene(scene :Scene, parent :Sprite) :void
+		public function runScene(scene :Scene, portrait :Sprite, dialogue :TextField) :void
 		{
-			if (_parent)
+			if (_portrait)
 			{
-				_parent.removeChild(_portrait);
+				_portrait.removeChild(_portraitImage);
 			}
-			_parent = parent;
+			_portrait = portrait;
+			_dialogue = dialogue;
 			
 			_scene = scene;
 			_lineIndex = 0;
@@ -102,9 +106,6 @@ package
 		
 		public function runLine(line :Line) :void
 		{
-			trace(line.speaker);
-			trace(line.dialogue);
-			
 			var actor :Actor = actors[line.speaker];
 			
 			if (!actor)
@@ -115,9 +116,11 @@ package
 			// TODO: support for currentPortraitId
 			var portraitTexture :Texture = actor.portraits["default"];
 			
-			_parent.removeChild(_portrait);
-			_portrait = new Image(portraitTexture);
-			_parent.addChild(_portrait);
+			_portrait.removeChild(_portraitImage);
+			_portraitImage = new Image(portraitTexture);
+			_portrait.addChild(_portraitImage);
+			
+			_dialogue.text = line.dialogue;
 		}
 	}
 
