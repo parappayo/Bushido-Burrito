@@ -5,11 +5,11 @@ public class PlayerMovement : MonoBehaviour {
 	
 	public float MovementSpeed;
 	public float RotationSpeed;	
-	private Rigidbody mRigidbody;
+	private Rigidbody _Rigidbody;
 	
 	void Start()
 	{
-		mRigidbody = GetComponent<Rigidbody>();
+		_Rigidbody = GetComponent<Rigidbody>();
 	}
 	
 	void Update()
@@ -25,9 +25,9 @@ public class PlayerMovement : MonoBehaviour {
 		transform.Rotate(0, Input.GetAxis("Horizontal") * scaledRotate, 0);
 		transform.position = transform.position + (transform.rotation * movement);
 		
-		if (mRigidbody)
+		if (_Rigidbody)
 		{
-			mRigidbody.angularVelocity = Vector3.zero;
+			_Rigidbody.angularVelocity = Vector3.zero;
 		}
 	}
 	

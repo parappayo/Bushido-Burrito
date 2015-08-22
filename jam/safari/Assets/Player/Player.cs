@@ -9,12 +9,6 @@ public class Player : MonoBehaviour {
 
 	public GameObject Rifle;
 
-	public void Reset()
-	{
-		transform.position = StartingPosition;
-		transform.rotation = StartingRotation;
-	}
-
 	public void StartAct1()
 	{
 		StartingPosition = transform.position;
@@ -27,7 +21,8 @@ public class Player : MonoBehaviour {
 
 	public void StartAct2()
 	{
-		Reset();
+		transform.position = StartingPosition;
+		transform.rotation = StartingRotation;
 		Rifle.SetActive(false);
 		Shoot.enabled = false;
 	}
