@@ -14,7 +14,7 @@ public class Lion : MonoBehaviour {
 		private set;
 	}
 
-	public void Start()
+	public void Awake()
 	{
 		_Rigidbody = GetComponent<Rigidbody>();
 		StartingPosition = transform.position;

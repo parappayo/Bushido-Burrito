@@ -9,11 +9,17 @@ public class Player : MonoBehaviour {
 
 	public GameObject Rifle;
 
-	public void StartAct1()
+	public void Awake()
 	{
 		StartingPosition = transform.position;
 		StartingRotation = transform.rotation;
 		Shoot = GetComponent<PlayerShoot>();
+	}
+
+	public void StartAct1()
+	{
+		transform.position = StartingPosition;
+		transform.rotation = StartingRotation;
 
 		Rifle.SetActive(true);
 		Shoot.enabled = true;
@@ -23,7 +29,11 @@ public class Player : MonoBehaviour {
 	{
 		transform.position = StartingPosition;
 		transform.rotation = StartingRotation;
+
 		Rifle.SetActive(false);
-		Shoot.enabled = false;
+		if (Shoot != null)
+		{
+			Shoot.enabled = false;
+		}
 	}
 }
