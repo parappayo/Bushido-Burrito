@@ -47,10 +47,6 @@ public class Act1Logic : MonoBehaviour {
 		switch (_Flow.State)
 		{
 			case Flow.eState.INTRO:
-				GUI.Label(
-					new Rect(Screen.width * 0.2f, Screen.height * 0.3f, Screen.width * 0.6f, Screen.height * 0.3f),
-					"SAFARI",
-					TextStyle);
 				if (_Flow.StateTimer >= 3f)
 				{
 					_Flow.State = Flow.eState.NORMAL;
@@ -66,14 +62,30 @@ public class Act1Logic : MonoBehaviour {
 				break;
 
 			case Flow.eState.OUTRO:
-				GUI.Label(
-					new Rect(Screen.width * 0.2f, Screen.height * 0.3f, Screen.width * 0.6f, Screen.height * 0.3f),
-					"BEGIN ACT 2",
-					TextStyle);
 				if (_Flow.StateTimer >= 3f)
 				{
 					_Flow.State = Flow.eState.IDLE;
 				}
+				break;
+		}
+	}
+
+	void OnGUI()
+	{
+		switch (_Flow.State)
+		{
+			case Flow.eState.INTRO:
+				GUI.Label(
+					new Rect(Screen.width * 0.2f, Screen.height * 0.3f, Screen.width * 0.6f, Screen.height * 0.3f),
+					"SAFARI",
+					TextStyle);
+				break;
+
+			case Flow.eState.OUTRO:
+				GUI.Label(
+					new Rect(Screen.width * 0.2f, Screen.height * 0.3f, Screen.width * 0.6f, Screen.height * 0.3f),
+					"BEGIN ACT 2",
+					TextStyle);
 				break;
 		}
 	}
