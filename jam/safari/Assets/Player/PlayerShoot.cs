@@ -3,6 +3,7 @@ using System.Collections;
 
 public class PlayerShoot : MonoBehaviour {
 	
+	public GameObject ShotTakenMessageReciever;
 	public ParticleSystem FireFX;
 	public float ShootRefreshTime = 0.2f;
 
@@ -43,6 +44,11 @@ public class PlayerShoot : MonoBehaviour {
 			{
 				hitObject.transform.parent.gameObject.SendMessage("OnShotByPlayer", hit);
 			}
+		}
+
+		if (ShotTakenMessageReciever != null)
+		{
+			ShotTakenMessageReciever.SendMessage("ShotTaken");
 		}
 	}
 	

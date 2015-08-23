@@ -78,6 +78,15 @@ public class Act1Logic : MonoBehaviour {
 				}
 				break;
 		}
+
+		if (TheLion != null && ThePlayer != null)
+		{
+			Vector3 distance = TheLion.transform.position - ThePlayer.transform.position;
+			if (distance.sqrMagnitude < 100f)
+			{
+				SpookLion();
+			}
+		}
 	}
 
 	private float CaptionAlpha
@@ -150,5 +159,23 @@ public class Act1Logic : MonoBehaviour {
 	private void OnExitState(Flow flow, Flow.eState oldState, Flow.eState newState)
 	{
 
+	}
+
+	public void SpookLion()
+	{
+		if (TheLion != null && ThePlayer != null)
+		{
+			Vector3 spookedDirection = TheLion.transform.position - ThePlayer.transform.position;
+			spookedDirection.y = 0f;
+			spookedDirection.Normalize();
+
+			TheLion.SpookedDirection = spookedDirection;
+			TheLion.HasBeenSpooked = true;
+		}
+	}
+
+	public void ShotTaken()
+	{
+		SpookLion();
 	}
 }
