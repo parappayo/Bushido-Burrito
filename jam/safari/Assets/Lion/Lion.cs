@@ -29,6 +29,7 @@ public class Lion : MonoBehaviour {
 
 		if (_Rigidbody != null)
 		{
+			_Rigidbody.velocity = Vector3.zero;
 			_Rigidbody.angularVelocity = Vector3.zero;
 		}
 	}
