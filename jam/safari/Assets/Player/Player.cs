@@ -16,6 +16,16 @@ public class Player : MonoBehaviour {
 		Shoot = GetComponent<PlayerShoot>();
 	}
 
+	public void Update()
+	{
+		// fall through the world catch
+		if (transform.position.y < -10f)
+		{
+			transform.position = StartingPosition;
+			transform.rotation = StartingRotation;
+		}
+	}
+
 	public void StartAct1()
 	{
 		transform.position = StartingPosition;
