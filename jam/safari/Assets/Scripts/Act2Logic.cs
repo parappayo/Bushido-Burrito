@@ -5,9 +5,10 @@ public class Act2Logic : MonoBehaviour {
 
 	public GameObject Act1;
 	public Player ThePlayer;
-	public float IntroCaptionTimeout = 3.5f;
-	public float OutroCaptionTimeout = 3.5f;
+	public float IntroCaptionTimeout = 5f;
+	public float OutroCaptionTimeout = 5f;
 	public GUIStyle TextStyle;
+	public SpriteRenderer CameraCurtain;
 
 	private Flow _Flow;
 
@@ -65,15 +66,22 @@ public class Act2Logic : MonoBehaviour {
 
 	private float CaptionAlpha
 	{
-		get
-		{
-			return TextStyle.normal.textColor.a;
-		}
 		set
 		{
 			Color c = TextStyle.normal.textColor;
 			c.a = value;
 			TextStyle.normal.textColor = c;
+		}
+	}
+
+	private float CameraCurtainAlpha
+	{
+		set
+		{
+			if (CameraCurtain == null) { return; }
+			Color c = CameraCurtain.color;
+			c.a = value;
+			CameraCurtain.color = c;
 		}
 	}
 
@@ -83,6 +91,7 @@ public class Act2Logic : MonoBehaviour {
 		{
 			case Flow.eState.INTRO:
 				CaptionAlpha = Mathf.Clamp01(IntroCaptionTimeout * (IntroCaptionTimeout - _Flow.StateTimer) / IntroCaptionTimeout);
+				CameraCurtainAlpha = Mathf.Clamp01((IntroCaptionTimeout - _Flow.StateTimer) / IntroCaptionTimeout);
 				GUI.Label(
 					new Rect(Screen.width * 0.2f, Screen.height * 0.3f, Screen.width * 0.6f, Screen.height * 0.3f),
 					"AT THE OFFICE",
@@ -95,6 +104,14 @@ public class Act2Logic : MonoBehaviour {
 	{
 		switch (newState)
 		{
+			case Flow.eState.INTRO:
+				CameraCurtainAlpha = 1f;
+				break;
+
+			case Flow.eState.NORMAL:
+				CameraCurtainAlpha = 0f;
+				break;
+
 			case Flow.eState.IDLE:
 				gameObject.SetActive(false);
 				break;

@@ -6,9 +6,10 @@ public class Act1Logic : MonoBehaviour {
 	public GameObject Act2;
 	public Player ThePlayer;
 	public Lion TheLion;
-	public float IntroCaptionTimeout = 3.5f;
-	public float OutroCaptionTimeout = 3.5f;
+	public float IntroCaptionTimeout = 5f;
+	public float OutroCaptionTimeout = 5f;
 	public GUIStyle TextStyle;
+	public SpriteRenderer CameraCurtain;
 
 	private Flow _Flow;
 
@@ -18,6 +19,8 @@ public class Act1Logic : MonoBehaviour {
 		_Flow.OnEnterState += new StateChangedHandler(OnEnterState);
 		_Flow.OnExitState += new StateChangedHandler(OnExitState);
 		_Flow.State = Flow.eState.INTRO;
+
+		CameraCurtainAlpha = 1f;
 
 		if (Act2 != null)
 		{
@@ -91,12 +94,24 @@ public class Act1Logic : MonoBehaviour {
 		}
 	}
 
+	private float CameraCurtainAlpha
+	{
+		set
+		{
+			if (CameraCurtain == null) { return; }
+			Color c = CameraCurtain.color;
+			c.a = value;
+			CameraCurtain.color = c;
+		}
+	}
+
 	void OnGUI()
 	{
 		switch (_Flow.State)
 		{
 			case Flow.eState.INTRO:
 				CaptionAlpha = Mathf.Clamp01(IntroCaptionTimeout * (IntroCaptionTimeout - _Flow.StateTimer) / IntroCaptionTimeout);
+				CameraCurtainAlpha = Mathf.Clamp01((IntroCaptionTimeout - _Flow.StateTimer) / IntroCaptionTimeout);
 				GUI.Label(
 					new Rect(Screen.width * 0.2f, Screen.height * 0.3f, Screen.width * 0.6f, Screen.height * 0.3f),
 					"SAFARI",
@@ -104,7 +119,9 @@ public class Act1Logic : MonoBehaviour {
 				break;
 
 			case Flow.eState.OUTRO:
-				CaptionAlpha = Mathf.Clamp01(OutroCaptionTimeout * (OutroCaptionTimeout - _Flow.StateTimer) / OutroCaptionTimeout);
+				float a = Mathf.Clamp01(OutroCaptionTimeout * (OutroCaptionTimeout - _Flow.StateTimer) / OutroCaptionTimeout);
+				CaptionAlpha = a;
+				CameraCurtainAlpha = Mathf.Clamp01(1f - a);
 				GUI.Label(
 					new Rect(Screen.width * 0.2f, Screen.height * 0.3f, Screen.width * 0.6f, Screen.height * 0.3f),
 					"NICE KILL",
@@ -117,6 +134,13 @@ public class Act1Logic : MonoBehaviour {
 	{
 		switch (newState)
 		{
+			case Flow.eState.INTRO:
+				CameraCurtainAlpha = 1f;
+				break;
+
+			case Flow.eState.NORMAL:
+				CameraCurtainAlpha = 0f;
+				break;
 			case Flow.eState.IDLE:
 				gameObject.SetActive(false);
 				break;
