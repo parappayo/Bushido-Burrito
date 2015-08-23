@@ -13,6 +13,25 @@ public class ComputerDesk : MonoBehaviour {
 	private bool _ShowMail;
 	private float _MailTimer;
 
+	public float TimeSpentReadingMail
+	{
+		get;
+		private set;
+	}
+
+	void OnEnabled()
+	{
+		TimeSpentReadingMail = 0f;
+	}
+
+	void Update()
+	{
+		if (_ShowMail)
+		{
+			TimeSpentReadingMail += Time.deltaTime;
+		}
+	}
+
 	void OnGUI()
 	{
 		_MailTimer += Time.deltaTime;

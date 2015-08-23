@@ -121,7 +121,7 @@ public class Act1Logic : MonoBehaviour {
 			case Flow.eState.OUTRO:
 				float a = Mathf.Clamp01(OutroCaptionTimeout * (OutroCaptionTimeout - _Flow.StateTimer) / OutroCaptionTimeout);
 				CaptionAlpha = a;
-				CameraCurtainAlpha = Mathf.Clamp01(1f - a);
+				CameraCurtainAlpha = 1f - a;
 				GUI.Label(
 					new Rect(Screen.width * 0.2f, Screen.height * 0.3f, Screen.width * 0.6f, Screen.height * 0.3f),
 					"NICE KILL",

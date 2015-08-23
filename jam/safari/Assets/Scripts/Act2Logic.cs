@@ -5,6 +5,7 @@ public class Act2Logic : MonoBehaviour {
 
 	public GameObject Act1;
 	public Player ThePlayer;
+	public ComputerDesk TheComputer;
 	public float IntroCaptionTimeout = 5f;
 	public float OutroCaptionTimeout = 5f;
 	public GUIStyle TextStyle;
@@ -55,6 +56,16 @@ public class Act2Logic : MonoBehaviour {
 				}
 				break;
 
+			case Flow.eState.NORMAL:
+				if (TheComputer != null)
+				{
+					if (TheComputer.TimeSpentReadingMail > 5f)
+					{
+						_Flow.State = Flow.eState.OUTRO;
+					}
+				}
+				break;
+
 			case Flow.eState.OUTRO:
 				if (_Flow.StateTimer >= OutroCaptionTimeout)
 				{
@@ -95,6 +106,16 @@ public class Act2Logic : MonoBehaviour {
 				GUI.Label(
 					new Rect(Screen.width * 0.2f, Screen.height * 0.3f, Screen.width * 0.6f, Screen.height * 0.3f),
 					"AT THE OFFICE",
+					TextStyle);
+				break;
+
+			case Flow.eState.OUTRO:
+				float a = Mathf.Clamp01((OutroCaptionTimeout - _Flow.StateTimer) / OutroCaptionTimeout);
+				CaptionAlpha = 1f - a;
+				CameraCurtainAlpha = 1f - a;
+				GUI.Label(
+					new Rect(Screen.width * 0.2f, Screen.height * 0.3f, Screen.width * 0.6f, Screen.height * 0.3f),
+					"YOU ARE THE MONSTER",
 					TextStyle);
 				break;
 		}
