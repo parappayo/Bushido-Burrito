@@ -41,7 +41,7 @@ public class PlayerShoot : MonoBehaviour {
 			GameObject hitObject = hit.collider.gameObject;
 			if (hitObject.CompareTag("Enemy"))
 			{
-				hitObject.transform.parent.gameObject.SendMessage("OnShotByPlayer", hit.point);
+				hitObject.transform.parent.gameObject.SendMessage("OnShotByPlayer", hit);
 			}
 		}
 	}

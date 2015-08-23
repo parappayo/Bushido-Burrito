@@ -33,14 +33,24 @@ public class Lion : MonoBehaviour {
 		}
 	}
 
-	public void OnShotByPlayer(Vector3 hitPoint)
+	public void OnShotByPlayer(RaycastHit hit)
 	{
 		HasBeenShot = true;
 
 		if (BloodSplatFX != null)
 		{
-			BloodSplatFX.transform.position = hitPoint;
+			BloodSplatFX.transform.position = hit.point;
+			BloodSplatFX.transform.forward = hit.normal;
 			BloodSplatFX.Play();
+		}
+
+		if (_Rigidbody != null)
+		{
+			// we cheat a little and assume the shot came from the camera facing
+			Vector3 impactVector = (Camera.main.transform.forward + transform.up);
+
+			_Rigidbody.AddForce(impactVector * 50f, ForceMode.Impulse);
+			_Rigidbody.AddTorque(impactVector * 200f, ForceMode.Impulse);
 		}
 	}
 }
