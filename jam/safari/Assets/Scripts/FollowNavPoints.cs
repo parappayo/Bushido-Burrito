@@ -10,6 +10,12 @@ public class FollowNavPoints : MonoBehaviour {
 	private int _NavPointIndex;
 	private GameObject _CurrentNavPoint;
 
+	public void ResetToFirstNavPoint()
+	{
+		_NavPointIndex = 0;
+		NextNavPoint();
+	}
+
 	void OnEnable()
 	{
 		if (!_CurrentNavPoint)

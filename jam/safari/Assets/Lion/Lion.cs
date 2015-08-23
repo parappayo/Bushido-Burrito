@@ -57,7 +57,7 @@ public class Lion : MonoBehaviour {
 	public float SpookedSpeed = 0.3f;
 	public Vector3 SpookedDirection;
 
-	public void Awake()
+	private void Awake()
 	{
 		_FollowNavPoints = GetComponent<FollowNavPoints>();
 		_Rigidbody = GetComponent<Rigidbody>();
@@ -66,7 +66,7 @@ public class Lion : MonoBehaviour {
 		HasBeenSpooked = false;
 	}
 
-	public void Update()
+	private void Update()
 	{
 		if (HasBeenShot)
 		{
@@ -96,7 +96,7 @@ public class Lion : MonoBehaviour {
 		}
 	}
 
-	public void Reset()
+	private void OnEnable()
 	{
 		HasBeenShot = false;
 		transform.position = StartingPosition;
@@ -113,6 +113,7 @@ public class Lion : MonoBehaviour {
 
 		if (_FollowNavPoints != null)
 		{
+			_FollowNavPoints.ResetToFirstNavPoint();
 			_FollowNavPoints.enabled = true;
 		}
 	}

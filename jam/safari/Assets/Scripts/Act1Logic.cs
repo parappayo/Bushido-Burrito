@@ -39,11 +39,6 @@ public class Act1Logic : MonoBehaviour {
 		_Flow.OnEnterState -= new StateChangedHandler(OnEnterState);
 		_Flow.OnExitState -= new StateChangedHandler(OnExitState);
 
-		if (TheLion != null)
-		{
-			TheLion.Reset();
-		}
-
 		if (Act2 != null)
 		{
 			Act2.SetActive(true);
