@@ -19,9 +19,10 @@ public class ComputerDesk : MonoBehaviour {
 		private set;
 	}
 
-	void OnEnabled()
+	void OnEnable()
 	{
 		TimeSpentReadingMail = 0f;
+		_ShowMail = false;
 	}
 
 	void Update()
