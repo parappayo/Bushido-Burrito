@@ -3,10 +3,12 @@ using System.Collections;
 
 public class Lion : MonoBehaviour {
 
+	public ParticleSystem BloodSplatFX;
+
+	private FollowNavPoints _FollowNavPoints;
 	private Rigidbody _Rigidbody;
 	private Vector3 StartingPosition;
 	private Quaternion StartingRotation;
-	public ParticleSystem BloodSplatFX;
 
 	public bool HasBeenShot
 	{
@@ -16,6 +18,7 @@ public class Lion : MonoBehaviour {
 
 	public void Awake()
 	{
+		_FollowNavPoints = GetComponent<FollowNavPoints>();
 		_Rigidbody = GetComponent<Rigidbody>();
 		StartingPosition = transform.position;
 		StartingRotation = transform.rotation;
@@ -31,12 +34,23 @@ public class Lion : MonoBehaviour {
 		{
 			_Rigidbody.velocity = Vector3.zero;
 			_Rigidbody.angularVelocity = Vector3.zero;
+			_Rigidbody.constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationZ;
+		}
+
+		if (_FollowNavPoints != null)
+		{
+			_FollowNavPoints.enabled = true;
 		}
 	}
 
 	public void OnShotByPlayer(RaycastHit hit)
 	{
 		HasBeenShot = true;
+
+		if (_FollowNavPoints != null)
+		{
+			_FollowNavPoints.enabled = false;
+		}
 
 		if (BloodSplatFX != null)
 		{
@@ -47,6 +61,8 @@ public class Lion : MonoBehaviour {
 
 		if (_Rigidbody != null)
 		{
+			_Rigidbody.constraints = RigidbodyConstraints.None;
+
 			// we cheat a little and assume the shot came from the camera facing
 			Vector3 impactVector = (Camera.main.transform.forward + transform.up);
 
