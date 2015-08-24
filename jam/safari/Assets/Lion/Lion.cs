@@ -88,7 +88,7 @@ public class Lion : MonoBehaviour {
 				}
 				else
 				{
-					transform.position = transform.position + (SpookedDirection.normalized * SpookedSpeed);
+					transform.position = transform.position + (SpookedDirection.normalized * SpookedSpeed * Time.deltaTime);
 					Quaternion lookRotation = Quaternion.LookRotation(SpookedDirection);
 					transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, 1.5f * Time.deltaTime);
 				}
