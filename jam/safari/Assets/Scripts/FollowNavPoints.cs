@@ -34,7 +34,7 @@ public class FollowNavPoints : MonoBehaviour {
 		if (!_CurrentNavPoint) { return; }
 
 		Vector3 dir = _CurrentNavPoint.transform.position - transform.position;
-		Vector3 newPosition = transform.position + (dir.normalized * Speed);
+		Vector3 newPosition = transform.position + (dir.normalized * Speed * Time.deltaTime);
 		//transform.position = Vector3.Lerp(transform.position, newPosition, SmoothingFactor * Time.deltaTime);
 		transform.position = newPosition;
 
