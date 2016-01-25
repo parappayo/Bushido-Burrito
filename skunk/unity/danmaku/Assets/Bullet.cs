@@ -4,6 +4,7 @@ using UnityEngine;
 public class Bullet : MonoBehaviour
 {
 	public Vector3 Velocity;
+	public bool UseLocalVelocity = true;
 	public float Lifetime = 5f;
 
 	private float LifeTimer = 0f;
@@ -16,7 +17,14 @@ public class Bullet : MonoBehaviour
 			Despawn();
 		}
 
-		transform.position += Velocity * Time.deltaTime;
+		if (UseLocalVelocity)
+		{
+			transform.localPosition += Velocity * Time.deltaTime;
+		}
+		else
+		{
+			transform.position += Velocity * Time.deltaTime;
+		}
 	}
 
 	private void Despawn()
