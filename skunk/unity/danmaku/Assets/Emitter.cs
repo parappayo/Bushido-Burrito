@@ -4,28 +4,31 @@ using UnityEngine;
 public class Emitter : MonoBehaviour
 {
 	public GameObject Spawnable;
-	public float SpawnPeriod = 0.5f;
-	public float TimeScale = 1f;
-	public float VelocityScale = 1f;
 	public bool UseAsSpawnParent = true;
+
+	public float TriggerTimeScale = 1f;
+
+	public float VelocityTimeScale = 1f;
+	public float VelocityScale = 1f;
 	public Vector3 Acceleration = Vector3.zero;
 	public float AccelerationInIntialVelocityDirection = 0f;
 
 	public delegate Vector3 VelocityDelegate(float t);
 	public VelocityDelegate VelocityFunction;
 
-	private float SpawnTimer = 0f;
+	public delegate bool TriggerDelegate(float t);
+	public TriggerDelegate TriggerFunction;
+
 	private float EmitterAge = 0f;
 
 	private void Update()
 	{
 		EmitterAge += Time.deltaTime;
 
-		SpawnTimer -= Time.deltaTime;
-		if (SpawnTimer <= 0f)
+		if (TriggerFunction != null &&
+			TriggerFunction(Time.deltaTime * TriggerTimeScale))
 		{
 			Spawn();
-			SpawnTimer = SpawnPeriod;
 		}
 	}
 
@@ -45,7 +48,7 @@ public class Emitter : MonoBehaviour
 		}
 
 		Bullet bullet = spawnObject.GetComponent<Bullet>();
-		bullet.Velocity = VelocityFunction(EmitterAge * TimeScale) * VelocityScale;
+		bullet.Velocity = VelocityFunction(EmitterAge * VelocityTimeScale) * VelocityScale;
 
 		bullet.Acceleration = Acceleration + bullet.Velocity * AccelerationInIntialVelocityDirection;
 	}
