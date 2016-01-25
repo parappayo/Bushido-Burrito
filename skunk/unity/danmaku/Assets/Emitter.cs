@@ -8,6 +8,8 @@ public class Emitter : MonoBehaviour
 	public float TimeScale = 1f;
 	public float VelocityScale = 1f;
 	public bool UseAsSpawnParent = true;
+	public Vector3 Acceleration = Vector3.zero;
+	public float AccelerationInIntialVelocityDirection = 0f;
 
 	public delegate Vector3 VelocityDelegate(float t);
 	public VelocityDelegate VelocityFunction;
@@ -36,6 +38,7 @@ public class Emitter : MonoBehaviour
 
 		// TODO: pool bullets
 		GameObject spawnObject = Instantiate(Spawnable);
+		spawnObject.transform.position = transform.position;
 		if (UseAsSpawnParent)
 		{
 			spawnObject.transform.parent = transform;
@@ -43,5 +46,7 @@ public class Emitter : MonoBehaviour
 
 		Bullet bullet = spawnObject.GetComponent<Bullet>();
 		bullet.Velocity = VelocityFunction(EmitterAge * TimeScale) * VelocityScale;
+
+		bullet.Acceleration = Acceleration + bullet.Velocity * AccelerationInIntialVelocityDirection;
 	}
 }

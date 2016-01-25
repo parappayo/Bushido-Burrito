@@ -3,7 +3,8 @@ using UnityEngine;
 
 public class Bullet : MonoBehaviour
 {
-	public Vector3 Velocity;
+	public Vector3 Velocity = Vector3.zero;
+	public Vector3 Acceleration = Vector3.zero;
 	public bool UseLocalVelocity = true;
 	public float Lifetime = 5f;
 
@@ -16,6 +17,8 @@ public class Bullet : MonoBehaviour
 		{
 			Despawn();
 		}
+
+		Velocity += Acceleration * Time.deltaTime;
 
 		if (UseLocalVelocity)
 		{
