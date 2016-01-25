@@ -13,7 +13,7 @@ public class Sway : MonoBehaviour
 	{
 		LifeTimer += Time.deltaTime;
 
-		Vector3 offset = Magnitude * (Mathf.Sin(LifeTimer) * Speed);
+		Vector3 offset = Magnitude * Mathf.Sin(LifeTimer * Speed);
 		transform.position = transform.position + (offset - PreviousOffset);
 		PreviousOffset = offset;
 	}
