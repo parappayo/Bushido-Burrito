@@ -1,7 +1,7 @@
 ﻿
 using UnityEngine;
 
-public class PeriodicEmitter : MonoBehaviour
+public class PeriodicTrigger : MonoBehaviour
 {
 	public float Period = 0.5f;
 

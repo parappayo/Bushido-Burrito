@@ -1,7 +1,7 @@
 ﻿
 using UnityEngine;
 
-public class StraightEmitter : MonoBehaviour
+public class StraightPath : MonoBehaviour
 {
 	public Vector3 Direction = new Vector3(0f, -1f, 0f);
 

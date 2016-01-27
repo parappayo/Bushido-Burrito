@@ -1,7 +1,7 @@
 ﻿
 using UnityEngine;
 
-public class BurstEmitter : MonoBehaviour
+public class BurstTrigger : MonoBehaviour
 {
 	public float Period = 0.5f;
 	public uint BurstSize = 3;

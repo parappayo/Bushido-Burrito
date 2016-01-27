@@ -1,11 +1,11 @@
 ﻿
 using UnityEngine;
 
-public class WaveEmitter : MonoBehaviour
+public class SpiralPath : MonoBehaviour
 {
 	private Vector3 Velocity(float t)
 	{
-		return new Vector3(Mathf.Sin(t), -1f, 0f);
+		return new Vector3(Mathf.Sin(t), Mathf.Cos(t), 0f);
 	}
 
 	private void Start()
