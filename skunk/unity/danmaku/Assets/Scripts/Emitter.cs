@@ -21,7 +21,7 @@ public class Emitter : MonoBehaviour
 
 	private float EmitterAge = 0f;
 
-	private void Update()
+	private void FixedUpdate()
 	{
 		EmitterAge += Time.deltaTime;
 

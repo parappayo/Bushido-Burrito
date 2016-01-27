@@ -3,6 +3,7 @@ using UnityEngine;
 
 public class Bullet : MonoBehaviour
 {
+	// TODO: position, velocity, and acceleration should use fixed point math
 	public Vector3 Velocity = Vector3.zero;
 	public Vector3 Acceleration = Vector3.zero;
 	public bool UseLocalVelocity = true;
@@ -10,7 +11,7 @@ public class Bullet : MonoBehaviour
 
 	private float LifeTimer = 0f;
 
-	private void Update()
+	private void FixedUpdate()
 	{
 		LifeTimer += Time.deltaTime;
 		if (LifeTimer > Lifetime)

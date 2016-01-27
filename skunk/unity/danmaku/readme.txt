@@ -4,8 +4,7 @@ Danmaku Sandbox Testing
 Just some modules, getting a feel for how to put together danmaku patterns in a flexible, Unity-centric way.
 
 TODO:
-- switch to using FixedUpdate, need bullet behaviours to be more deterministic
-- need a naming sceme to distinguish motion behaviours from trigger behaviours
+- switch to using fixed point physics, need bullet behaviours to be more deterministic
 - component active / deactivate timeline script
-- collision detection system
+- collision detection system (trigger spheres)
 - level loading and unloading
