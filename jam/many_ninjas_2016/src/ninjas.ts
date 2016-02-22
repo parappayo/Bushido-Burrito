@@ -23,12 +23,15 @@ class ManyNinjas {
 		var style = { font: "32px Arial", fill: "white" };
 		this.game.add.text(10, 10, "Testing Text", style);
 
-		var ninja = this.game.add.sprite(50, 50, "sprites", "ninja1.png");
+		var ninja = this.game.add.sprite(50, 50, "sprites");
+		ninja.animations.add("walk", Phaser.Animation.generateFrameNames("ninja", 1, 2, ".png"));
+
 		ninja.texture.baseTexture.scaleMode = PIXI.scaleModes.NEAREST;
 		ninja.scale.setTo(3, 3);
 
-		//ninja.animations.add("walk", Phaser.Animation.generateFrameNames("ninja", 1, 2, ".png"));
-		//ninja.animations.play("walk");
+		var fps = 6;
+		var loop = true;
+		ninja.animations.play("walk", fps, loop);
 	}
 
 } // class ManyNinjas
