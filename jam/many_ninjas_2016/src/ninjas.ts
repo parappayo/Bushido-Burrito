@@ -8,7 +8,7 @@ class ManyNinjas {
 	HEIGHT :number = 600;
 
 	constructor() {
-		this.game = new Phaser.Game(this.WIDTH, this.HEIGHT, Phaser.AUTO, 'game',
+		this.game = new Phaser.Game(this.WIDTH, this.HEIGHT, Phaser.AUTO, "game",
 		{
 			preload: this.preload,
 			create: this.create
@@ -16,12 +16,19 @@ class ManyNinjas {
 	}
 
 	preload() {
-		// load any sprite assets, etc. here
+		this.game.load.atlasJSONHash("sprites", "atlases/sprites.png", "atlases/sprites.json");
 	}
 
 	create() {
 		var style = { font: "32px Arial", fill: "white" };
 		this.game.add.text(10, 10, "Testing Text", style);
+
+		var ninja = this.game.add.sprite(50, 50, "sprites", "ninja1.png");
+		ninja.texture.baseTexture.scaleMode = PIXI.scaleModes.NEAREST;
+		ninja.scale.setTo(3, 3);
+
+		//ninja.animations.add("walk", Phaser.Animation.generateFrameNames("ninja", 1, 2, ".png"));
+		//ninja.animations.play("walk");
 	}
 
 } // class ManyNinjas
