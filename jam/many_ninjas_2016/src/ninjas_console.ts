@@ -1,17 +1,19 @@
 
 /// <reference path="../lib/node.d.ts" />
+/// <reference path="sim.ts" />
 
 import readline = require("readline");
+import sim = require("./sim");
 
 interface MenuCommandHandler
 {
-	() : void;
+	() :void;
 }
 
 interface MenuOption
 {
-	caption : string,
-	handler : MenuCommandHandler
+	caption :string,
+	handler :MenuCommandHandler
 }
 
 class Menu
@@ -31,24 +33,27 @@ class Menu
 		return command in this.options;
 	}
 
-	handleCommand(command : string)
+	handleCommand(command :string)
 	{
 		this.options[command].handler();
 	}
 }
 
-function tickSim()
+function printTickReport(gameSim :sim.Sim)
 {
-	console.log("should tick sim here");
+	console.log("total pop: " + sim.Settlement.all[0].population.total());
 }
 
 function main()
 {
-	var menu : Menu = new Menu();
+	var gameSim :sim.Sim = new sim.Sim();
+	var settlement :sim.Settlement = new sim.Settlement();
+
+	var menu :Menu = new Menu();
 	menu.options = {
 		"t" : {
 			caption: "(t)ick sim",
-			handler: tickSim 
+			handler: () => { gameSim.tick(); printTickReport(gameSim); }
 		},
 		"q" : {
 			caption: "(q)uit",
@@ -66,7 +71,7 @@ function main()
 	rl.prompt();
 
 	rl.on("line", line => {
-		var command : string = line.trim();
+		var command :string = line.trim();
 		if (command.length < 1) {
 			// do nothing, just re-prompt
 		} else if (menu.hasCommand(command)) {

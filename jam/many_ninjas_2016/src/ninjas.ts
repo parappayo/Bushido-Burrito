@@ -1,5 +1,8 @@
 
 /// <reference path="../lib/phaser.d.ts" />
+/// <reference path="sim.ts" />
+
+import sim = require("./sim");
 
 class ManyNinjas {
 
