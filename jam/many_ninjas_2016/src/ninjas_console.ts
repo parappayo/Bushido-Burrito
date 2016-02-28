@@ -41,13 +41,13 @@ class Menu
 
 function printTickReport(gameSim :sim.Sim)
 {
-	console.log("total pop: " + sim.Settlement.all[0].population.total());
+	console.log("total pop: " + gameSim.settlements[0].population.total());
 }
 
 function main()
 {
 	var gameSim :sim.Sim = new sim.Sim();
-	var settlement :sim.Settlement = new sim.Settlement();
+	var settlement = gameSim.spawnSettlement();
 
 	var menu :Menu = new Menu();
 	menu.options = {

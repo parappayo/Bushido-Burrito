@@ -32,14 +32,7 @@ export class Population
 
 export class Settlement
 {
-	static all :Array<Settlement> = [];
-
 	population :Population = new Population();
-
-	constructor()
-	{
-		Settlement.all.push(this);
-	}
 
 	tick()
 	{
@@ -49,9 +42,18 @@ export class Settlement
 
 export class Sim
 {
+	settlements :Array<Settlement> = [];
+
+	spawnSettlement() :Settlement
+	{
+		var settlement = new Settlement();
+		this.settlements.push(settlement);
+		return settlement;
+	}
+
 	tick()
 	{
-		for (var settlement of Settlement.all) {
+		for (var settlement of this.settlements) {
 			settlement.tick();
 		}
 	}
