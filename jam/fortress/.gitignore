@@ -1,0 +1,6 @@
+# for FlashDevelop projects
+obj
+web/*.swf
+
+# for Sublime Text users
+*.sublime-workspace

@@ -10,6 +10,7 @@
 
 <chapter id="1" title="Act I">
 <scene id="1" location="Elsinore. A platform before the castle.">
+	<cue type="enter" actor="BERNARDO" align="left" />
 	<line speaker="BERNARDO">Who's there?</line>
 	<line speaker="FRANCISCO">Nay, answer me: stand, and unfold yourself.</line>
 	<line speaker="BERNARDO">Long live the king!</line>

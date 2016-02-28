@@ -1,4 +1,19 @@
 
+export class ActionTimer
+{
+	duration :number;
+	elapsed :number;
+
+	start(duration :number) {
+		this.duration = duration;
+		this.elapsed = 0;
+	}
+
+	progress() :number {
+		return Math.min(this.duration / this.elapsed, 1.0);	
+	}
+}
+
 export class Population
 {
 	static NUM_RANKS :number = 12;
