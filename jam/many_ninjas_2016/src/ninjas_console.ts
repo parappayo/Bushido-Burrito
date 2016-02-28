@@ -18,10 +18,34 @@ interface MenuOption
 
 class Menu
 {
+	private _prompt :string = ">";
 	public options = {};
+
+	private parent :Menu;
+	private activeSubMenu :Menu;
+
+	constructor(prompt? :string)
+	{
+		if (prompt) {
+			this._prompt = prompt;
+		}
+	}
+
+	prompt() :string
+	{
+		if (this.activeSubMenu != null) {
+			return this.activeSubMenu.prompt();
+		}
+		return this._prompt;
+	}
 
 	print()
 	{
+		if (this.activeSubMenu != null) {
+			this.activeSubMenu.print();
+			return;
+		}
+
 		for (var key in this.options) {
 			var menuOption :MenuOption = this.options[key];
 			console.log(menuOption.caption);
@@ -30,12 +54,34 @@ class Menu
 
 	hasCommand(command :string) :boolean
 	{
+		if (this.activeSubMenu != null) {
+			return this.activeSubMenu.hasCommand(command);
+		}
+
 		return command in this.options;
 	}
 
 	handleCommand(command :string)
 	{
+		if (this.activeSubMenu != null) {
+			return this.activeSubMenu.handleCommand(command);
+		}
+
 		this.options[command].handler();
+	}
+
+	enterSubMenu(subMenu :Menu)
+	{
+		subMenu.parent = this;
+		this.activeSubMenu = subMenu;
+	}
+
+	exit()
+	{
+		if (this.parent != null &&
+			this.parent.activeSubMenu == this) {
+			this.parent.activeSubMenu = null;
+		}
 	}
 }
 
@@ -49,8 +95,56 @@ function main()
 	var gameSim :sim.Sim = new sim.Sim();
 	var settlement = gameSim.spawnSettlement();
 
-	var menu :Menu = new Menu();
-	menu.options = {
+	var barracksMenu :Menu = new Menu("barracks>");
+	barracksMenu.options = {
+		"c" : {
+			caption: "(c)ook",
+			handler: () => {
+				var barracks = gameSim.settlements[0].barracks;
+				if (barracks.isIdle()) {
+					barracks.cook();
+					console.log("started cooking");
+				} else {
+					console.log("barracks is busy");
+				}
+			}
+		},
+		"x" : {
+			caption: "e(x)it",
+			handler: () => { barracksMenu.exit(); }
+		}
+	};
+
+	var farmMenu :Menu = new Menu("farm>");
+	farmMenu.options = {
+		"h" : {
+			caption: "(h)arvest",
+			handler: () => {
+				var farm = gameSim.settlements[0].farm;
+				if (farm.isIdle()) {
+					farm.harvest();
+					console.log("started harvest");
+				} else {
+					console.log("farm is busy");
+				}
+			}
+		},
+		"x" : {
+			caption: "e(x)it",
+			handler: () => { farmMenu.exit(); }
+		}
+	};
+
+	var mainMenu :Menu = new Menu("main>");
+	mainMenu.options = {
+		"b" : {
+			caption: "(b)arracks",
+			handler: () => { mainMenu.enterSubMenu(barracksMenu); }
+		},
+		"f" : {
+			caption: "(f)arm",
+			handler: () => { mainMenu.enterSubMenu(farmMenu); }
+		},
 		"t" : {
 			caption: "(t)ick sim",
 			handler: () => { gameSim.tick(); printTickReport(gameSim); }
@@ -66,20 +160,22 @@ function main()
 		output: process.stdout
 	});
 
-	rl.setPrompt(">");
-	menu.print();
+	rl.setPrompt(mainMenu.prompt());
+	mainMenu.print();
 	rl.prompt();
 
 	rl.on("line", line => {
 		var command :string = line.trim();
 		if (command.length < 1) {
 			// do nothing, just re-prompt
-		} else if (menu.hasCommand(command)) {
-			menu.handleCommand(command);
+		} else if (mainMenu.hasCommand(command)) {
+			mainMenu.handleCommand(command);
 		} else {
 			console.log("unrecognized command: " + command);
 		}
-		menu.print();
+		console.log("");
+		mainMenu.print();
+		rl.setPrompt(mainMenu.prompt());
 		rl.prompt();
 	}).on("close", () => {
 		process.exit(0);
