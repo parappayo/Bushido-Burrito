@@ -87,9 +87,7 @@ tests = [
 
 def test():
 	"""Exercise the soundex.encode method with a set of test cases."""
-	for test in tests:
-		source = test[0]
-		expected = test[1]
+	for (source, expected) in tests:
 		result = encode(source)
 		if result != expected:
 			print("failed %s: expected %s but got %s" % (source, expected, result))
