@@ -96,8 +96,8 @@ function printReport(gameSim :sim.Sim)
 	console.log("\tcooking progress: " + settlement.barracks.cookingProgress());
 
 	var farmStatus = "";
-	if (settlement.farm.isGrowing) { farmStatus = "growing"; }
-	else if (settlement.farm.isHarvesting) { farmStatus = "harvesting"; }
+	if (settlement.farm.isGrowing()) { farmStatus = "growing"; }
+	else if (settlement.farm.isHarvesting()) { farmStatus = "harvesting"; }
 	else { farmStatus = "idle"; }
 
 	console.log("farm is " + farmStatus);

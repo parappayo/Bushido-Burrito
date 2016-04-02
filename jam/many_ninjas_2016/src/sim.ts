@@ -25,11 +25,11 @@ export class Timer
 		this.elapsed += elapsed;
 
 		if (this.elapsed >= this.duration) {
+			this.done = !this.repeat;
 			if (this.callback != null) {
 				this.callback();
 			}
 			this.elapsed = 0;
-			this.done = !this.repeat;
 		}
 	}
 
@@ -160,8 +160,8 @@ export class Farm
 
 	constructor()
 	{
-		this._growthTimer.callback = this.handleGrowthDone;
-		this._harvestTimer.callback = this.handleHarvestDone;
+		this._growthTimer.callback = () => { this.handleGrowthDone(this) };
+		this._harvestTimer.callback = () => { this.handleHarvestDone(this) };
 
 		this.grow();
 	}
@@ -190,7 +190,7 @@ export class Farm
 
 	canHarvest()
 	{
-		return this._harvestReady;
+		return !this.isGrowing() && !this.isHarvesting();
 	}
 
 	harvest()
@@ -219,22 +219,22 @@ export class Farm
 		this._growthTimer.update(1);
 		this._harvestTimer.update(1);
 
-		if (this.autoHarvest && this._harvestReady) {
+		if (this.autoHarvest && this.canHarvest()) {
 			this.harvest();
 		}
 	}
 
-	private handleGrowthDone()
+	private handleGrowthDone(farm :Farm)
 	{
-		this._harvestReady = true;
+		farm._harvestReady = true;
 	}
 
-	private handleHarvestDone()
+	private handleHarvestDone(farm :Farm)
 	{
-		if (this.onHarvestDone) {
-			this.onHarvestDone();
+		if (farm.onHarvestDone) {
+			farm.onHarvestDone();
 		}
-		this.grow();
+		farm.grow();
 	}
 }
 
@@ -246,8 +246,8 @@ export class Settlement
 
 	constructor()
 	{
-		this.farm.onHarvestDone
-		this.barracks.onCookingDone = this.handleCookingDone;
+		this.farm.onHarvestDone = () => { this.handleHarvestDone(this) };
+		this.barracks.onCookingDone = () => { this.handleCookingDone(this) };
 	}
 
 	tick()
@@ -256,14 +256,14 @@ export class Settlement
 		this.farm.tick();
 	}
 
-	handleHarvestDone()
+	handleHarvestDone(settlement :Settlement)
 	{
-		this.barracks.addRice(this.farm.growingFields());
+		settlement.barracks.addRice(this.farm.growingFields());
 	}
 
-	handleCookingDone()
+	handleCookingDone(settlement :Settlement)
 	{
-		this.population.add(this.barracks.riceCount());
+		settlement.population.add(this.barracks.riceCount());
 	}
 }
 
