@@ -34,7 +34,7 @@ export class Timer
 	}
 
 	progress() :number {
-		return Math.min(this.duration / this.elapsed, 1.0);	
+		return Math.min(this.elapsed / this.duration, 1.0);
 	}
 }
 
@@ -115,9 +115,14 @@ export class Barracks
 
 	cook()
 	{
-		if (this.isIdle) {
+		if (this.isIdle()) {
 			this._cookTimer.start(this.cookDuration);
 		}
+	}
+
+	cookingProgress()
+	{
+		return this._cookTimer.progress();
 	}
 
 	private handleCookingDone()
@@ -142,22 +147,94 @@ export class Farm
 	autoHarvest :boolean = false;
 	growthSpeedRanks :number = 0;
 	harvestSpeedRanks :number = 0;
-	cookingSpeedRanks :number = 0;
 
-	isIdle() :boolean
+	private _harvestReady :boolean;
+	public _growingFields :number;
+
+	growthDuration :number = 5; // TODO: configurable
+	private _growthTimer :Timer = new Timer();
+
+	harvestDuration :number = 2; // TODO: configurable
+	private _harvestTimer :Timer = new Timer();
+	onHarvestDone :TimerCallback;
+
+	constructor()
 	{
-		// TODO: implement this
-		return false;
+		this._growthTimer.callback = this.handleGrowthDone;
+		this._harvestTimer.callback = this.handleHarvestDone;
+
+		this.grow();
+	}
+
+	private grow()
+	{
+		this._harvestReady = false;
+		this._growingFields = this.fieldsWorked;
+		this._growthTimer.start(this.growthDuration);
+	}
+
+	isGrowing() :boolean
+	{
+		return !this._growthTimer.done;
+	}
+
+	growingFields() :number
+	{
+		return this._growingFields;
+	}
+
+	growthProgress() :number
+	{
+		return this._growthTimer.progress();
+	}
+
+	canHarvest()
+	{
+		return this._harvestReady;
 	}
 
 	harvest()
 	{
-		// TODO: implement this
+		if (!this.canHarvest()) {
+			// TODO: throw error
+			return;
+		}
+
+		this._harvestReady = false;
+		this._harvestTimer.start(this.harvestDuration);
+	}
+
+	isHarvesting() :boolean
+	{
+		return !this._harvestReady && !this._harvestTimer.done;
+	}
+
+	harvestProgress() :number
+	{
+		return this._harvestTimer.progress();
 	}
 
 	tick()
 	{
+		this._growthTimer.update(1);
+		this._harvestTimer.update(1);
 
+		if (this.autoHarvest && this._harvestReady) {
+			this.harvest();
+		}
+	}
+
+	private handleGrowthDone()
+	{
+		this._harvestReady = true;
+	}
+
+	private handleHarvestDone()
+	{
+		if (this.onHarvestDone) {
+			this.onHarvestDone();
+		}
+		this.grow();
 	}
 }
 
@@ -169,6 +246,7 @@ export class Settlement
 
 	constructor()
 	{
+		this.farm.onHarvestDone
 		this.barracks.onCookingDone = this.handleCookingDone;
 	}
 
@@ -176,6 +254,11 @@ export class Settlement
 	{
 		this.population.tick();
 		this.farm.tick();
+	}
+
+	handleHarvestDone()
+	{
+		this.barracks.addRice(this.farm.growingFields());
 	}
 
 	handleCookingDone()

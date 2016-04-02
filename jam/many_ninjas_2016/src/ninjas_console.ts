@@ -80,19 +80,31 @@ class Menu
 	{
 		if (this.parent != null &&
 			this.parent.activeSubMenu == this) {
+
 			this.parent.activeSubMenu = null;
 		}
 	}
 }
 
-function printTickReport(gameSim :sim.Sim)
+function printReport(gameSim :sim.Sim)
 {
 	var settlement = gameSim.settlements[0];
 
 	console.log("");
-	console.log("ticked sim");
+
 	console.log("barracks is " + (settlement.barracks.isIdle() ? "idle" : "busy"));
-	console.log("farm is " + (settlement.farm.isIdle() ? "idle" : "busy"));
+	console.log("\tcooking progress: " + settlement.barracks.cookingProgress());
+
+	var farmStatus = "";
+	if (settlement.farm.isGrowing) { farmStatus = "growing"; }
+	else if (settlement.farm.isHarvesting) { farmStatus = "harvesting"; }
+	else { farmStatus = "idle"; }
+
+	console.log("farm is " + farmStatus);
+	console.log("\tgrowth progress: " + settlement.farm.growthProgress());
+	console.log("\tharvest progress: " + settlement.farm.harvestProgress());
+	console.log("\tnext harvest size is " + settlement.farm.growingFields());
+
 	console.log("total pop: " + settlement.population.total());
 }
 
@@ -109,10 +121,11 @@ function main()
 				var barracks = gameSim.settlements[0].barracks;
 				if (barracks.isIdle()) {
 					barracks.cook();
-					console.log("started cooking");
+					console.log("\nstarted cooking");
 				} else {
-					console.log("barracks is busy");
+					console.log("\nbarracks is busy");
 				}
+				barracksMenu.exit();
 			}
 		},
 		"x" : {
@@ -127,12 +140,13 @@ function main()
 			caption: "(h)arvest",
 			handler: () => {
 				var farm = gameSim.settlements[0].farm;
-				if (farm.isIdle()) {
+				if (farm.canHarvest()) {
 					farm.harvest();
-					console.log("started harvest");
+					console.log("\nstarted harvest");
 				} else {
-					console.log("farm is busy");
+					console.log("\nharvest not ready");
 				}
+				farmMenu.exit();
 			}
 		},
 		"x" : {
@@ -153,7 +167,11 @@ function main()
 		},
 		"t" : {
 			caption: "(t)ick sim",
-			handler: () => { gameSim.tick(); printTickReport(gameSim); }
+			handler: () => { gameSim.tick(); printReport(gameSim); }
+		},
+		"r" : {
+			caption: "(r)eport",
+			handler: () => { printReport(gameSim); }
 		},
 		"q" : {
 			caption: "(q)uit",
