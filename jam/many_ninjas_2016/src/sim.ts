@@ -80,14 +80,14 @@ export class Barracks
 	cookSpeedRanks :number = 0;
 	autoCook :boolean = false;
 
-	private _riceCount :number = 0;
+	private _riceCount :number = 1; // TODO: staring value configurable
 	cookDuration :number = 10; // TODO: configurable
 	private _cookTimer :Timer = new Timer();
 	onCookingDone :TimerCallback;
 
 	constructor()
 	{
-		this._cookTimer.callback = this.handleCookingDone;
+		this._cookTimer.callback = () => { this.handleCookingDone(this) };
 	}
 
 	isIdle()
@@ -125,12 +125,12 @@ export class Barracks
 		return this._cookTimer.progress();
 	}
 
-	private handleCookingDone()
+	private handleCookingDone(barracks :Barracks)
 	{
-		if (this.onCookingDone) {
-			this.onCookingDone();
+		if (barracks.onCookingDone) {
+			barracks.onCookingDone();
 		}
-		this._riceCount = 0;
+		barracks._riceCount = 0;
 	}
 
 	tick()
@@ -253,6 +253,7 @@ export class Settlement
 	tick()
 	{
 		this.population.tick();
+		this.barracks.tick();
 		this.farm.tick();
 	}
 

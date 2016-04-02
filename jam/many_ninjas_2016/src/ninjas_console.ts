@@ -94,6 +94,7 @@ function printReport(gameSim :sim.Sim)
 
 	console.log("barracks is " + (settlement.barracks.isIdle() ? "idle" : "busy"));
 	console.log("\tcooking progress: " + settlement.barracks.cookingProgress());
+	console.log("\trice stored: " + settlement.barracks.riceCount() + " / " + settlement.barracks.maxRiceCount());
 
 	var farmStatus = "";
 	if (settlement.farm.isGrowing()) { farmStatus = "growing"; }
