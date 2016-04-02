@@ -87,7 +87,13 @@ class Menu
 
 function printTickReport(gameSim :sim.Sim)
 {
-	console.log("total pop: " + gameSim.settlements[0].population.total());
+	var settlement = gameSim.settlements[0];
+
+	console.log("");
+	console.log("ticked sim");
+	console.log("barracks is " + (settlement.barracks.isIdle() ? "idle" : "busy"));
+	console.log("farm is " + (settlement.farm.isIdle() ? "idle" : "busy"));
+	console.log("total pop: " + settlement.population.total());
 }
 
 function main()
