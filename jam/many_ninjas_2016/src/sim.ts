@@ -81,7 +81,7 @@ export class Barracks
 	autoCook :boolean = false;
 
 	private _riceCount :number = 1; // TODO: staring value configurable
-	cookDuration :number = 10; // TODO: configurable
+	cookDuration :number = 4; // TODO: configurable
 	private _cookTimer :Timer = new Timer();
 	onCookingDone :TimerCallback;
 
@@ -151,10 +151,10 @@ export class Farm
 	private _harvestReady :boolean;
 	public _growingFields :number;
 
-	growthDuration :number = 5; // TODO: configurable
+	growthDuration :number = 240; // TODO: configurable
 	private _growthTimer :Timer = new Timer();
 
-	harvestDuration :number = 2; // TODO: configurable
+	harvestDuration :number = 10; // TODO: configurable
 	private _harvestTimer :Timer = new Timer();
 	onHarvestDone :TimerCallback;
 

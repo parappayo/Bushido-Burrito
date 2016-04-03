@@ -170,6 +170,15 @@ function main()
 			caption: "(t)ick sim",
 			handler: () => { gameSim.tick(); printReport(gameSim); }
 		},
+		"T" : {
+			caption: "(T)ick sim x60",
+			handler: () => {
+				for (var i = 0; i < 60; i++) {
+					gameSim.tick();
+				}
+				printReport(gameSim);
+			}
+		},
 		"r" : {
 			caption: "(r)eport",
 			handler: () => { printReport(gameSim); }
