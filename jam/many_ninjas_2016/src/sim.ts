@@ -57,11 +57,27 @@ export class Army
 		this.ranks[0] += quantity;
 	}
 
+	has(quantity :number, rank :number)
+	{
+		return this.ranks[rank] >= quantity;
+	}
+
 	total() :number
 	{
 		var total :number = 0;
 		for (var rank of this.ranks) {
 			total += rank;
+		}
+		return total;
+	}
+
+	power() :number
+	{
+		var total :number = 0;
+		var pow :number = 1;
+
+		for (var rank: number = 0; rank < Army.NUM_RANKS; rank++) {
+			total += this.ranks[rank] * pow;
 		}
 		return total;
 	}
@@ -240,6 +256,8 @@ export class Farm
 
 export class Settlement
 {
+	level :number = 1;
+
 	army :Army = new Army();
 	barracks :Barracks = new Barracks();
 	farm :Farm = new Farm();
