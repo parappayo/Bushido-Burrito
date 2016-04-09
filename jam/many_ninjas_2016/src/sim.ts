@@ -38,7 +38,7 @@ export class Timer
 	}
 }
 
-export class Population
+export class Army
 {
 	static NUM_RANKS :number = 12;
 
@@ -47,7 +47,7 @@ export class Population
 	constructor()
 	{
 		this.ranks = new Array<number>();
-		for (var i :number = 0; i < Population.NUM_RANKS; i++) {
+		for (var i :number = 0; i < Army.NUM_RANKS; i++) {
 			this.ranks.push(0);
 		}
 	}
@@ -240,7 +240,7 @@ export class Farm
 
 export class Settlement
 {
-	population :Population = new Population();
+	army :Army = new Army();
 	barracks :Barracks = new Barracks();
 	farm :Farm = new Farm();
 
@@ -252,7 +252,7 @@ export class Settlement
 
 	tick()
 	{
-		this.population.tick();
+		this.army.tick();
 		this.barracks.tick();
 		this.farm.tick();
 	}
@@ -264,7 +264,7 @@ export class Settlement
 
 	handleCookingDone(settlement :Settlement)
 	{
-		settlement.population.add(this.barracks.riceCount());
+		settlement.army.add(this.barracks.riceCount());
 	}
 }
 

@@ -106,7 +106,7 @@ function printReport(gameSim :sim.Sim)
 	console.log("\tharvest progress: " + settlement.farm.harvestProgress());
 	console.log("\tnext harvest size is " + settlement.farm.growingFields());
 
-	console.log("total pop: " + settlement.population.total());
+	console.log("army size: " + settlement.army.total());
 }
 
 function main()
