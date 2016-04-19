@@ -2,7 +2,7 @@
 var crypto = require('crypto');
 var db_client = require('mongodb').MongoClient;
 
-var connectionURL = "mongodb://localhost:27017/locdb";
+var config = require('../config');
 
 function hashPasswordWithSalt(pass, salt, next) {
 
@@ -26,7 +26,7 @@ var User = function() {};
 
 User.connectDB = function(db, next) {
 	if (db) { return next(null, db); }
-	db_client.connect(connectionURL, (err, db) => {
+	db_client.connect(config.connectionURL, (err, db) => {
 		return next(err, db);
 	});
 };

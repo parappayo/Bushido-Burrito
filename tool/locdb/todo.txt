@@ -1,7 +1,6 @@
 
 TODO
 
-- create config module
 - replace npm jade package with pug
 
 - user profile view

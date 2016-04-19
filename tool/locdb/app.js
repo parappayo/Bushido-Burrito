@@ -9,6 +9,7 @@ var flash = require('req-flash');
 var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
 
+var config = require('./config')
 var userDB = require('./src/user');
 
 var routes = require('./routes/index');
@@ -62,7 +63,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(session({
-	secret: '68Sdb6JYW14GM9KKOo5C',
+	secret: config.sessionSecret,
 	resave: true,
 	saveUninitialized: true }));
 app.use(flash({ locals: 'flash' }));
