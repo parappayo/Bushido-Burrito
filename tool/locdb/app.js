@@ -8,7 +8,8 @@ var session = require('express-session');
 var flash = require('req-flash');
 var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
-var userDB = require('./user');
+
+var userDB = require('./src/user');
 
 var routes = require('./routes/index');
 var signup = require('./routes/signup');

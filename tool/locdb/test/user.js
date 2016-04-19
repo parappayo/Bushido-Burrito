@@ -1,6 +1,6 @@
 
 var chai = require('chai');
-var userDB = require('../user');
+var userDB = require('../src/user');
 
 var expect = chai.expect;
 

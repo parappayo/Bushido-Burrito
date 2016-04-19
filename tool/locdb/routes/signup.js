@@ -2,7 +2,7 @@ var express = require('express');
 var router = express.Router();
 
 var passport = require('passport');
-var userDB = require('../user');
+var userDB = require('../src/user');
 
 function validateEmailAddress(email) {
 	return /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/.test(email);
