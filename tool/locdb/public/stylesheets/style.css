@@ -1,0 +1,49 @@
+body {
+  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+  color: #252839;
+  background-color: #677077;
+}
+
+a {
+  color: #F2B632;
+}
+
+div {
+	color: #B5B5B7;
+	background-color: #252839;
+}
+
+div.header {
+	margin-bottom: 20px;
+	padding: 12px;
+	text-align: right;
+}
+
+div.note {
+	margin: auto;
+	margin-bottom: 4px;
+	width: 24em;
+	padding: 20px;
+	color: #F2B632;
+}
+
+div.content {
+	margin: auto;
+	width: 24em;
+	padding: 20px;
+}
+
+div.login {
+	margin: auto;
+	width: 24em;
+	padding: 20px;
+}
+
+label.login {
+	display: inline-block;
+	width: 10em;
+}
+
+input.login {
+	margin-bottom: 4px;
+}

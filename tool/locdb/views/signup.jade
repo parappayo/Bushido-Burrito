@@ -1,0 +1,18 @@
+extends layout
+
+block content
+	div.login
+		h1.login Account Creation
+		form.login(name="signup", action="/signup", method="post")
+			div
+				label.login Email
+				input.login(name="user", type="text", required, autofocus)
+			div
+				label.login Password
+				input.login(name="pass", type="password", required)
+			div
+				label.login Repeat Password
+				input.login(name="pass_repeat", type="password", required)
+			div
+				label.login
+				input.login(type="submit", value="signup")

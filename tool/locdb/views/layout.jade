@@ -1,0 +1,17 @@
+doctype html
+html
+	head
+		title= title
+		link(rel='stylesheet', href='/stylesheets/style.css')
+	body
+		div.header
+			-if(user)
+				div
+					div Welcome #{user.name}
+					div
+						a(href='/login') Logout
+			-else
+				a(href='/login') Login
+		-if(flashMessage)
+			div.note #{flashMessage}
+		block content

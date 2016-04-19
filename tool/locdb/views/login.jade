@@ -1,0 +1,16 @@
+extends layout
+
+block content
+	div.login
+		h1.login Log In
+		form.login(name="login", action="/login", method="post")
+			div
+				label.login Email
+				input.login(name="user", type="text", required, autofocus)
+			div
+				label.login Password
+				input.login(name="pass", type="password", required)
+			div
+				label.login
+				input.login(type="submit", value="login")
+		a(href="/signup") New user?

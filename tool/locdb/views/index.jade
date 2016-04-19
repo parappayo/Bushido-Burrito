@@ -1,0 +1,7 @@
+extends layout
+
+block content
+	-if(user)
+		div.content You are logged in as #{user.name}.
+	-else
+		div.content You are not logged in.

@@ -1,0 +1,25 @@
+
+TODO
+
+- rename users "name" to "email"
+- replace npm jade package with pug
+
+- user profile view
+- events table
+- languages table
+- projects table
+- string_tags table
+- string_data table
+- imports table
+- exports table
+- project admin view
+
+- client-side form validation
+- server secret salt
+- confirmed email status
+- forgot password link
+- log incorrect password attempts (IP address, deets)
+
+BUGS
+
+- User.create does not check for duplicate user
