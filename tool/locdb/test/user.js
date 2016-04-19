@@ -12,7 +12,7 @@ describe('User DB', () => {
 
 		before((next) => {
 			userDB.create({
-				"name" : "Test User",
+				"email" : "Test User",
 				"pass" : "the password"
 			}, db, (err, user) => {
 				if (err) { throw(err); }
@@ -22,7 +22,7 @@ describe('User DB', () => {
 
 		after(() => {
 			userDB.get({
-				"name" : "Test User"
+				"email" : "Test User"
 			}, db, (err, user) => {
 				if (err) { throw(err); }
 
@@ -33,15 +33,15 @@ describe('User DB', () => {
 			}); });
 		});
 
-		it('can find user by name', (next) => {
+		it('can find user by email', (next) => {
 			userDB.get({
-				"name" : "Test User"
+				"email" : "Test User"
 			}, db, (err, user) => {
 				if (err) { throw(err); }
 
 			expect(user).to.not.be.null;
 			expect(user).to.have.property('_id');
-			expect(user).to.have.property('name').equals('Test User');
+			expect(user).to.have.property('email').equals('Test User');
 			next();
 
 			});
@@ -50,7 +50,7 @@ describe('User DB', () => {
 		it('can find user by id', (next) => {
 
 			userDB.get({
-				"name" : "Test User"
+				"email" : "Test User"
 			}, db, (err, user) => {
 				if (err) { throw(err); }
 
@@ -64,7 +64,7 @@ describe('User DB', () => {
 
 			expect(user).to.not.be.null;
 			expect(user).to.have.property('_id');
-			expect(user).to.have.property('name').equals('Test User');
+			expect(user).to.have.property('email').equals('Test User');
 			next();
 
 			}); });
@@ -72,7 +72,7 @@ describe('User DB', () => {
 
 		it('cannot find bogus user', (next) => {
 			userDB.get({
-				"name" : "does not exist"
+				"email" : "does not exist"
 			}, db, (err, user) => {
 				if (err) { throw(err); }
 
@@ -85,7 +85,7 @@ describe('User DB', () => {
 		it('can validate user password', (next) => {
 
 			userDB.get({
-				"name" : "Test User"
+				"email" : "Test User"
 			}, db, (err, user) => {
 				if (err) { throw(err); }
 

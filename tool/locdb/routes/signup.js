@@ -17,12 +17,12 @@ router.get('/', function(req, res, next) {
 });
 
 router.post('/', function(req, res, next) {
-	var name = req.body.user;
+	var email = req.body.user;
 	var pass = req.body.pass;
 	var pass_repeat = req.body.pass_repeat;
 
 	var db;
-	userDB.get({ "name": name }, db, (err, result) => {
+	userDB.get({ "email": email }, db, (err, result) => {
 		if (err) { return next(err); }
 
 	if (result) {
@@ -30,7 +30,7 @@ router.post('/', function(req, res, next) {
 		return res.redirect('/signup');
 	}
 
-	if (!validateEmailAddress(name)) {
+	if (!validateEmailAddress(email)) {
 		req.flash('error', 'Email address is not valid.')
 		return res.redirect('/signup');
 	}
@@ -44,7 +44,7 @@ router.post('/', function(req, res, next) {
 		return res.redirect('/signup');
 	}
 
-	userDB.create({"name": name, "pass": pass}, db, (err, result) => {
+	userDB.create({"email": email, "pass": pass}, db, (err, result) => {
 		if (err) { return next(err); }
 
 	return res.redirect('/login');

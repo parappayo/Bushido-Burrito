@@ -2,7 +2,7 @@
 var crypto = require('crypto');
 var db_client = require('mongodb').MongoClient;
 
-var connectionURL = "mongodb://localhost:27017/test";
+var connectionURL = "mongodb://localhost:27017/locdb";
 
 function hashPasswordWithSalt(pass, salt, next) {
 
@@ -82,8 +82,8 @@ User.get = function(user, db, next) {
 			return next(err, result);
 		});
 
-	} else if (user.name) {
-		db.collection('users').findOne({ name: user.name }, (err, result) => {
+	} else if (user.email) {
+		db.collection('users').findOne({ email: user.email }, (err, result) => {
 			return next(err, result);
 		});
 
