@@ -20,6 +20,9 @@ TODO
 - forgot password link
 - log incorrect password attempts (IP address, deets)
 
+- script to package a release
+- npm package?
+
 BUGS
 
 - User.create does not check for duplicate user

@@ -19,7 +19,7 @@ passport.use(new LocalStrategy({
 		passwordField: 'pass'
 	}, (username, password, next) => {
 
-		userDB.get({"name": username}, null, (err, user) => {
+		userDB.get({"email": username}, null, (err, user) => {
 			if (err) { return next(err); }
 
 		if (!user) {
