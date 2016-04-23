@@ -13,8 +13,8 @@ describe('User DB', () => {
 		before((next) => {
 
 			userDB.create({
-				"email" : "Test User",
-				"pass" : "the password"
+				'email' : 'Test User',
+				'pass' : 'the password'
 			}, db, (err, user) => {
 				if (err) { throw(err); }
 
@@ -25,12 +25,12 @@ describe('User DB', () => {
 		after((next) => {
 
 			userDB.get({
-				"email" : "Test User"
+				'email' : 'Test User'
 			}, db, (err, user) => {
 				if (err) { throw(err); }
 
 			userDB.delete({
-				"_id" : user._id
+				'_id' : user._id
 			}, db, (err, result) => {
 				if (err) { throw(err); }
 
@@ -41,7 +41,7 @@ describe('User DB', () => {
 		it('can find user by email', (next) => {
 
 			userDB.get({
-				"email" : "Test User"
+				'email' : 'Test User'
 			}, db, (err, user) => {
 				if (err) { throw(err); }
 
@@ -55,7 +55,7 @@ describe('User DB', () => {
 		it('can find user by id', (next) => {
 
 			userDB.get({
-				"email" : "Test User"
+				'email' : 'Test User'
 			}, db, (err, user) => {
 				if (err) { throw(err); }
 
@@ -63,7 +63,7 @@ describe('User DB', () => {
 			expect(user).to.have.property('_id');
 
 			userDB.get({
-				"_id" : user._id
+				'_id' : user._id
 			}, db, (err, user) => {
 				if (err) { throw(err); }
 
@@ -77,7 +77,7 @@ describe('User DB', () => {
 		it('cannot find bogus user', (next) => {
 
 			userDB.get({
-				"email" : "does not exist"
+				'email' : 'does not exist'
 			}, db, (err, user) => {
 				if (err) { throw(err); }
 
@@ -89,7 +89,7 @@ describe('User DB', () => {
 		it('can validate user password', (next) => {
 
 			userDB.get({
-				"email" : "Test User"
+				'email' : 'Test User'
 			}, db, (err, user) => {
 				if (err) { throw(err); }
 

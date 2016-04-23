@@ -1,10 +1,6 @@
 
 TODO
 
-- events table
-- events tests
-- events view
-
 - replace npm jade package with pug
 - user profile view
 - languages table
@@ -14,6 +10,7 @@ TODO
 - imports table
 - exports table
 - project admin view
+- history view (admin only)
 
 - client-side form validation
 - server secret salt
