@@ -7,7 +7,7 @@ var Project = function() {};
 
 Project.create = function(project, db, next) {
 
-	database.create(project, 'projects', null, (err, project) => {
+	database.create(project, 'projects', db, (err, project) => {
 		if (err) { return next(err); }
 
 	history.log('created project', project, db, (err) => {
@@ -19,7 +19,7 @@ Project.create = function(project, db, next) {
 
 Project.delete = function(project, db, next) {
 
-	database.delete(project, 'projects', null, (err) => {
+	database.delete(project, 'projects', db, (err) => {
 		if (err) { return next(err); }
 
 	history.log('deleted project', project, db, (err) => {
@@ -31,12 +31,12 @@ Project.delete = function(project, db, next) {
 
 Project.get = function(project, db, next) {
 
-	database.get(project, 'projects', null, (err, result) => {
-		if (err) { return next(err); }
+	return database.get(project, 'projects', db, next);
+};
 
-	return next(err, result);
+Project.find = function(project, db, next) {
 
-	});
+	return database.find(project, 'projects', db, next);
 };
 
 module.exports = Project;

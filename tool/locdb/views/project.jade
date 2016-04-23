@@ -1,0 +1,22 @@
+extends layout
+
+block content
+	div.content
+		h1 Projects
+
+		div
+			-if(projects)
+				-each project in projects
+					div
+						label #project.name
+			-else
+				label No Projects Found
+
+	div.content
+		form(name="add_project", action="/project/add", method="post")
+			div
+				label Project Name
+				input(name="name", type="text", required, autofocus)
+			div
+				label
+				input(type="submit", value="add")

@@ -16,6 +16,7 @@ var history = require('./src/history');
 var routes = require('./routes/index');
 var signup = require('./routes/signup');
 var login = require('./routes/login');
+var project = require('./routes/project');
 
 passport.use(new LocalStrategy({
 		usernameField: 'user',
@@ -74,6 +75,7 @@ app.use(passport.session());
 app.use('/', routes);
 app.use('/signup', signup);
 app.use('/login', login);
+app.use('/project', project);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

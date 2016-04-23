@@ -39,11 +39,11 @@ div.login {
 	padding: 20px;
 }
 
-label.login {
+label {
 	display: inline-block;
 	width: 10em;
 }
 
-input.login {
+input {
 	margin-bottom: 4px;
 }
