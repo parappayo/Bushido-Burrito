@@ -27,7 +27,7 @@ var User = function() {};
 
 User.create = function(user, db, next) {
 
-	// users already assigned an id are presumed to be in the db
+	// records already assigned an id are presumed to be in the db
 	if (user._id) { return next(null, user); }
 
 	database.connect(db, (err, db) => {
@@ -53,21 +53,14 @@ User.create = function(user, db, next) {
 
 User.delete = function(user, db, next) {
 
-	if (!user._id) {
-		return next(new Error('no user id provided'));
-	}
-
-	database.connect(db, (err, db) => {
-		if (err) { return next(err); }
-
-	db.collection('users').remove({ _id: user._id }, (err, result) => {
+	database.delete(user, 'users', null, (err) => {
 		if (err) { return next(err); }
 
 	history.log('deleted user', user, db, (err) => {
 
-	return next(err, result);
+	return next(err);
 
-	}); }); });
+	}); });
 };
 
 User.get = function(user, db, next) {
@@ -105,11 +98,11 @@ User.validatePassword = function(user, pass, connection, next) {
 	if (!success) {
 		var logArgs = {
 			'user': user,
-			'localAddress': connection.localAddress,
-			'remoteAddress': connection.remoteAddress
+			'localAddress': connection ? connection.localAddress : null,
+			'remoteAddress': connection ? connection.remoteAddress : null
 		};
 		history.log('incorrect password', logArgs, null, (err) => {
-			return next(err);
+			return next(err, false);
 		});
 
 	} else {
