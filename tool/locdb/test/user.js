@@ -17,11 +17,12 @@ describe('User DB', () => {
 				"pass" : "the password"
 			}, db, (err, user) => {
 				if (err) { throw(err); }
-				next();
+
+			next();
 
 		}); });
 
-		after(() => {
+		after((next) => {
 
 			userDB.get({
 				"email" : "Test User"
@@ -32,6 +33,8 @@ describe('User DB', () => {
 				"_id" : user._id
 			}, db, (err, result) => {
 				if (err) { throw(err); }
+
+			next();
 
 		}); }); });
 
