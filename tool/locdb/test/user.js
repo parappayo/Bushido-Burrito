@@ -1,6 +1,7 @@
 
 var chai = require('chai');
 var userDB = require('../src/user');
+var history = require('../src/history');
 
 var expect = chai.expect;
 
@@ -96,11 +97,36 @@ describe('User DB', () => {
 			expect(user).to.not.be.null;
 			expect(user).to.have.property('pass');
 
-			userDB.validatePassword(user, 'the password', (err, result) => {
+			userDB.validatePassword(user, 'the password', null, (err, result) => {
 
 			expect(result).to.be.true;
 			next();
 
 		}); }); });
+
+		it('logs invalid password attempts', (next) => {
+
+			userDB.get({
+				'email' : 'Test User'
+			}, db, (err, user) => {
+				if (err) { throw(err); }
+
+			expect(user).to.not.be.null;
+			expect(user).to.have.property('pass');
+
+			userDB.validatePassword(user, 'wrong password', null, (err, result) => {
+
+			expect(result).to.be.false;
+
+			history.get({
+				'type' : 'incorrect password'
+			}, db, (err, result) => {
+
+			expect(result).to.not.be.null;
+			expect(result.length).to.be.greaterThan(0);
+
+			next();
+
+		}); }); }); });
 	});
 });

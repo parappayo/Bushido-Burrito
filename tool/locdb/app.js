@@ -11,6 +11,7 @@ var LocalStrategy = require('passport-local').Strategy;
 
 var config = require('./config')
 var userDB = require('./src/user');
+var history = require('./src/history');
 
 var routes = require('./routes/index');
 var signup = require('./routes/signup');
@@ -18,21 +19,21 @@ var login = require('./routes/login');
 
 passport.use(new LocalStrategy({
 		usernameField: 'user',
-		passwordField: 'pass'
-	}, (username, password, next) => {
+		passwordField: 'pass',
+		passReqToCallback: true
+	}, (req, username, password, next) => {
 
-		userDB.get({"email": username}, null, (err, user) => {
+		userDB.get({ 'email': username }, null, (err, user) => {
 			if (err) { return next(err); }
 
 		if (!user) {
 			return next(null, false, { message: 'User not registered.'})
 		}
 
-		userDB.validatePassword(user, password, (err, result) => {
+		userDB.validatePassword(user, password, req.connection, (err, result) => {
 			if (err) { return next(err); }
 
 		if (!result) {
-			// TODO: log the invalid password attempt
 			return next(null, false, { message: 'Incorrect password.'})
 		}
 

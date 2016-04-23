@@ -96,12 +96,25 @@ User.get = function(user, db, next) {
 	});
 };
 
-User.validatePassword = function(user, pass, next) {
+User.validatePassword = function(user, pass, connection, next) {
 
 	hashPasswordWithSalt(pass, new Buffer(user.salt, 'base64'), (err, hash, salt) => {
 		if (err) { return next(err); }
 
-	return next(null, hash.equals(new Buffer(user.pass, 'base64')));
+	var success = hash.equals(new Buffer(user.pass, 'base64'));
+	if (!success) {
+		var logArgs = {
+			'user': user,
+			'localAddress': connection.localAddress,
+			'remoteAddress': connection.remoteAddress
+		};
+		history.log('incorrect password', logArgs, null, (err) => {
+			return next(err);
+		});
+
+	} else {
+		return next(null, success);
+	}
 
 	});
 };

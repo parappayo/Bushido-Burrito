@@ -1,26 +1,44 @@
 
 TODO
 
+- projects view
+- tests for create, delete, edit project
+- can add and drop languages from project
+- tests that project ops are correctly logged in history
+	- with user and date
+	- with before and after state
+
 - replace npm jade package with pug
 - user profile view
-- languages table
-- projects table
 - string_tags table
 - string_data table
 - imports table
 - exports table
 - project admin view
 - history view (admin only)
-
-- client-side form validation
-- server secret salt
-- confirmed email status
-- forgot password link
-- log incorrect password attempts (IP address, deets)
+- reset password link
 
 - script to package a release
 - npm package?
 
 BUGS
 
-- User.create does not check for duplicate user
+- User.create does not check for duplicate record
+- Language.create does not check for duplicate record
+
+FUTURE WORK IDEAS
+
+- Security improvements
+	- client-side form validation
+	- server secret salt
+	- confirmed email status
+
+- Subtitling support
+	- create subtitle timeline hierarchy
+	- preview as a screenplay script
+	- can vary sequence by language
+	- export common formats
+	- can add audio metadata
+
+- Organize users and projects by team / organization
+	- Can grant access to projects by team

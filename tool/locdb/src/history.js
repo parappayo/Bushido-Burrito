@@ -24,14 +24,14 @@ History.log = function(eventType, eventArgs, db, next) {
 
 History.get = function(query, db, next) {
 
-	if (!history) {
+	if (!query) {
 		return next(new Error('null query given'));
 	}
 
 	database.connect(db, (err, db) => {
 		if (err) { return next(err); }
 
-	db.collection('history').find(query, (err, result) => {
+	db.collection('history').find(query).toArray((err, result) => {
 
 	return next(err, result);
 
