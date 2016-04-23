@@ -1,8 +1,9 @@
 
 var crypto = require('crypto');
-var db_client = require('mongodb').MongoClient;
 
 var config = require('../config');
+var database = require('./database');
+var history = require('./history');
 
 function hashPasswordWithSalt(pass, salt, next) {
 
@@ -24,18 +25,12 @@ function hashPassword(pass, next) {
 
 var User = function() {};
 
-User.connectDB = function(db, next) {
-	if (db) { return next(null, db); }
-	db_client.connect(config.connectionURL, (err, db) => {
-		return next(err, db);
-	});
-};
-
 User.create = function(user, db, next) {
+
 	// users already assigned an id are presumed to be in the db
 	if (user._id) { return next(null, user); }
 
-	User.connectDB(db, (err, db) => {
+	database.connect(db, (err, db) => {
 		if (err) { return next(err); }
 
 	hashPassword(user.pass, (err, hash, salt) => {
@@ -48,33 +43,40 @@ User.create = function(user, db, next) {
 		if (err) { return next(err); }
 
 	user._id = result.insertedIds[0];
-	return next(null, user);
+
+	history.log('created user', user, db, (err) => {
+	
+	return next(err, user);
+
+	}); }); }); });
+};
+
+User.delete = function(user, db, next) {
+
+	if (!user._id) {
+		return next(new Error('no user id provided'));
+	}
+
+	database.connect(db, (err, db) => {
+		if (err) { return next(err); }
+
+	db.collection('users').remove({ _id: user._id }, (err, result) => {
+		if (err) { return next(err); }
+
+	history.log('deleted user', user, db, (err) => {
+
+	return next(err, result);
 
 	}); }); });
 };
 
-User.delete = function(user, db, next) {
-	User.connectDB(db, (err, db) => {
-		if (err) { return next(err); }
-
-	if (user._id) {
-		db.collection('users').remove({ _id: user._id }, (err, result) => {
-			return next(err, result);
-		});
-
-	} else {
-		return next(new Error('no user id provided'));
-	}
-
-	});
-};
-
 User.get = function(user, db, next) {
+
 	if (!user) {
-		return next(new Error('null user given'));
+		return next(new Error('null user query given'));
 	}
 
-	User.connectDB(db, (err, db) => {
+	database.connect(db, (err, db) => {
 		if (err) { return next(err); }
 
 	if (user._id) {

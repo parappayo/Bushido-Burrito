@@ -11,16 +11,18 @@ describe('User DB', () => {
 	context('when a user record is present', () => {
 
 		before((next) => {
+
 			userDB.create({
 				"email" : "Test User",
 				"pass" : "the password"
 			}, db, (err, user) => {
 				if (err) { throw(err); }
 				next();
-			});
-		});
+
+		}); });
 
 		after(() => {
+
 			userDB.get({
 				"email" : "Test User"
 			}, db, (err, user) => {
@@ -30,10 +32,11 @@ describe('User DB', () => {
 				"_id" : user._id
 			}, db, (err, result) => {
 				if (err) { throw(err); }
-			}); });
-		});
+
+		}); }); });
 
 		it('can find user by email', (next) => {
+
 			userDB.get({
 				"email" : "Test User"
 			}, db, (err, user) => {
@@ -44,8 +47,7 @@ describe('User DB', () => {
 			expect(user).to.have.property('email').equals('Test User');
 			next();
 
-			});
-		});
+		}); });
 
 		it('can find user by id', (next) => {
 
@@ -67,10 +69,10 @@ describe('User DB', () => {
 			expect(user).to.have.property('email').equals('Test User');
 			next();
 
-			}); });
-		});
+		}); }); });
 
 		it('cannot find bogus user', (next) => {
+
 			userDB.get({
 				"email" : "does not exist"
 			}, db, (err, user) => {
@@ -79,8 +81,7 @@ describe('User DB', () => {
 			expect(user).to.be.null;
 			next();
 
-			});
-		});
+		}); });
 
 		it('can validate user password', (next) => {
 
@@ -97,7 +98,6 @@ describe('User DB', () => {
 			expect(result).to.be.true;
 			next();
 
-			}); });
-		});
+		}); }); });
 	});
 });

@@ -1,10 +1,12 @@
 
 TODO
 
-- replace npm jade package with pug
-
-- user profile view
 - events table
+- events tests
+- events view
+
+- replace npm jade package with pug
+- user profile view
 - languages table
 - projects table
 - string_tags table

@@ -27,7 +27,7 @@ Data Schema
 
 Note that MongoDB automatically supplies an _id field on all entries.
 
-events table
+history table
 - date - date that the event occurred
 - type - identifies the event, eg. "user created", "user verified", "string edited", etc.
 - args - additional data object, varies according to the event type
