@@ -22,20 +22,9 @@ History.log = function(eventType, eventArgs, db, next) {
 	}); });
 };
 
-History.get = function(query, db, next) {
+History.find = function(query, db, next) {
 
-	if (!query) {
-		return next(new Error('null query given'));
-	}
-
-	database.connect(db, (err, db) => {
-		if (err) { return next(err); }
-
-	db.collection('history').find(query).toArray((err, result) => {
-
-	return next(err, result);
-
-	}); });
+	database.find(query, 'history', db, next);
 };
 
 module.exports = History;

@@ -118,7 +118,7 @@ describe('User DB', () => {
 
 			expect(result).to.be.false;
 
-			history.get({
+			history.find({
 				'type' : 'incorrect password'
 			}, db, (err, result) => {
 

@@ -63,4 +63,20 @@ Database.get = function(record, table, db, next) {
 	}); });
 };
 
+Database.find = function(query, table, db, next) {
+
+	if (!query) {
+		return next(new Error('null query given'));
+	}
+
+	Database.connect(db, (err, db) => {
+		if (err) { return next(err); }
+
+	db.collection(table).find(query).toArray((err, result) => {
+
+	return next(err, result);
+
+	}); });
+};
+
 module.exports = Database;
