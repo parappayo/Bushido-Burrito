@@ -17,12 +17,12 @@ router.get('/', function(req, res, next) {
 });
 
 router.post('/', function(req, res, next) {
+
 	var email = req.body.user;
 	var pass = req.body.pass;
 	var pass_repeat = req.body.pass_repeat;
 
-	var db;
-	userDB.get({ "email": email }, db, (err, result) => {
+	userDB.get({ "email": email }, null, (err, result) => {
 		if (err) { return next(err); }
 
 	if (result) {
@@ -44,7 +44,7 @@ router.post('/', function(req, res, next) {
 		return res.redirect('/signup');
 	}
 
-	userDB.create({"email": email, "pass": pass}, db, (err, result) => {
+	userDB.create({"email": email, "pass": pass}, null, (err, result) => {
 		if (err) { return next(err); }
 
 	return res.redirect('/login');

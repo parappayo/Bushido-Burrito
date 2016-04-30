@@ -1,5 +1,5 @@
 
-var db_client = require('mongodb').MongoClient;
+var mongodb = require('mongodb');
 
 var config = require('../config');
 
@@ -7,7 +7,7 @@ var Database = function() {};
 
 Database.connect = function(db, next) {
 	if (db) { return next(null, db); }
-	db_client.connect(config.connectionURL, (err, db) => {
+	mongodb.MongoClient.connect(config.connectionURL, (err, db) => {
 		return next(err, db);
 	});
 };
@@ -63,11 +63,25 @@ Database.get = function(record, table, db, next) {
 	}); });
 };
 
-Database.find = function(query, table, db, next) {
+Database.getByID = function(idString, table, db, next) {
 
-	if (!query) {
-		return next(new Error('null query given'));
+	if (!idString) {
+		return next(new Error('null idString given'));
 	}
+
+	Database.connect(db, (err, db) => {
+		if (err) { return next(err); }
+
+	var id = new mongodb.ObjectID.createFromHexString(idString);
+
+	db.collection(table).findOne({'_id' : id}, (err, result) => {
+
+	return next(err, result);
+
+	}); });
+};
+
+Database.find = function(query, table, db, next) {
 
 	Database.connect(db, (err, db) => {
 		if (err) { return next(err); }

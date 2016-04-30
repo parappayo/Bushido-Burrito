@@ -4,6 +4,13 @@ Game Localization DB
 Tool written in Node.js with Express and MongoDB for managing game project language localization data.
 
 
+Basic Setup
+
+- npm install
+- mongodb.bat
+- npm start
+
+
 General Features
 
 - Full history of string data edits identifying who changed what and when, with rollback options.

@@ -1,12 +1,16 @@
 
 TODO
 
+- log messages should include user id
+
 - projects view
 - tests for create, delete, edit project
 - can add and drop languages from project
 - tests that project ops are correctly logged in history
 	- with user and date
 	- with before and after state
+
+- tests that get / post every URL that is expected to work
 
 - replace npm jade package with pug
 - user profile view

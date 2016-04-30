@@ -11,7 +11,7 @@ Project.create = function(project, db, next) {
 		if (err) { return next(err); }
 
 	history.log('created project', project, db, (err) => {
-	
+
 	return next(err, project);
 
 	}); });
@@ -32,6 +32,11 @@ Project.delete = function(project, db, next) {
 Project.get = function(project, db, next) {
 
 	return database.get(project, 'projects', db, next);
+};
+
+Project.getByID = function(idString, db, next) {
+
+	return database.getByID(idString, 'projects', db, next);
 };
 
 Project.find = function(project, db, next) {
