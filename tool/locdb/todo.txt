@@ -1,7 +1,10 @@
 
 TODO
 
+- default admin account, prompt if not already set up
+
 - log messages should include user id
+- logs view, admin only
 
 - projects view
 - tests for create, delete, edit project
@@ -31,6 +34,14 @@ BUGS
 - Language.create does not check for duplicate record
 
 FUTURE WORK IDEAS
+
+- Age range import logic
+	- provides list of options with confidence rating
+	  and number of conflicts
+
+- Site with public and private projects
+	- tools to smart import data from public projects
+
 
 - Security improvements
 	- client-side form validation

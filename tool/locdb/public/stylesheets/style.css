@@ -1,11 +1,16 @@
 body {
-  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
-  color: #252839;
-  background-color: #677077;
+	font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+	color: #252839;
+	background-color: #677077;
 }
 
 a {
-  color: #F2B632;
+	color: #F2B632;
+}
+
+a:hover {
+	color: #252839;
+	background-color: #F2B632;
 }
 
 div {
