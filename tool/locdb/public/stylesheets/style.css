@@ -19,9 +19,15 @@ div {
 }
 
 div.header {
+	height: 2em;
 	margin-bottom: 20px;
 	padding: 12px;
 	text-align: right;
+}
+
+div.header_item {
+	padding: 4px;
+	float: right;
 }
 
 div.note {

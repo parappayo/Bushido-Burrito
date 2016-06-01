@@ -7,9 +7,12 @@ html
 		div.header
 			-if(user)
 				div
-					div Welcome #{user.name}
-					div
+					div.header_item
 						a(href='/login') Logout
+					div.header_item
+						a(href='/user') #{user.email}
+					div.header_item
+						a(href='/project') Projects
 			-else
 				a(href='/login') Login
 		-if(flashMessage)
