@@ -19,6 +19,11 @@ router.get('/', function(req, res, next) {
 
 router.get('/view', function(req, res, next) {
 
+	if (!req.query.id) {
+		req.flash('error', 'Project ID not provided.')
+		return res.redirect('/project');
+	}
+
 	project.getByID(req.query.id, null, (err, result) => {
 		if (err) { return next(err); }
 
