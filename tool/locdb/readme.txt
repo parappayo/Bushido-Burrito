@@ -57,15 +57,16 @@ projects table
 - language_ids - list of languages used by the project
 - comments - list of user comments for the project
 
-string_tags table
+loc_tags table
 - name - display name of the tag
 - comments - list of user comments for the tag
 
-string_data table
+locs table
 - name - human-readable identifier for the string, alternative to _id
 - project_id - project that the string is part of
 - translations - map of language_id to translation data
 - comments - list of user comments for the string data
+- changed - timestamp of last change
 
 imports table
 - project_id - project that the import was created for

@@ -2,6 +2,18 @@ extends layout
 
 block content
 	div.content
+		h1 #{project.name}
+		
+	div.content
+		h1 Recent Locs
+		-if(locs)
+			-each loc in locs
+				div
+					a(href="/loc/view?id=#{loc._id}") #{loc.name}
+		-else
+			label None Found
+
+	div.content
 		h1 Project Settings
 		form(name="edit_project", action="/project/edit", method="post")
 			div

@@ -1,7 +1,6 @@
 var express = require('express');
 var router = express.Router();
 
-var project = require('../src/project');
 var loc = require('../src/loc');
 
 router.get('/', function(req, res, next) {
@@ -11,16 +10,7 @@ router.get('/', function(req, res, next) {
 		return res.redirect('/login');
 	}
 
-	project.find(null, null, (err, result) => {
-
-	res.render('project', {
-		title : 'Projects',
-		flashMessage : req.flash('error'),
-		user : req.user,
-		projects : result
-	});
-
-	});
+	return res.redirect('/project');
 });
 
 router.get('/view', function(req, res, next) {
@@ -31,30 +21,26 @@ router.get('/view', function(req, res, next) {
 	}
 
 	if (!req.query.id) {
-		req.flash('error', 'Project ID not provided.')
+		req.flash('error', 'Loc ID not provided.')
 		return res.redirect('/project');
 	}
 
-	project.getByID(req.query.id, null, (err, result) => {
+	loc.getByID(req.query.id, null, (err, result) => {
 		if (err) { return next(err); }
 
 	if (!result) {
-		req.flash('error', 'Project ID not known.')
+		req.flash('error', 'Loc ID not known.')
 		return res.redirect('/project');
 	}
 
-	loc.findMostRecent(req.query.id, null, (err, locResult) => {
-		if (err) { return next(err); }
-
-	res.render('project_view', {
-		title : 'Project Settings',
+	res.render('loc_view', {
+		title : 'Loc View',
 		flashMessage : req.flash('error'),
 		user : req.user,
-		project : result,
-		locs : locResult
+		project : result
 	});
 
-	}); });
+	});
 });
 
 router.post('/add', function(req, res, next) {
@@ -64,10 +50,10 @@ router.post('/add', function(req, res, next) {
 		return res.redirect('/login');
 	}
 
-	var project_name = req.body.project_name;
+	var loc_name = req.body.loc_name;
 
 	project.create({
-		'name' : project_name
+		'name' : loc_name
 	}, null, (err, result) => {
 		if (err) { return next(err); }
 

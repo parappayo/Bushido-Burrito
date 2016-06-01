@@ -41,7 +41,7 @@ Project.getByID = function(idString, db, next) {
 
 Project.find = function(project, db, next) {
 
-	return database.find(project, 'projects', db, next);
+	return database.find(project, {}, 'projects', db, next);
 };
 
 module.exports = Project;

@@ -24,7 +24,7 @@ History.log = function(eventType, eventArgs, db, next) {
 
 History.find = function(query, db, next) {
 
-	database.find(query, 'history', db, next);
+	database.find(query, {}, 'history', db, next);
 };
 
 module.exports = History;

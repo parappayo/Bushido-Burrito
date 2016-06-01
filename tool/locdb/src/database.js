@@ -81,7 +81,7 @@ Database.getByID = function(idString, table, db, next) {
 	}); });
 };
 
-Database.find = function(query, table, db, next) {
+Database.find = function(query, options, table, db, next) {
 
 	Database.connect(db, (err, db) => {
 		if (err) { return next(err); }
