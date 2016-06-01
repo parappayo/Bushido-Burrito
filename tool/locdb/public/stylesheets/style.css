@@ -40,6 +40,7 @@ div.note {
 
 div.content {
 	margin: auto;
+	margin-bottom: 20px;
 	width: 24em;
 	padding: 20px;
 }

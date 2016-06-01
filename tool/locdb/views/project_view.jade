@@ -3,13 +3,10 @@ extends layout
 block content
 	div.content
 		h1 Project Settings
-
-		h3 #{project.name}
-
 		form(name="edit_project", action="/project/edit", method="post")
 			div
 				label Name
-				input(name="project_name", type="text", required, autofocus)
+				input(name="project_name", type="text", value="#{project.name}" required, autofocus)
 			div
 				label
 				input(type="submit", value="save")
