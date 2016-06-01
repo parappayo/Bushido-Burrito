@@ -5,6 +5,11 @@ var project = require('../src/project');
 
 router.get('/', function(req, res, next) {
 
+	if (!req.user) {
+		req.flash('error', 'Not logged in.')
+		return res.redirect('/login');
+	}
+
 	project.find(null, null, (err, result) => {
 
 	res.render('project', {
@@ -18,6 +23,11 @@ router.get('/', function(req, res, next) {
 });
 
 router.get('/view', function(req, res, next) {
+
+	if (!req.user) {
+		req.flash('error', 'Not logged in.')
+		return res.redirect('/login');
+	}
 
 	if (!req.query.id) {
 		req.flash('error', 'Project ID not provided.')
@@ -43,6 +53,11 @@ router.get('/view', function(req, res, next) {
 });
 
 router.post('/add', function(req, res, next) {
+
+	if (!req.user) {
+		req.flash('error', 'Not logged in.')
+		return res.redirect('/login');
+	}
 
 	var project_name = req.body.project_name;
 
