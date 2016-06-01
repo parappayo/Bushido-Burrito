@@ -8,8 +8,7 @@ block content
 			-if(projects)
 				-each project in projects
 					div
-						a(href="/project/view?id=#{project._id}")
-							label #{project.name}
+						a(href="/project/view?id=#{project._id}") #{project.name}
 			-else
 				label No Projects Found
 
