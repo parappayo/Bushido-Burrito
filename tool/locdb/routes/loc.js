@@ -2,6 +2,7 @@ var express = require('express');
 var router = express.Router();
 
 var loc = require('../src/loc');
+var project = require('../src/project');
 
 router.get('/', function(req, res, next) {
 
@@ -79,6 +80,41 @@ router.post('/add', function(req, res, next) {
 	return res.redirect(projectURL);
 
 	});
+});
+
+router.get('/edits', function(req, res, next) {
+
+	if (!req.user) {
+		req.flash('error', 'Not logged in.')
+		return res.redirect('/login');
+	}
+
+	if (!req.query.project) {
+		req.flash('error', 'Project ID not provided.')
+		return res.redirect('/project');
+	}
+
+	project.getByID(req.query.project, null, (err, result) => {
+		if (err) { return next(err); }
+
+	if (!result) {
+		req.flash('error', 'Project ID not known.')
+		return res.redirect('/project');
+	}
+
+	var mostRecentCount = 200; // TODO: expose as a user setting
+	loc.findMostRecent(req.query.project, mostRecentCount, null, (err, locResult) => {
+		if (err) { return next(err); }
+
+	res.render('loc_edits', {
+		title : 'Project Loc Edits',
+		flashMessage : req.flash('error'),
+		user : req.user,
+		project : result,
+		locs : locResult
+	});
+
+	}); });
 });
 
 module.exports = router;

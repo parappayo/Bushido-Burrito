@@ -69,7 +69,8 @@ describe('Project DB', () => {
 
 		it('has recent loc data', (next) => {
 
-			loc.findMostRecent(projectId, null, (err, locResult) => {
+			var mostRecentCount = 5;
+			loc.findMostRecent(projectId, mostRecentCount, null, (err, locResult) => {
 				if (err) { return next(err); }
 
 			expect(locResult).to.not.be.null;

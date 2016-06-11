@@ -1,6 +1,9 @@
 
 TODO
 
+- Loc search page
+- Loc search auto-complete
+
 - Project Settings should only show for project admins
 - Project Settings should show list of admins
 - Project view should be have a link to manage user list
@@ -65,5 +68,11 @@ FUTURE WORK IDEAS
 	- export common formats
 	- can add audio metadata
 
-- Organize users and projects by team / organization
-	- Can grant access to projects by team
+- Profanity Filters
+	- can create custom profanity rules
+	- use common rules sets
+	- generate warning reports for a project
+
+- Organize users into groups
+	- Can grant access to projects by group
+	- Possible sync with Unix groups

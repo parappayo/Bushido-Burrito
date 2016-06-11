@@ -1,0 +1,25 @@
+extends layout
+
+block content
+	div.content
+		h1 Recent Edits on #{project.name}
+		if locs && locs.length
+			div.head_row
+				div.cell
+					p Name
+				div.cell
+					p Changed
+			each loc in locs
+				div.row
+					div.cell
+						a(href="/loc/view?id=#{loc._id}") #{loc.name}
+					div.cell
+						if loc.changed
+							p #{loc.changed.toLocaleDateString("en-US")}
+						else
+							p Null
+			div
+				br
+				a(href="/project/view?id=#{project._id}") Back to #{project.name}
+		else
+			label None Found

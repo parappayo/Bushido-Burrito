@@ -43,7 +43,8 @@ router.get('/view', function(req, res, next) {
 		return res.redirect('/project');
 	}
 
-	loc.findMostRecent(req.query.id, null, (err, locResult) => {
+	var mostRecentCount = 5; // TODO: expose as a user setting
+	loc.findMostRecent(req.query.id, mostRecentCount, null, (err, locResult) => {
 		if (err) { return next(err); }
 
 	res.render('project_view', {
