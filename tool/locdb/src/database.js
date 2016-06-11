@@ -86,7 +86,7 @@ Database.find = function(query, options, table, db, next) {
 	Database.connect(db, (err, db) => {
 		if (err) { return next(err); }
 
-	db.collection(table).find(query).toArray((err, result) => {
+	db.collection(table).find(query, null, options).toArray((err, result) => {
 
 	return next(err, result);
 

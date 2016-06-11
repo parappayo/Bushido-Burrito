@@ -1,0 +1,22 @@
+extends layout
+
+block content
+	div.content
+		h1 History
+		if history && history.length
+			div.head_row
+				div.cell
+					p Type
+				div.cell
+					p Date
+			each log in history
+				div.row
+					div.cell
+						label #{log.type}
+					div.cell
+						if log.date
+							p #{log.date.toString()}
+						else
+							p Null
+		else
+			label None Found

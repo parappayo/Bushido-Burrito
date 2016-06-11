@@ -27,4 +27,14 @@ History.find = function(query, db, next) {
 	database.find(query, {}, 'history', db, next);
 };
 
+History.findMostRecent = function(query, limit, db, next) {
+
+	var options = {
+		"limit": limit,
+		"sort": [["_id", "desc"]]
+		};
+
+	return database.find(query, options, 'history', db, next);
+};
+
 module.exports = History;

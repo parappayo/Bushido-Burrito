@@ -14,10 +14,11 @@ var userDB = require('./src/user');
 var history = require('./src/history');
 
 var routes = require('./routes/index');
-var signup = require('./routes/signup');
-var login = require('./routes/login');
 var project = require('./routes/project');
 var loc = require('./routes/loc');
+var login = require('./routes/login');
+var signup = require('./routes/signup');
+var history = require('./routes/history');
 
 passport.use(new LocalStrategy({
 		usernameField: 'user',
@@ -74,10 +75,11 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 app.use('/', routes);
-app.use('/signup', signup);
-app.use('/login', login);
 app.use('/project', project);
 app.use('/loc', loc);
+app.use('/login', login);
+app.use('/signup', signup);
+app.use('/history', history);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
