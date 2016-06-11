@@ -38,7 +38,7 @@ router.get('/view', function(req, res, next) {
 		title : 'Loc View',
 		flashMessage : req.flash('error'),
 		user : req.user,
-		project : result
+		loc : result
 	});
 
 	});
