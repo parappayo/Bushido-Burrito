@@ -21,9 +21,20 @@ block content
 	div.content
 		h1 Edits
 		if locs && locs.length
+			div.head_row
+				div.cell
+					p Name
+				div.cell
+					p Changed
 			each loc in locs
-				div
-					a(href="/loc/view?id=#{loc._id}") #{loc.name}
+				div.row
+					div.cell
+						a(href="/loc/view?id=#{loc._id}") #{loc.name}
+					div.cell
+						if loc.changed
+							p #{loc.changed.toLocaleDateString("en-US")}
+						else
+							p Null
 			div
 				br
 				a(href="/loc/edits?project=#{project._id}") More

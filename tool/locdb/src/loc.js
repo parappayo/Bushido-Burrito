@@ -47,7 +47,7 @@ Loc.find = function(loc, db, next) {
 Loc.findMostRecent = function(projectId, db, next) {
 
 	var options = {
-		"limit": 20,
+		"limit": 20, // TODO: make this a user setting
 		"sort": [["changed", "desc"]]
 		};
 

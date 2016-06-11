@@ -18,6 +18,19 @@ div {
 	background-color: #252839;
 }
 
+div.row {
+	display: table-row;
+}
+
+div.head_row {
+	display: table-header-group;
+}
+
+div.cell {
+	display: table-cell;
+	padding: 0px 10px;
+}
+
 div.header {
 	height: 2em;
 	margin-bottom: 20px;
