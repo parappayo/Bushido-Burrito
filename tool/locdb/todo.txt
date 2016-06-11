@@ -1,6 +1,13 @@
 
 TODO
 
+- Project Settings should only show for project admins
+- Project Settings should show list of admins
+- Project view should be have a link to manage user list
+
+- Projects view should only show projects the user belongs to
+- User should be an admin of any project they create
+
 - default admin account, prompt if not already set up
 
 - log messages should include user id
@@ -34,6 +41,9 @@ BUGS
 - Language.create does not check for duplicate record
 
 FUTURE WORK IDEAS
+
+- Better handling of web app vs service requests
+	- project simple Python command-line tools
 
 - Age range import logic
 	- provides list of options with confidence rating

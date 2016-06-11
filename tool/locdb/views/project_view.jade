@@ -3,22 +3,46 @@ extends layout
 block content
 	div.content
 		h1 #{project.name}
-		
+
 	div.content
-		h1 Recent Locs
-		-if(locs)
-			-each loc in locs
+		h1 Create a Loc
+		form(name="add_loc", action="/loc/add", method="post")
+			input(name="project", type="hidden", value="#{project._id}")
+			div
+				label Name
+				input(name="loc_name", type="text", required)
+			div
+				label Text
+				input(name="source_text", type="text", required)
+			div
+				label
+				input(type="submit", value="add")
+
+	div.content
+		h1 Edits
+		if locs && locs.length
+			each loc in locs
 				div
 					a(href="/loc/view?id=#{loc._id}") #{loc.name}
-		-else
+			a(href="/loc/edits?project=#{project._id}") More
+		else
 			label None Found
 
 	div.content
-		h1 Project Settings
+		h1 Imports
+
+	div.content
+		h1 Exports
+
+	div.content
+		h1 Users
+
+	div.content
+		h1 Settings
 		form(name="edit_project", action="/project/edit", method="post")
 			div
 				label Name
-				input(name="project_name", type="text", value="#{project.name}" required, autofocus)
+				input(name="project_name", type="text", value="#{project.name}", required)
 			div
 				label
 				input(type="submit", value="save")

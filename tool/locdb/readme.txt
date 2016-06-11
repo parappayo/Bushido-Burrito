@@ -64,6 +64,7 @@ loc_tags table
 locs table
 - name - human-readable identifier for the string, alternative to _id
 - project_id - project that the string is part of
+- source_text - the starting text, in the project's native written language
 - translations - map of language_id to translation data
 - comments - list of user comments for the string data
 - changed - timestamp of last change

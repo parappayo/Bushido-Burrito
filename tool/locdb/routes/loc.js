@@ -50,14 +50,33 @@ router.post('/add', function(req, res, next) {
 		return res.redirect('/login');
 	}
 
-	var loc_name = req.body.loc_name;
+	if (!req.body.project) {
+		req.flash('error', 'Project ID not provided.')
+		return res.redirect('/project');
+	}
 
-	project.create({
-		'name' : loc_name
+	var projectURL = '/project/view?id='+req.body.project;
+
+	// TODO: validate the project ID here
+
+	if (!req.body.loc_name) {
+		req.flash('error', 'Loc Name not provided.')
+		return res.redirect(projectURL);
+	}
+
+	if (!req.body.source_text) {
+		req.flash('error', 'Loc Text not provided.')
+		return res.redirect(projectURL);
+	}
+
+	loc.create({
+		'name' : req.body.loc_name,
+		'source_text' : req.body.source_text,
+		'project' : req.body.project,
 	}, null, (err, result) => {
 		if (err) { return next(err); }
 
-	return res.redirect('/project');
+	return res.redirect(projectURL);
 
 	});
 });
