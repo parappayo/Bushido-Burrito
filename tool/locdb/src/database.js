@@ -63,22 +63,22 @@ Database.get = function(record, table, db, next) {
 	}); });
 };
 
-Database.getByID = function(idString, table, db, next) {
+Database.getByID = function(id, table, db, next) {
 
-	if (!idString) {
-		return next(new Error('null idString given'));
+	if (!id) {
+		return next(new Error('null id given'));
 	}
 
 	Database.connect(db, (err, db) => {
 		if (err) { return next(err); }
 
-	var id = new mongodb.ObjectID.createFromHexString(idString);
+	Database.convertId(id, (err, id) => {
 
 	db.collection(table).findOne({'_id' : id}, (err, result) => {
 
 	return next(err, result);
 
-	}); });
+	}); }); });
 };
 
 Database.find = function(query, options, table, db, next) {
@@ -92,5 +92,9 @@ Database.find = function(query, options, table, db, next) {
 
 	}); });
 };
+
+Database.convertId = function(id, next) {
+	return next(null, new mongodb.ObjectID.createFromHexString(id));
+}
 
 module.exports = Database;

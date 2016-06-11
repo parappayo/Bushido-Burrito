@@ -46,6 +46,9 @@ router.get('/view', function(req, res, next) {
 	loc.findMostRecent(req.query.id, null, (err, locResult) => {
 		if (err) { return next(err); }
 
+	console.log('got here');
+	console.log(locResult);
+
 	res.render('project_view', {
 		title : 'Project Settings',
 		flashMessage : req.flash('error'),

@@ -51,7 +51,7 @@ Loc.findMostRecent = function(projectId, db, next) {
 		"sort": [["changed", "desc"]]
 		};
 
-	return database.find({ "project_id": projectId }, options, 'locs', db, next);
+	return database.find({ "project": projectId }, options, 'locs', db, next);
 };
 
 module.exports = Loc;

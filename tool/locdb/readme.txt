@@ -11,6 +11,13 @@ Basic Setup
 - npm start
 
 
+Mongo Command Client Cheat Sheet
+
+- use locdb
+- show collections
+- db.projects.find()
+
+
 General Features
 
 - Full history of string data edits identifying who changed what and when, with rollback options.

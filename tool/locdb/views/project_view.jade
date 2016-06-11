@@ -24,7 +24,9 @@ block content
 			each loc in locs
 				div
 					a(href="/loc/view?id=#{loc._id}") #{loc.name}
-			a(href="/loc/edits?project=#{project._id}") More
+			div
+				br
+				a(href="/loc/edits?project=#{project._id}") More
 		else
 			label None Found
 

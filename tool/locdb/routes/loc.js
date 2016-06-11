@@ -57,8 +57,6 @@ router.post('/add', function(req, res, next) {
 
 	var projectURL = '/project/view?id='+req.body.project;
 
-	// TODO: validate the project ID here
-
 	if (!req.body.loc_name) {
 		req.flash('error', 'Loc Name not provided.')
 		return res.redirect(projectURL);
@@ -69,10 +67,12 @@ router.post('/add', function(req, res, next) {
 		return res.redirect(projectURL);
 	}
 
+	// TODO: replace with a call that filters duplicates and validates project ID
 	loc.create({
 		'name' : req.body.loc_name,
 		'source_text' : req.body.source_text,
 		'project' : req.body.project,
+		'changed' : new Date(),
 	}, null, (err, result) => {
 		if (err) { return next(err); }
 
