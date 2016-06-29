@@ -5,6 +5,7 @@ var languageDB = require('../src/language');
 var expect = chai.expect;
 
 var db;
+var languageId;
 
 describe('Language DB', () => {
 
@@ -17,21 +18,26 @@ describe('Language DB', () => {
 			}, db, (err, language) => {
 				if (err) { throw(err); }
 
+			expect(language).to.have.property('_id');
+			languageId = language._id;
+
 			next();
 
 		}); });
 
 		after((next) => {
 
+			languageDB.delete({
+				'_id' : languageId
+			}, db, (err, result) => {
+				if (err) { throw(err); }
+
 			languageDB.get({
 				'name' : 'Test Language'
 			}, db, (err, language) => {
 				if (err) { throw(err); }
 
-			languageDB.delete({
-				'_id' : language._id
-			}, db, (err, result) => {
-				if (err) { throw(err); }
+			expect(language).to.be.null;
 
 			next();
 
