@@ -5,7 +5,8 @@
   "description": "Game Localization DB",
   "scripts": {
     "start": "node ./bin/www",
-    "test": "mocha"
+    "test": "mocha",
+    "deploy": "node deploy"
   },
   "repository": {
     "type": "git",

@@ -30,6 +30,24 @@ Database.create = function(record, table, db, next) {
 	}); });
 };
 
+Database.createIfNotExists = function(search, record, table, db, next) {
+
+	Database.connect(db, (err, db) => {
+		if (err) { return next(err); }
+
+	Database.get(search, table, db, (err, result) => {
+		if (err) { return next(err); }
+
+	if (result) { return next(null, result); }
+
+	Database.create(record, table, db, (err, result) => {
+		if (err) { return next(err); }
+
+	return next(null, result);
+
+	}); }); });
+};
+
 Database.delete = function(record, table, db, next) {
 
 	if (!record._id) {

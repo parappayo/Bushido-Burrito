@@ -7,7 +7,8 @@ Tool written in Node.js with Express and MongoDB for managing game project langu
 Basic Setup
 
 - npm install
-- mongodb.bat
+- mongodb
+- npm run deploy
 - npm start
 
 
