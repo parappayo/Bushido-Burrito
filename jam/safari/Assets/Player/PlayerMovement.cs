@@ -4,9 +4,10 @@ using System.Collections;
 public class PlayerMovement : MonoBehaviour {
 	
 	public float MovementSpeed;
-	public float RotationSpeed;	
+	public float RotationSpeed;
+
 	private Rigidbody _Rigidbody;
-	
+
 	void Start()
 	{
 		_Rigidbody = GetComponent<Rigidbody>();
@@ -14,20 +15,36 @@ public class PlayerMovement : MonoBehaviour {
 	
 	void Update()
 	{
-		float scaledMove = MovementSpeed * Time.deltaTime;
-		float scaledRotate = RotationSpeed * Time.deltaTime;
-		
-		Vector3 movement = new Vector3(
-			0, //Input.GetAxis("Horizontal") * scaledMove,
-			0,
-			Input.GetAxis("Vertical") * scaledMove);
-		
-		transform.Rotate(0, Input.GetAxis("Horizontal") * scaledRotate, 0);
-		transform.position = transform.position + (transform.rotation * movement);
-		
+		transform.Rotate(0, Rotation, 0);
+		transform.position = transform.position + (transform.rotation * Movement);
+	}
+
+	void FixedUpdate()
+	{
 		if (_Rigidbody)
 		{
 			_Rigidbody.angularVelocity = Vector3.zero;
+		}
+	}
+
+	private Vector3 Movement
+	{
+		get
+		{
+			var scale = MovementSpeed * Time.deltaTime;
+			return new Vector3(
+				0,
+				0,
+				Input.GetAxis("Vertical") * scale);
+		}
+	}
+
+	private float Rotation
+	{
+		get
+		{
+			var scale = RotationSpeed * Time.deltaTime;
+			return Input.GetAxis("Horizontal") * scale;
 		}
 	}
 	
