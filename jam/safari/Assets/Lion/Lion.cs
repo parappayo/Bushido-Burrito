@@ -7,8 +7,7 @@ public class Lion : MonoBehaviour {
 
 	private FollowNavPoints _FollowNavPoints;
 	private Rigidbody _Rigidbody;
-	private Vector3 StartingPosition;
-	private Quaternion StartingRotation;
+	private ResetPosition ResetPosition;
 
 	public bool HasBeenShot
 	{
@@ -61,8 +60,7 @@ public class Lion : MonoBehaviour {
 	{
 		_FollowNavPoints = GetComponent<FollowNavPoints>();
 		_Rigidbody = GetComponent<Rigidbody>();
-		StartingPosition = transform.position;
-		StartingRotation = transform.rotation;
+		ResetPosition = GetComponent<ResetPosition>();
 		HasBeenSpooked = false;
 	}
 
@@ -99,10 +97,8 @@ public class Lion : MonoBehaviour {
 	private void OnEnable()
 	{
 		HasBeenShot = false;
-		transform.position = StartingPosition;
-		transform.rotation = StartingRotation;
-
 		HasBeenSpooked = false;
+		ResetPosition.Reset();
 
 		if (_Rigidbody != null)
 		{

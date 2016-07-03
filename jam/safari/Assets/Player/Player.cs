@@ -6,41 +6,35 @@ public class Player : MonoBehaviour {
 	private Vector3 StartingPosition;
 	private Quaternion StartingRotation;
 	private PlayerShoot Shoot;
+	private ResetPosition ResetPosition;
 
 	public GameObject Rifle;
 	public float MinimumAltitude = -10f;
 
-	public void Awake()
+	private void Awake()
 	{
-		StartingPosition = transform.position;
-		StartingRotation = transform.rotation;
 		Shoot = GetComponent<PlayerShoot>();
+		ResetPosition = GetComponent<ResetPosition>();
 	}
 
-	public void Update()
+	private void Update()
 	{
 		if (transform.position.y < MinimumAltitude)
 		{
-			ResetPosition();
+			ResetPosition.Reset();
 		}
 	}
 
 	public void StartAct1()
 	{
-		ResetPosition();
+		ResetPosition.Reset();
 		RifleEnabled = true;
 	}
 
 	public void StartAct2()
 	{
-		ResetPosition();
+		ResetPosition.Reset();
 		RifleEnabled = false;
-	}
-
-	private void ResetPosition()
-	{
-		transform.position = StartingPosition;
-		transform.rotation = StartingRotation;
 	}
 
 	private bool RifleEnabled

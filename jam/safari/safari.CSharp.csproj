@@ -83,6 +83,7 @@
     <Compile Include="Assets\Scripts\Flow.cs" />
     <Compile Include="Assets\Scripts\FollowCamera.cs" />
     <Compile Include="Assets\Scripts\FollowNavPoints.cs" />
+    <Compile Include="Assets\Scripts\ResetPosition.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\SyntaxTree\UnityVS\2015\UnityVS.CSharp.targets" />
 </Project>
