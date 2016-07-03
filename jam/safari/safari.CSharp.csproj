@@ -74,6 +74,7 @@
   <ItemGroup>
     <Compile Include="Assets\Computer Desk\ComputerDesk.cs" />
     <Compile Include="Assets\Lion\Lion.cs" />
+    <Compile Include="Assets\Lion\Spookable.cs" />
     <Compile Include="Assets\Lion\SwingAnim.cs" />
     <Compile Include="Assets\Player\Player.cs" />
     <Compile Include="Assets\Player\PlayerMovement.cs" />

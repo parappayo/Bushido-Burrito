@@ -1,13 +1,14 @@
-﻿using UnityEngine;
-using System.Collections;
+﻿
+using UnityEngine;
 
 public class Lion : MonoBehaviour {
 
 	public ParticleSystem BloodSplatFX;
 
-	private FollowNavPoints _FollowNavPoints;
 	private Rigidbody _Rigidbody;
 	private ResetPosition ResetPosition;
+	private FollowNavPoints _FollowNavPoints;
+	private Spookable Spookable;
 
 	public bool HasBeenShot
 	{
@@ -15,89 +16,28 @@ public class Lion : MonoBehaviour {
 		private set;
 	}
 
-	private bool _HasBeenSpooked;
-	public bool HasBeenSpooked
-	{
-		get
-		{
-			return _HasBeenSpooked;
-		}
-		set
-		{
-			if (value)
-			{
-				SpookedTimer = 0f;
-			}
-
-			if (_HasBeenSpooked == value)
-			{
-				return;
-			}
-			_HasBeenSpooked = value;
-
-			if (_FollowNavPoints != null)
-			{
-				// enable this to instead have lion run in the opposite direction from the player
-				//_FollowNavPoints.enabled = !_HasBeenSpooked;
-
-				if (_HasBeenSpooked)
-				{
-					_FollowNavPoints.Speed *= 3f;
-				}
-				else
-				{
-					_FollowNavPoints.Speed /= 3f;					
-				}
-			}
-		}
-	}
-	public float SpookedTimeout = 5f;
-	private float SpookedTimer;
-	public float SpookedSpeed = 0.3f;
-	public Vector3 SpookedDirection;
-
 	private void Awake()
 	{
 		_FollowNavPoints = GetComponent<FollowNavPoints>();
 		_Rigidbody = GetComponent<Rigidbody>();
 		ResetPosition = GetComponent<ResetPosition>();
-		HasBeenSpooked = false;
+		Spookable = GetComponent<Spookable>();
+
+		Spookable.OnSpooked = OnSpooked;
+		Spookable.OnReset = OnSpookedReset;
 	}
 
 	private void Update()
 	{
 		if (HasBeenShot)
 		{
-			HasBeenSpooked = false;
-		}
-		else if (HasBeenSpooked)
-		{
-			SpookedTimer += Time.deltaTime;
-
-			if (SpookedTimer >= SpookedTimeout)
-			{
-				HasBeenSpooked = false;
-			}
-			else if (!_FollowNavPoints.enabled)
-			{
-				if (SpookedDirection.sqrMagnitude < 1f)
-				{
-					HasBeenSpooked = false;
-				}
-				else
-				{
-					transform.position = transform.position + (SpookedDirection.normalized * SpookedSpeed * Time.deltaTime);
-					Quaternion lookRotation = Quaternion.LookRotation(SpookedDirection);
-					transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, 1.5f * Time.deltaTime);
-				}
-			}
+			Spookable.Reset();
 		}
 	}
 
 	private void OnEnable()
 	{
 		HasBeenShot = false;
-		HasBeenSpooked = false;
 		ResetPosition.Reset();
 
 		if (_Rigidbody != null)
@@ -112,6 +52,25 @@ public class Lion : MonoBehaviour {
 			_FollowNavPoints.ResetToFirstNavPoint();
 			_FollowNavPoints.enabled = true;
 		}
+	}
+
+	public void Spook(Vector3 fromPosition)
+	{
+		Spookable.Spook(fromPosition);
+	}
+
+	public void OnSpooked()
+	{
+		if (_FollowNavPoints == null) { return; }
+
+		_FollowNavPoints.Speed *= 3f;
+	}
+
+	public void OnSpookedReset()
+	{
+		if (_FollowNavPoints == null) { return; }
+
+		_FollowNavPoints.Speed /= 3f;
 	}
 
 	public void OnShotByPlayer(RaycastHit hit)
