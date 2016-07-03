@@ -53,10 +53,10 @@ public class PlayerShoot : MonoBehaviour {
 		RaycastHit hit;
 		if (Raycast(out hit))
 		{
-			GameObject hitObject = hit.collider.gameObject;
+			GameObject hitObject = hit.transform.gameObject;
 			if (hitObject.CompareTag(EnemyTag))
 			{
-				hit.transform.parent.gameObject.SendMessage("OnShotByPlayer", hit);
+				hitObject.SendMessage("OnShotByPlayer", hit);
 			}
 		}
 
@@ -70,9 +70,11 @@ public class PlayerShoot : MonoBehaviour {
 	{
 		if (ShotFX == null) { return; }
 
-		ShotFX.enableEmission = false;
+		ParticleSystem.EmissionModule emission = ShotFX.emission;
+		emission.enabled = false;
 		ShotFX.Simulate(0f, true, true);
-		ShotFX.enableEmission = true;
+		emission.enabled = true;
+
 		ShotFX.Play();
 	}
 

@@ -1,5 +1,5 @@
-﻿using UnityEngine;
-using System.Collections;
+﻿
+using UnityEngine;
 
 public class Player : MonoBehaviour {
 
@@ -8,6 +8,7 @@ public class Player : MonoBehaviour {
 	private PlayerShoot Shoot;
 
 	public GameObject Rifle;
+	public float MinimumAltitude = -10f;
 
 	public void Awake()
 	{
@@ -18,32 +19,39 @@ public class Player : MonoBehaviour {
 
 	public void Update()
 	{
-		// fall through the world catch
-		if (transform.position.y < -10f)
+		if (transform.position.y < MinimumAltitude)
 		{
-			transform.position = StartingPosition;
-			transform.rotation = StartingRotation;
+			ResetPosition();
 		}
 	}
 
 	public void StartAct1()
 	{
-		transform.position = StartingPosition;
-		transform.rotation = StartingRotation;
-
-		Rifle.SetActive(true);
-		Shoot.enabled = true;
+		ResetPosition();
+		RifleEnabled = true;
 	}
 
 	public void StartAct2()
 	{
+		ResetPosition();
+		RifleEnabled = false;
+	}
+
+	private void ResetPosition()
+	{
 		transform.position = StartingPosition;
 		transform.rotation = StartingRotation;
+	}
 
-		Rifle.SetActive(false);
-		if (Shoot != null)
+	private bool RifleEnabled
+	{
+		set
 		{
-			Shoot.enabled = false;
+			Rifle.SetActive(value);
+			if (Shoot != null)
+			{
+				Shoot.enabled = value;
+			}
 		}
 	}
 }

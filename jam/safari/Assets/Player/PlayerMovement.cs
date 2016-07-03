@@ -6,11 +6,11 @@ public class PlayerMovement : MonoBehaviour {
 	public float MovementSpeed;
 	public float RotationSpeed;
 
-	private Rigidbody _Rigidbody;
+	private Rigidbody Rigidbody;
 
 	void Start()
 	{
-		_Rigidbody = GetComponent<Rigidbody>();
+		Rigidbody = GetComponent<Rigidbody>();
 	}
 	
 	void Update()
@@ -21,9 +21,9 @@ public class PlayerMovement : MonoBehaviour {
 
 	void FixedUpdate()
 	{
-		if (_Rigidbody)
+		if (Rigidbody)
 		{
-			_Rigidbody.angularVelocity = Vector3.zero;
+			Rigidbody.angularVelocity = Vector3.zero;
 		}
 	}
 
