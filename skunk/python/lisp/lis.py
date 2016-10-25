@@ -43,7 +43,11 @@ def parse(tokens):
 	if len(tokens) == 0:
 		raise SyntaxError('unmatched ( in input')
 	token = tokens.pop(0)
-	if token == '(':
+	if token == "'":
+		innerList = ['quote']
+		innerList.append(parse(tokens))
+		return innerList
+	elif token == '(':
 		innerList = []
 		while tokens[0] != ')':
 			innerList.append(parse(tokens))
