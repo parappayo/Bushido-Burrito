@@ -72,22 +72,25 @@ def standard_environment():
 
 global_environment = standard_environment()
 
-def eval(x, env=global_environment):
-	if isinstance(x, Symbol):
-		return env[x]
-	elif not isinstance(x, List):
-		return x
-	elif x[0] == 'if':
-		(_, condition, consequent, alternative) = x
+def eval(expression, env=global_environment):
+	if isinstance(expression, Symbol):
+		return env[expression]
+	elif not isinstance(expression, List):
+		return expression
+	elif expression[0] == 'if':
+		(_, condition, consequent, alternative) = expression
 		expression = consequent if eval(condition, env) else alternative
 		return eval(expression, env)
-	elif x[0] == 'define':
-		(_, identifier, expression) = x
+	elif expression[0] == 'define':
+		(_, identifier, expression) = expression
 		env[identifier] = eval(expression, env)
 	else:
-		procedure = eval(x[0], env)
-		args = [eval(arg, env) for arg in x[1:]]
+		procedure = eval(expression[0], env)
+		args = [eval(arg, env) for arg in expression[1:]]
 		return procedure(*args)
+
+def eval_str(input):
+	return eval(parse(tokenize(input)))
 
 def scheme_str(expression):
 	if isinstance(expression, List):
@@ -98,7 +101,7 @@ def scheme_str(expression):
 def repl(prompt='> '):
 	while True:
 		input_str = raw_input(prompt)
-		val = eval(parse(tokenize(input_str)))
+		val = eval_str(input_str)
 		print(scheme_str(val))
 
 if __name__ == '__main__':
