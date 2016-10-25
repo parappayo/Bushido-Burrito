@@ -1,8 +1,8 @@
 
 (define assert (lambda (x)
-	(if (= x (quote true))
+	(if (= x 'true)
 		()
-		(print (quote Failure!)))))
+		(print 'Failure))))
 
 (assert (= (+ 1 2) 3))
 (assert (= (+ 3 5) 8))

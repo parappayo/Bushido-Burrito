@@ -30,7 +30,10 @@ class Procedure(object):
 		return eval(self.body, Environment(self.params, args, self.environment))
 
 def tokenize(input):
-	return input.replace('(', ' ( ').replace(')', ' ) ').split()
+	input = input.replace('(', ' ( ')
+	input = input.replace(')', ' ) ')
+	input = input.replace('\'', ' \' ')
+	return input.split()
 
 def atom(token):
 	try: return int(token)
@@ -45,7 +48,10 @@ def parse(tokens):
 	token = tokens.pop(0)
 	if token == "'":
 		innerList = ['quote']
-		innerList.append(parse(tokens))
+		rest = parse(tokens)
+		if not isinstance(rest, List):
+			rest = [rest]
+		innerList.append(rest)
 		return innerList
 	elif token == '(':
 		innerList = []
@@ -80,6 +86,7 @@ def standard_environment():
 			'cons': lambda x, y: [x] + y,
 			'eq?': operator.is_,
 			'equal?': operator.eq,
+			'false': False,
 			'length': len,
 			'list': lambda *x: List(x),
 			'map': map,
@@ -92,6 +99,7 @@ def standard_environment():
 			'procedure?': callable,
 			'round': round,
 			'symbol?': lambda x: isinstance(x, Symbol),
+			'true': True,
 		})
 	return environment
 
@@ -148,8 +156,11 @@ def repl(prompt='> '):
 		input_str = raw_input(prompt)
 		if len(input_str) == 0:
 			sys.exit()
-		val = eval_str(input_str)
-		print(scheme_str(val))
+		try:
+			val = eval_str(input_str)
+			print(scheme_str(val))
+		except SyntaxError as error:
+			print(error)
 
 if __name__ == '__main__':
 	if len(sys.argv) > 1:
