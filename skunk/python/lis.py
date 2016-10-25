@@ -2,7 +2,8 @@
 # this is not the original lis.py, but a customized version
 # see: http://norvig.com/lispy.html
 
-import math, operator
+from __future__ import print_function
+import sys, math, operator
 
 Symbol = str
 List = list
@@ -14,7 +15,12 @@ class Environment(dict):
 		self.outer = outer
 
 	def find(self, identifier):
-		return self if (identifier in self) else self.outer.find(identifier)
+		if identifier in self:
+			return self
+		elif self.outer != None:
+			return self.outer.find(identifier)
+		else:
+			return None
 
 class Procedure(object):
 	def __init__(self, params, body, environment):
@@ -78,6 +84,7 @@ def standard_environment():
 			'not': operator.not_,
 			'null?': lambda x: x == [],
 			'number?': lambda x: isinstance(x, Number),
+			'print': print,
 			'procedure?': callable,
 			'round': round,
 			'symbol?': lambda x: isinstance(x, Symbol),
@@ -88,7 +95,10 @@ global_environment = standard_environment()
 
 def eval(expression, env=global_environment):
 	if isinstance(expression, Symbol):
-		return env.find(expression)[expression]
+		local_env = env.find(expression)
+		if local_env == None:
+			raise SyntaxError('unknown identifier ' + expression)
+		return local_env[expression]
 	elif not isinstance(expression, List):
 		return expression
 	elif expression[0] == 'quote':
@@ -113,7 +123,15 @@ def eval(expression, env=global_environment):
 		return procedure(*args)
 
 def eval_str(input):
-	return eval(parse(tokenize(input)))
+	result = None
+	tokens = tokenize(input)
+	while len(tokens) > 0:
+		result = eval(parse(tokens))
+	return result
+
+def eval_file(path):
+	file = open(path, 'r')
+	return eval_str(file.read())
 
 def scheme_str(expression):
 	if isinstance(expression, List):
@@ -124,8 +142,13 @@ def scheme_str(expression):
 def repl(prompt='> '):
 	while True:
 		input_str = raw_input(prompt)
+		if len(input_str) == 0:
+			sys.exit()
 		val = eval_str(input_str)
 		print(scheme_str(val))
 
 if __name__ == '__main__':
-	repl()
+	if len(sys.argv) > 1:
+		print(scheme_str(eval_file(sys.argv[1])))
+	else:
+		repl()
