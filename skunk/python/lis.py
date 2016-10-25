@@ -7,7 +7,21 @@ import math, operator
 Symbol = str
 List = list
 Number = (int, float)
-Environment = dict
+
+class Environment(dict):
+	def __init__(self, params=(), args=(), outer=None):
+		self.update(zip(params, args))
+		self.outer = outer
+
+	def find(self, identifier):
+		return self if (identifier in self) else self.outer.find(identifier)
+
+class Procedure(object):
+	def __init__(self, params, body, environment):
+		self.params, self.body, self.environment = params, body, environment
+
+	def __call__(self, *args):
+		return eval(self.body, Environment(self.params, args, self.environment))
 
 def tokenize(input):
 	return input.replace('(', ' ( ').replace(')', ' ) ').split()
@@ -74,9 +88,12 @@ global_environment = standard_environment()
 
 def eval(expression, env=global_environment):
 	if isinstance(expression, Symbol):
-		return env[expression]
+		return env.find(expression)[expression]
 	elif not isinstance(expression, List):
 		return expression
+	elif expression[0] == 'quote':
+		(_, inner_expression) = expression
+		return inner_expression
 	elif expression[0] == 'if':
 		(_, condition, consequent, alternative) = expression
 		expression = consequent if eval(condition, env) else alternative
@@ -84,6 +101,12 @@ def eval(expression, env=global_environment):
 	elif expression[0] == 'define':
 		(_, identifier, expression) = expression
 		env[identifier] = eval(expression, env)
+	elif expression[0] == 'set!':
+		(_, identifier, inner_expression) = expression
+		environment.find(identifier)[identifier] = eval(inner_expression, env)
+	elif expression[0] == 'lambda':
+		(_, params, body) = expression
+		return Procedure(params, body, env)
 	else:
 		procedure = eval(expression[0], env)
 		args = [eval(arg, env) for arg in expression[1:]]

@@ -20,5 +20,20 @@ class TestEval(unittest.TestCase):
 	def test_eq2(self):
 		self.assertEqual(lis.eval_str('(= 2 2)'), True)
 
+	def test_length(self):
+		self.assertEqual(lis.eval_str('(length (quote (1 2 3)))'), 3)
+
+	def test_length2(self):
+		self.assertEqual(lis.eval_str('(length (quote (1)))'), 1)
+
+	def test_length3(self):
+		self.assertEqual(lis.eval_str('(length (quote ()))'), 0)
+
+	def test_cons(self):
+		self.assertEqual(lis.eval_str('(cons 1 (quote ()))'), [1])
+
+	def test_cons2(self):
+		self.assertEqual(lis.eval_str('(cons 1 (quote (2)))'), [1, 2])
+
 if __name__ == '__main__':
 	unittest.main()
