@@ -6,6 +6,14 @@
 var alive_color = 'black';
 var dead_color = '#cccccc';
 
+var g_field_width = 48;
+var g_field_height = 33;
+var g_field_buffer = new Array();
+
+var g_paused = false;
+
+create_cells();
+
 function create_cell(x, y) {
 
 	var h = 16;
@@ -55,8 +63,6 @@ function is_cell_alive(x, y) {
 	return cell.is_alive;
 }
 
-var g_field_width = 12; //48;
-var g_field_height = 12; //33;
 function create_cells() {
 
 	for (var y = 0; y < g_field_height; y++) {
@@ -65,7 +71,6 @@ function create_cells() {
 		}
 	}
 }
-create_cells();
 
 function init_cells() {
 
@@ -108,8 +113,6 @@ function my_onload() {
 	setInterval(my_main, 100);
 }
 
-var g_field_buffer = new Array();
-
 function my_main() {
 
 	if (g_paused) { return; }
@@ -149,7 +152,6 @@ function my_main() {
 	}
 }
 
-var g_paused = false;
 function handle_pause_button() {
 
 	g_paused = !g_paused;
