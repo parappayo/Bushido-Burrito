@@ -1,7 +1,7 @@
+Conway's Life Demo
 
-This directory, dsi_web, contains a collection of web applications designed to run
-on the Nintendo DSi Opera browser.  This platform is particularly limited in terms
-of processing power, and it supports neither Java nor Flash plug-ins.
+This demo was originally written to work on the Nintendo DSi Opera browser.
+It should work in Chrome.
 
 Some useful stats:
 - Nintendo DS screen resolution is 256 x 192 per screen
