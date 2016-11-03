@@ -47,6 +47,9 @@ function set_is_cell_alive(x, y, alive) {
 
 function is_cell_alive(x, y) {
 
+	if (x < 0 || y < 0 || x >= g_field_width || y >= g_field_height) {
+		return false;
+	}
 	var id = "cell" + x + "_" + y;
 	var cell = document.getElementById(id);
 	return cell.is_alive;
@@ -80,57 +83,11 @@ function init_cells() {
 function num_neighbours(x, y) {
 
 	var retval = 0;
-
-	// left column
-	if (x > 0) {
-
-		if (is_cell_alive(x-1, y)) {
-			retval += 1;
-		}
-
-		if (y > 0) {
-			if (is_cell_alive(x-1, y-1)) {
-				retval += 1;
-			}
-		}
-		if (y < g_field_height - 1) {
-			if (is_cell_alive(x-1, y+1)) {
-				retval += 1;
-			}
+	for (cell_x = x-1; cell_x <= x+1; cell_x++) {
+		for (cell_y = y-1; cell_y <= y+1; cell_y++) {
+			retval += is_cell_alive(cell_x, cell_y) ? 1 : 0;
 		}
 	}
-
-	// center column
-	if (y > 0) {
-		if (is_cell_alive(x, y-1)) {
-			retval += 1;
-		}
-	}
-	if (y < g_field_height - 1) {
-		if (is_cell_alive(x, y+1)) {
-			retval += 1;
-		}
-	}
-
-	// right column
-	if (x < g_field_width - 1) {
-
-		if (is_cell_alive(x+1, y)) {
-			retval += 1;
-		}
-
-		if (y > 0) {
-			if (is_cell_alive(x+1, y-1)) {
-				retval += 1;
-			}
-		}
-		if (y < g_field_height - 1) {
-			if (is_cell_alive(x+1, y+1)) {
-				retval += 1;
-			}
-		}
-	}	
-
 	return retval;
 }
 
