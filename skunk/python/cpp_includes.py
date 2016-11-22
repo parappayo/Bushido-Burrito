@@ -2,9 +2,9 @@
 import sys, re
 
 usage = """
-Count Includes Tool by Jason Estey
+C++ Includes Tool by Jason Estey
 
-> count_includes [root file] [project include dirs]
+> cpp_includes [root file] [project include dirs]
 
 The root file is typically a C or C++ header or source file. A report is generated.
 If run without arguments, this message is displayed along with any test output.
