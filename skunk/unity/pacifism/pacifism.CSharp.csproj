@@ -63,6 +63,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Assets\FollowCamera.cs" />
     <Compile Include="Assets\Player\PlayerMovement.cs" />
     <Compile Include="Assets\Seeker\Follow.cs" />
     <Compile Include="Assets\Spawner\PeriodicSpawnTrigger.cs" />
