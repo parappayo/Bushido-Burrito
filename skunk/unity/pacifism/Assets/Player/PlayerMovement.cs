@@ -15,10 +15,18 @@ public class PlayerMovement : MonoBehaviour
         get
         {
             var scale = Speed * Time.deltaTime;
-            return new Vector3(
-                Input.GetAxis("Horizontal") * scale,
-                Input.GetAxis("Vertical") * scale,
+
+            var inputVector = new Vector3(
+                Input.GetAxis("Horizontal"),
+                Input.GetAxis("Vertical"),
                 0);
+
+            if (inputVector.magnitude > 1f)
+            {
+                inputVector = inputVector.normalized;
+            }
+
+            return inputVector * scale;
         }
     }
 
