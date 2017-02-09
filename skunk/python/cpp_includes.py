@@ -27,7 +27,7 @@ the final report gives a more complete picture of header usage.
 include_regex = "^\#include[ \t]*[\<\"](.+)[\>\"].*"
 
 # determine what counts as a source file
-source_file_name_endings = ["h", "hpp", "c", "cpp"]
+source_file_name_endings = ("h", "hpp", "c", "cpp")
 
 # project directories to resolve include paths against
 include_dirs = []
@@ -36,6 +36,9 @@ include_dirs = []
 file_cache = dict()
 
 recursive_mode = False
+
+def is_source_file(filename):
+	return filename.endswith(source_file_name_endings)
 
 def find_include(line):
 	match = re.search(include_regex, line)
@@ -79,6 +82,8 @@ def find_includes_in_file_recursive(path, result):
 def find_includes_in_file_tree(root_path, result):
 	for root, dirs, files in os.walk(root_path):
 		for file_name in files:
+			if not is_source_file(file_name):
+				continue
 			path = os.path.join(root, file_name)
 			if recursive_mode:
 				find_includes_in_file_recursive(path, result)
