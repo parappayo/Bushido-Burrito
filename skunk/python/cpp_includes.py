@@ -1,23 +1,41 @@
 
-import sys, re
+import sys, re ,os
 
 usage = """
-C++ Includes Tool by Jason Estey
+C++ Includes Tool
 
-> cpp_includes [root file] [project include dirs]
+A basic script for generating reports on #includes directive usage.
 
-The root file is typically a C or C++ header or source file. A report is generated.
-If run without arguments, this message is displayed along with any test output.
+> cpp_includes [-r] [root] [project include dirs]
+
+Flags:
+  -r  scan includes recursively
+
+If the given root option is a file, then the tool scans the given file and
+generates a report on which header files it includes.
+
+If the given root option is a directory, then the tool scans C / C++ source
+files in the given directory and generates a report showing which files have
+the most includes and which files are included the most.
+
+Include dirs are used only if -r is specified. In this case the tool will
+recursively scan the included files to see which files they include, so that
+the final report gives a more complete picture of header usage.
 """
 
 # determines what counts as an include line
 include_regex = "^\#include[ \t]*[\<\"](.+)[\>\"].*"
+
+# determine what counts as a source file
+source_file_name_endings = ["h", "hpp", "c", "cpp"]
 
 # project directories to resolve include paths against
 include_dirs = []
 
 # caches results so that redundant recursive branches are not followed
 file_cache = dict()
+
+recursive_mode = False
 
 def find_include(line):
 	match = re.search(include_regex, line)
@@ -57,6 +75,18 @@ def find_includes_in_file_recursive(path, result):
 				if find_includes_in_file_recursive(include_path, result):
 					break
 			print("warning: could not find path for include ", path)
+
+def find_includes_in_file_tree(root_path, result):
+	for root, dirs, files in os.walk(root_path):
+		for file_name in files:
+			path = os.path.join(root, file_name)
+			if recursive_mode:
+				find_includes_in_file_recursive(path, result)
+			else:
+				file_result = find_includes_in_file(path)
+				if file_result:
+					result[path] = file_result
+	return result
 
 def run_tests(tests, test_method):
 	passed, failed = 0, 0
@@ -109,13 +139,33 @@ def test():
 	print("tests passed: ", passed, " tests failed: ", failed)
 
 if __name__ == "__main__":
+
 	if len(sys.argv) < 2:
 		print(usage)
 		test()
+		exit()
+
+	root = ""
+	result = dict()
+
+	if sys.argv[1] == "-r":
+		if len(sys.argv) < 3:
+			print(usage)
+			exit()
+		recursive_mode = True
+		root = sys.argv[2]
+		include_dirs.extend(sys.argv[3:])
 	else:
+		root = sys.argv[1]
 		include_dirs.extend(sys.argv[2:])
 
-		result = dict()
-		process_file_recursive(sys.argv[1], result)
+	if os.path.isdir(root):
+		find_includes_in_file_tree(root, result)
+	elif (recursive_mode):
+		find_includes_in_file_recursive(root, result)
+	else:
+		file_results = find_includes_in_file(root)
+		if (file_results):
+			result[root] = file_results
 
-		print_report(result)
+	print_report(result)
