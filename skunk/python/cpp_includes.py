@@ -35,6 +35,8 @@ include_dirs = []
 # caches results so that redundant recursive branches are not followed
 file_cache = dict()
 
+include_usage_count = dict()
+
 recursive_mode = False
 
 def is_source_file(filename):
@@ -44,7 +46,12 @@ def find_include(line):
 	match = re.search(include_regex, line)
 	if not match:
 		return False
-	return match.group(1)
+	result = match.group(1)
+	if not result in include_usage_count:
+		include_usage_count[result] = 1
+	else:
+		include_usage_count[result] += 1
+	return result
 
 def find_includes(lines):
 	includes = []
@@ -107,6 +114,13 @@ def run_tests(tests, test_method):
 	return (passed, failed)
 
 def print_report(result):
+	print("Most Included Header Files")
+	print("usage count, header file")
+	for include_count in sorted(include_usage_count.iteritems(), key=lambda x: x[1], reverse=True):
+		print(include_count[1], include_count[0])
+
+	print("Source Files with Most Includes")
+	print("include count, source file")
 	include_counts = map(lambda x: (x[0], len(x[1])), result.iteritems())
 	for include_count in sorted(include_counts, key=lambda x: int(x[1]), reverse=True):
 		print(include_count[1], include_count[0])
