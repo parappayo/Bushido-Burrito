@@ -17,3 +17,6 @@ clean:
 $(BIN): $(SRC) $(HDR)
 	$(CC) $(SRC) -o $(BIN) $(INC) $(LIB) $(OPT)
 
+webgl:
+	emcc $(SRC) -o gnome_maze.html $(INC) $(LIB)
+
