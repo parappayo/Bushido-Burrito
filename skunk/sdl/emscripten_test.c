@@ -1,8 +1,16 @@
 
 //
+//  This demo shows building WebGL and binary versions from same source.
+//
+//  Binary Version
+//
+//  Build with
+//    gcc emscripten_test.c -lSDL -lSDL_image -I/usr/include/SDL
+//
+//  WebGL Version
+//
 //  Build with
 //    emcc emscripten_test.c -o emscripten_test.html --preload-file ./happyhappy.jpg -s STB_IMAGE=1
-//
 //  Serve with
 //    c:\Python27\python.exe -m SimpleHTTPServer
 //
@@ -10,7 +18,7 @@
 #include <stdio.h>
 
 #include <SDL/SDL.h>
-#include <SDL/SDL_Image.h>
+#include <SDL/SDL_image.h>
 
 #ifdef __EMSCRIPTEN__
 #include <emscripten.h>
@@ -65,8 +73,8 @@ int main(int argc, char** argv) {
   emscripten_set_main_loop_arg(update, &game, fps, 1);
 #else
   while (1) {
-    update();
-    SDL_Delay(time_to_next_frame());
+    update(&game);
+//    SDL_Delay(time_to_next_frame());
   }
 #endif
 
