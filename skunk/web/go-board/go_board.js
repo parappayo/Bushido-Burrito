@@ -1,5 +1,5 @@
 
-var black_img, white_img;  // graphics
+var black_img, white_img;
 
 var gBoardState = new Array();
 var gBoardWidth = 19;
@@ -9,11 +9,8 @@ var gIsBlackTurn = true;
 
 var gKnownGroups = new Array();
 
-//------------------------------------------------------------------------------
-//  called when HTML document is finished loading
-//------------------------------------------------------------------------------
-function init() {
-
+function init()
+{
 	black_img = new Image();
 	black_img.onload = function() {
 
@@ -24,13 +21,10 @@ function init() {
 		white_img.src = 'white_stone.png';
 	};
 	black_img.src = 'black_stone.png';
-
 }
 
-//------------------------------------------------------------------------------
-function main_start() {
-
-	// no need to loop, just start listening for input
+function main_start()
+ {
 	var canvas = document.getElementById('canvas');
 	canvas.onclick = handleMouseClick;
 
@@ -38,7 +32,6 @@ function main_start() {
 	draw_board();
 }
 
-//------------------------------------------------------------------------------
 function init_board() {
 
 	for (var i = 0; i < gBoardWidth * gBoardHeight; i++) {
@@ -46,7 +39,6 @@ function init_board() {
 	}
 }
 
-//------------------------------------------------------------------------------
 function get_stone(x, y) {
 
 	var stone = new Object();
@@ -59,7 +51,6 @@ function get_stone(x, y) {
 	return stone;
 }
 
-//------------------------------------------------------------------------------
 function place_stone(stone) {
 
 	var i = stone.y * gBoardWidth + stone.x;
@@ -108,20 +99,16 @@ function place_stone(stone) {
 			remove_group(group);
 		}
 	}
-	//console.log('---');
 }
 
-//------------------------------------------------------------------------------
 function clear_stone(stone) {
 
 	var i = stone.y * gBoardWidth + stone.x;
 	gBoardState[i] = 'clear';
 }
 
-//------------------------------------------------------------------------------
-function is_adjacent(stone1, stone2) {
-
-	// note: will return false if stone1 is at the same location as stone2
+function is_adjacent(stone1, stone2)
+{
 	return	(stone1.y == stone2.y &&
 			(stone1.x == stone2.x - 1 || stone1.x == stone2.x + 1)
 		) ||
@@ -130,9 +117,8 @@ function is_adjacent(stone1, stone2) {
 		);
 }
 
-//------------------------------------------------------------------------------
-function belongs_to_group(stone, group) {
-
+function belongs_to_group(stone, group)
+{
 	if (group.stones.length < 1) { return false; }
 	if (stone.color !== group.stones[0].color) { return false; }
 
@@ -148,9 +134,8 @@ function belongs_to_group(stone, group) {
 	return false;
 }
 
-//------------------------------------------------------------------------------
-function is_bordering_adversary_group(stone, group) {
-
+function is_bordering_adversary_group(stone, group)
+{
 	if (group.stones.length < 1) { return false; }
 	if (stone.color === group.stones[0].color) { return false; }
 
@@ -163,9 +148,8 @@ function is_bordering_adversary_group(stone, group) {
 	return false;
 }
 
-//------------------------------------------------------------------------------
-function count_liberties(group) {
-
+function count_liberties(group)
+{
 	var retval = 0;
 
 	var found_liberties = new Object();
@@ -200,11 +184,8 @@ function count_liberties(group) {
 	return retval;
 }
 
-//------------------------------------------------------------------------------
-//  more efficient alternative to count_liberties() == 0
-//------------------------------------------------------------------------------
-function has_no_liberties(group) {
-
+function has_no_liberties(group)
+{
 	for (var i in group.stones) {
 		var stone = group.stones[i];
 		var neighbour;
@@ -230,9 +211,8 @@ function has_no_liberties(group) {
 	return true;
 }
 
-//------------------------------------------------------------------------------
-function create_group() {
-
+function create_group()
+{
 	var new_group = new Object();
 	new_group.stones = new Array();
 	new_group.index = gKnownGroups.length;
@@ -240,9 +220,8 @@ function create_group() {
 	return new_group;
 }
 
-//------------------------------------------------------------------------------
-function delete_group(group) {
-
+function delete_group(group)
+{
 	gKnownGroups.splice(group.index, 1);
 	for (var i in gKnownGroups) {
 		var group = gKnownGroups[i];
@@ -250,9 +229,8 @@ function delete_group(group) {
 	}
 }
 
-//------------------------------------------------------------------------------
-function remove_group(group) {
-
+function remove_group(group)
+{
 	for (var i in group.stones) {
 		var stone = group.stones[i];
 		clear_stone(stone);
@@ -260,9 +238,8 @@ function remove_group(group) {
 	delete_group(group);
 }
 
-//------------------------------------------------------------------------------
-function merge_groups(group1, group2) {
-
+function merge_groups(group1, group2)
+{
 	var merged_stones = new Array();
 
 	for (var i in group1.stones) {
@@ -282,9 +259,8 @@ function merge_groups(group1, group2) {
 	return new_group;
 }
 
-//------------------------------------------------------------------------------
-function find_neighbouring_groups(stone) {
-
+function find_neighbouring_groups(stone)
+{
 	var retval = new Array();
 
 	for (var i in gKnownGroups) {
@@ -298,9 +274,8 @@ function find_neighbouring_groups(stone) {
 	return retval;
 }
 
-//------------------------------------------------------------------------------
-function draw_board() {
-
+function draw_board()
+{
 	var ctx = document.getElementById('canvas').getContext('2d');
 
 	ctx.fillStyle = "rgb(220, 220, 220)";
@@ -341,7 +316,6 @@ function draw_board() {
 	}
 }
 
-//------------------------------------------------------------------------------
 function take_move(x, y)
 {
 	// TODO: need to do some checking to see if the given move is valid
@@ -362,9 +336,6 @@ function take_move(x, y)
 	place_stone(stone);
 }
 
-//------------------------------------------------------------------------------
-//  input handling
-//------------------------------------------------------------------------------
 function handleMouseClick(e) {
 
 	var e = window.event || e;
@@ -379,4 +350,3 @@ function handleMouseClick(e) {
 
 	draw_board();
 }
-
