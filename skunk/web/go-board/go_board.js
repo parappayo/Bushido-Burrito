@@ -274,46 +274,53 @@ function find_neighbouring_groups(stone)
 	return retval;
 }
 
-function draw_board()
+function draw_board_background(draw_context)
 {
-	var ctx = document.getElementById('canvas').getContext('2d');
+	draw_context.fillStyle = "rgb(220, 220, 220)";
+	draw_context.fillRect(0, 0, draw_context.canvas.width, draw_context.canvas.height);
+}
 
-	ctx.fillStyle = "rgb(220, 220, 220)";
-	ctx.fillRect(0, 0, ctx.canvas.width, ctx.canvas.height);
-
-	// piece dimensions
-	var img_w = black_img.width;
-	var img_h = black_img.height;
-
-	// draw play grid
-	for (var x = 0; x < gBoardWidth; x++) {
-		ctx.moveTo(x * img_w + img_w / 2.0, img_h / 2.0);
-		ctx.lineTo(x * img_w + img_w / 2.0, gBoardHeight * img_h - img_h / 2.0);
-		ctx.stroke();
+function draw_grid(draw_context, grid_width, grid_height, cell_width, cell_height)
+{
+	for (var x = 0; x < grid_width; x++) {
+		draw_context.moveTo(x * cell_width + cell_width / 2.0, cell_height / 2.0);
+		draw_context.lineTo(x * cell_width + cell_width / 2.0, grid_height * cell_height - cell_height / 2.0);
+		draw_context.stroke();
 	}
-	for (var y = 0; y < gBoardHeight; y++) {
-		ctx.moveTo(img_w / 2.0, y * img_h + img_h / 2.0);
-		ctx.lineTo(gBoardWidth * img_w - img_w / 2.0, y * img_h + img_h / 2.0);
-		ctx.stroke();
+	for (var y = 0; y < grid_height; y++) {
+		draw_context.moveTo(cell_width / 2.0, y * cell_height + cell_height / 2.0);
+		draw_context.lineTo(grid_width * cell_width - cell_width / 2.0, y * cell_height + cell_height / 2.0);
+		draw_context.stroke();
 	}
+}
 
-	// draw the pieces
+function draw_pieces(draw_context)
+{
 	for (var y = 0; y < gBoardHeight; y++) {
 		for (var x = 0; x < gBoardWidth; x++) {
 
 			var i = y * gBoardWidth + x;
 			var color = gBoardState[i];
-			var img_x = x * img_w;
-			var img_y = y * img_h;
+			var img_x = x * black_img.width;
+			var img_y = y * black_img.height;
 
 			if (color == 'black') {
-				ctx.drawImage(black_img, img_x, img_y);
+				draw_context.drawImage(black_img, img_x, img_y);
 
 			} else if (color == 'white') {
-				ctx.drawImage(white_img, img_x, img_y);
+				draw_context.drawImage(white_img, img_x, img_y);
 			}
 		}
 	}
+}
+
+function draw_board()
+{
+	var draw_context = document.getElementById('canvas').getContext('2d');
+
+	draw_board_background(draw_context);
+	draw_grid(draw_context, gBoardWidth, gBoardHeight, black_img.width, black_img.height);
+	draw_pieces(draw_context);
 }
 
 function take_move(x, y)
@@ -336,8 +343,8 @@ function take_move(x, y)
 	place_stone(stone);
 }
 
-function handleMouseClick(e) {
-
+function handleMouseClick(e)
+{
 	var e = window.event || e;
 
 	var board_x = Math.floor(e.clientX / black_img.width);
