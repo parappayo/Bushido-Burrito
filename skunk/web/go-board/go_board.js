@@ -1,7 +1,7 @@
 
 var GoBoard = {};
 
-GoBoard.init = function()
+GoBoard.init = function ()
 {
 	GoBoard.cellState = new Array();
 	GoBoard.groups = new Array();
@@ -34,8 +34,8 @@ GoBoard.getCellState = function (x, y)
 	return GoBoard.cellState[y * GoBoard.gridWidth + x];
 }
 
-function place_stone(stone) {
-
+GoBoard.addStone = function (stone)
+{
 	var i = stone.y * GoBoard.gridWidth + stone.x;
 	GoBoard.cellState[i] = stone.color;
 
@@ -68,7 +68,7 @@ function place_stone(stone) {
 			continue;
 		}
 		if (has_no_liberties(group)) {
-			remove_group(group);
+			GoBoard.removeGroup(group);
 		}
 	}
 	*/
@@ -79,13 +79,13 @@ function place_stone(stone) {
 		//console.log(group);
 		//console.log(count_liberties(group));
 		if (has_no_liberties(group)) {
-			remove_group(group);
+			GoBoard.removeGroup(group);
 		}
 	}
 }
 
-function clear_stone(stone) {
-
+GoBoard.removeStone = function (stone)
+{
 	var i = stone.y * GoBoard.gridWidth + stone.x;
 	GoBoard.cellState[i] = 'clear';
 }
@@ -203,7 +203,7 @@ function create_group()
 	return new_group;
 }
 
-function delete_group(group)
+GoBoard.deleteGroup = function (group)
 {
 	GoBoard.groups.splice(group.index, 1);
 	for (var i in GoBoard.groups) {
@@ -212,13 +212,13 @@ function delete_group(group)
 	}
 }
 
-function remove_group(group)
+GoBoard.removeGroup = function (group)
 {
 	for (var i in group.stones) {
 		var stone = group.stones[i];
-		clear_stone(stone);
+		GoBoard.removeStone(stone);
 	}
-	delete_group(group);
+	GoBoard.deleteGroup(group);
 }
 
 function merge_groups(group1, group2)
@@ -234,8 +234,8 @@ function merge_groups(group1, group2)
 		merged_stones.push(stone);
 	}
 
-	delete_group(group1);
-	delete_group(group2);
+	GoBoard.deleteGroup(group1);
+	GoBoard.deleteGroup(group2);
 
 	var new_group = create_group();
 	new_group.stones = merged_stones;
@@ -321,7 +321,7 @@ function take_move(x, y)
 	}
 	GoBoard.isBlackTurn = !GoBoard.isBlackTurn;
 
-	place_stone(stone);
+	GoBoard.addStone(stone);
 }
 
 function handleMouseClick(e)
