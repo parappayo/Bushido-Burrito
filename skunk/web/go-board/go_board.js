@@ -1,29 +1,28 @@
 
-var black_img, white_img;
-
-var gBoardState = new Array();
-var gBoardWidth = 19;
-var gBoardHeight = 19;
-
-var gIsBlackTurn = true;
-
-var gKnownGroups = new Array();
+var GoBoard = {};
 
 function init()
 {
-	black_img = new Image();
-	black_img.onload = function() {
+	GoBoard.cellState = new Array();
+	GoBoard.groups = new Array();
+	GoBoard.isBlackTurn = true;
+	GoBoard.gridWidth = 19;
+	GoBoard.gridHeight = 19;
 
-		white_img = new Image();
-		white_img.onload = function() {
-			main_start();
+	GoBoard.blackPieceImage = new Image();
+	GoBoard.blackPieceImage.onload = function() {
+
+		GoBoard.whitePieceImage = new Image();
+		GoBoard.whitePieceImage.onload = function() {
+
+			on_image_load_complete();
 		};
-		white_img.src = 'white_stone.png';
+		GoBoard.whitePieceImage.src = 'white_stone.png';
 	};
-	black_img.src = 'black_stone.png';
+	GoBoard.blackPieceImage.src = 'black_stone.png';
 }
 
-function main_start()
+function on_image_load_complete()
  {
 	var canvas = document.getElementById('canvas');
 	canvas.onclick = handleMouseClick;
@@ -34,8 +33,8 @@ function main_start()
 
 function init_board() {
 
-	for (var i = 0; i < gBoardWidth * gBoardHeight; i++) {
-		gBoardState[i] = 'clear';
+	for (var i = 0; i < GoBoard.gridWidth * GoBoard.gridHeight; i++) {
+		GoBoard.cellState[i] = 'clear';
 	}
 }
 
@@ -45,27 +44,27 @@ function get_stone(x, y) {
 	stone.x = x;
 	stone.y = y;
 
-	var i = y * gBoardWidth + x;
-	stone.color = gBoardState[i];
+	var i = y * GoBoard.gridWidth + x;
+	stone.color = GoBoard.cellState[i];
 
 	return stone;
 }
 
 function place_stone(stone) {
 
-	var i = stone.y * gBoardWidth + stone.x;
-	gBoardState[i] = stone.color;
+	var i = stone.y * GoBoard.gridWidth + stone.x;
+	GoBoard.cellState[i] = stone.color;
 
 	var new_group = create_group();
 	new_group.stones.push(stone);
 
 	// update groups
 	var groups_to_merge = new Array();
-	for (var i in gKnownGroups) {
-		var group = gKnownGroups[i];
+	for (var i in GoBoard.groups) {
+		var group = GoBoard.groups[i];
 		if (group == new_group) { continue; }
 		if (belongs_to_group(stone, group)) {
-			// don't modify gKnownGroups while we're walking it
+			// don't modify GoBoard.groups while we're walking it
 			groups_to_merge.push(group);
 		}
 	}
@@ -91,8 +90,8 @@ function place_stone(stone) {
 	*/
 
 	// check for removals
-	for (var i in gKnownGroups) {
-		var group = gKnownGroups[i];
+	for (var i in GoBoard.groups) {
+		var group = GoBoard.groups[i];
 		//console.log(group);
 		//console.log(count_liberties(group));
 		if (has_no_liberties(group)) {
@@ -103,8 +102,8 @@ function place_stone(stone) {
 
 function clear_stone(stone) {
 
-	var i = stone.y * gBoardWidth + stone.x;
-	gBoardState[i] = 'clear';
+	var i = stone.y * GoBoard.gridWidth + stone.x;
+	GoBoard.cellState[i] = 'clear';
 }
 
 function is_adjacent(stone1, stone2)
@@ -154,7 +153,7 @@ function count_liberties(group)
 
 	var found_liberties = new Object();
 	function found_liberty(stone) {
-		var i = stone.y * gBoardWidth + stone.x;
+		var i = stone.y * GoBoard.gridWidth + stone.x;
 		found_liberties[i] = true;
 	}
 
@@ -166,7 +165,7 @@ function count_liberties(group)
 			neighbour = get_stone(stone.x - 1, stone.y);
 			if (neighbour.color == 'clear') { found_liberty(neighbour); }
 		}
-		if (stone.x < gBoardWidth - 1) {
+		if (stone.x < GoBoard.gridWidth - 1) {
 			neighbour = get_stone(stone.x + 1, stone.y);
 			if (neighbour.color == 'clear') { found_liberty(neighbour); }
 		}
@@ -174,7 +173,7 @@ function count_liberties(group)
 			neighbour = get_stone(stone.x, stone.y - 1);
 			if (neighbour.color == 'clear') { found_liberty(neighbour); }
 		}
-		if (stone.y < gBoardHeight - 1) {
+		if (stone.y < GoBoard.gridHeight - 1) {
 			neighbour = get_stone(stone.x, stone.y + 1);
 			if (neighbour.color == 'clear') { found_liberty(neighbour); }
 		}
@@ -194,7 +193,7 @@ function has_no_liberties(group)
 			neighbour = get_stone(stone.x - 1, stone.y);
 			if (neighbour.color == 'clear') { return false; }
 		}
-		if (stone.x < gBoardWidth - 1) {
+		if (stone.x < GoBoard.gridWidth - 1) {
 			neighbour = get_stone(stone.x + 1, stone.y);
 			if (neighbour.color == 'clear') { return false; }
 		}
@@ -202,7 +201,7 @@ function has_no_liberties(group)
 			neighbour = get_stone(stone.x, stone.y - 1);
 			if (neighbour.color == 'clear') { return false; }
 		}
-		if (stone.y < gBoardHeight - 1) {
+		if (stone.y < GoBoard.gridHeight - 1) {
 			neighbour = get_stone(stone.x, stone.y + 1);
 			if (neighbour.color == 'clear') { return false; }
 		}
@@ -215,16 +214,16 @@ function create_group()
 {
 	var new_group = new Object();
 	new_group.stones = new Array();
-	new_group.index = gKnownGroups.length;
-	gKnownGroups.push(new_group);
+	new_group.index = GoBoard.groups.length;
+	GoBoard.groups.push(new_group);
 	return new_group;
 }
 
 function delete_group(group)
 {
-	gKnownGroups.splice(group.index, 1);
-	for (var i in gKnownGroups) {
-		var group = gKnownGroups[i];
+	GoBoard.groups.splice(group.index, 1);
+	for (var i in GoBoard.groups) {
+		var group = GoBoard.groups[i];
 		group.index = i;
 	}
 }
@@ -263,8 +262,8 @@ function find_neighbouring_groups(stone)
 {
 	var retval = new Array();
 
-	for (var i in gKnownGroups) {
-		var group = gKnownGroups[i];
+	for (var i in GoBoard.groups) {
+		var group = GoBoard.groups[i];
 		if (is_bordering_adversary_group(group)) {
 			// TODO: don't add group more than once
 			retval.push(group);
@@ -296,19 +295,17 @@ function draw_grid(draw_context, grid_width, grid_height, cell_width, cell_heigh
 
 function draw_pieces(draw_context)
 {
-	for (var y = 0; y < gBoardHeight; y++) {
-		for (var x = 0; x < gBoardWidth; x++) {
+	for (var y = 0; y < GoBoard.gridHeight; y++) {
+		for (var x = 0; x < GoBoard.gridWidth; x++) {
 
-			var i = y * gBoardWidth + x;
-			var color = gBoardState[i];
-			var img_x = x * black_img.width;
-			var img_y = y * black_img.height;
+			var color = GoBoard.cellState[y * GoBoard.gridWidth + x];
+			var img_x = x * GoBoard.blackPieceImage.width;
+			var img_y = y * GoBoard.blackPieceImage.height;
 
 			if (color == 'black') {
-				draw_context.drawImage(black_img, img_x, img_y);
-
+				draw_context.drawImage(GoBoard.blackPieceImage, img_x, img_y);
 			} else if (color == 'white') {
-				draw_context.drawImage(white_img, img_x, img_y);
+				draw_context.drawImage(GoBoard.whitePieceImage, img_x, img_y);
 			}
 		}
 	}
@@ -319,7 +316,7 @@ function draw_board()
 	var draw_context = document.getElementById('canvas').getContext('2d');
 
 	draw_board_background(draw_context);
-	draw_grid(draw_context, gBoardWidth, gBoardHeight, black_img.width, black_img.height);
+	draw_grid(draw_context, GoBoard.gridWidth, GoBoard.gridHeight, GoBoard.blackPieceImage.width, GoBoard.blackPieceImage.height);
 	draw_pieces(draw_context);
 }
 
@@ -333,12 +330,12 @@ function take_move(x, y)
 	stone.x = x;
 	stone.y = y;
 
-	if (gIsBlackTurn) {
+	if (GoBoard.isBlackTurn) {
 		stone.color = 'black';
 	} else {
 		stone.color = 'white';
 	}
-	gIsBlackTurn = !gIsBlackTurn;
+	GoBoard.isBlackTurn = !GoBoard.isBlackTurn;
 
 	place_stone(stone);
 }
@@ -347,8 +344,8 @@ function handleMouseClick(e)
 {
 	var e = window.event || e;
 
-	var board_x = Math.floor(e.clientX / black_img.width);
-	var board_y = Math.floor(e.clientY / black_img.height);
+	var board_x = Math.floor(e.clientX / GoBoard.blackPieceImage.width);
+	var board_y = Math.floor(e.clientY / GoBoard.blackPieceImage.height);
 
 	var stone = get_stone(board_x, board_y);
 	if (stone.color == 'clear') {
