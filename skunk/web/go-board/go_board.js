@@ -1,13 +1,17 @@
 
 var GoBoard = {};
 
-function init()
+GoBoard.init = function()
 {
 	GoBoard.cellState = new Array();
 	GoBoard.groups = new Array();
 	GoBoard.isBlackTurn = true;
 	GoBoard.gridWidth = 19;
 	GoBoard.gridHeight = 19;
+
+	for (var i = 0; i < GoBoard.gridWidth * GoBoard.gridHeight; i++) {
+		GoBoard.cellState[i] = 'clear';
+	}
 
 	GoBoard.blackPieceImage = new Image();
 	GoBoard.blackPieceImage.onload = function() {
@@ -20,22 +24,14 @@ function init()
 		GoBoard.whitePieceImage.src = 'white_stone.png';
 	};
 	GoBoard.blackPieceImage.src = 'black_stone.png';
-}
+};
 
 function on_image_load_complete()
  {
 	var canvas = document.getElementById('canvas');
 	canvas.onclick = handleMouseClick;
 
-	init_board();
 	draw_board();
-}
-
-function init_board() {
-
-	for (var i = 0; i < GoBoard.gridWidth * GoBoard.gridHeight; i++) {
-		GoBoard.cellState[i] = 'clear';
-	}
 }
 
 function get_stone(x, y) {
