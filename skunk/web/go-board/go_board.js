@@ -19,31 +19,19 @@ GoBoard.init = function()
 		GoBoard.whitePieceImage = new Image();
 		GoBoard.whitePieceImage.onload = function() {
 
-			on_image_load_complete();
+			var canvas = document.getElementById('canvas');
+			canvas.onclick = handleMouseClick;
+
+			draw_board();
 		};
 		GoBoard.whitePieceImage.src = 'white_stone.png';
 	};
 	GoBoard.blackPieceImage.src = 'black_stone.png';
 };
 
-function on_image_load_complete()
- {
-	var canvas = document.getElementById('canvas');
-	canvas.onclick = handleMouseClick;
-
-	draw_board();
-}
-
-function get_stone(x, y) {
-
-	var stone = new Object();
-	stone.x = x;
-	stone.y = y;
-
-	var i = y * GoBoard.gridWidth + x;
-	stone.color = GoBoard.cellState[i];
-
-	return stone;
+GoBoard.getCellState = function (x, y)
+{
+	return GoBoard.cellState[y * GoBoard.gridWidth + x];
 }
 
 function place_stone(stone) {
@@ -158,20 +146,20 @@ function count_liberties(group)
 		var neighbour;
 
 		if (stone.x > 0) {
-			neighbour = get_stone(stone.x - 1, stone.y);
-			if (neighbour.color == 'clear') { found_liberty(neighbour); }
+			neighbour = GoBoard.getCellState(stone.x - 1, stone.y);
+			if (neighbour == 'clear') { found_liberty(neighbour); }
 		}
 		if (stone.x < GoBoard.gridWidth - 1) {
-			neighbour = get_stone(stone.x + 1, stone.y);
-			if (neighbour.color == 'clear') { found_liberty(neighbour); }
+			neighbour = GoBoard.getCellState(stone.x + 1, stone.y);
+			if (neighbour == 'clear') { found_liberty(neighbour); }
 		}
 		if (stone.y > 0) {
-			neighbour = get_stone(stone.x, stone.y - 1);
-			if (neighbour.color == 'clear') { found_liberty(neighbour); }
+			neighbour = GoBoard.getCellState(stone.x, stone.y - 1);
+			if (neighbour == 'clear') { found_liberty(neighbour); }
 		}
 		if (stone.y < GoBoard.gridHeight - 1) {
-			neighbour = get_stone(stone.x, stone.y + 1);
-			if (neighbour.color == 'clear') { found_liberty(neighbour); }
+			neighbour = GoBoard.getCellState(stone.x, stone.y + 1);
+			if (neighbour == 'clear') { found_liberty(neighbour); }
 		}
 	}
 
@@ -186,20 +174,20 @@ function has_no_liberties(group)
 		var neighbour;
 
 		if (stone.x > 0) {
-			neighbour = get_stone(stone.x - 1, stone.y);
-			if (neighbour.color == 'clear') { return false; }
+			neighbour = GoBoard.getCellState(stone.x - 1, stone.y);
+			if (neighbour == 'clear') { return false; }
 		}
 		if (stone.x < GoBoard.gridWidth - 1) {
-			neighbour = get_stone(stone.x + 1, stone.y);
-			if (neighbour.color == 'clear') { return false; }
+			neighbour = GoBoard.getCellState(stone.x + 1, stone.y);
+			if (neighbour == 'clear') { return false; }
 		}
 		if (stone.y > 0) {
-			neighbour = get_stone(stone.x, stone.y - 1);
-			if (neighbour.color == 'clear') { return false; }
+			neighbour = GoBoard.getCellState(stone.x, stone.y - 1);
+			if (neighbour == 'clear') { return false; }
 		}
 		if (stone.y < GoBoard.gridHeight - 1) {
-			neighbour = get_stone(stone.x, stone.y + 1);
-			if (neighbour.color == 'clear') { return false; }
+			neighbour = GoBoard.getCellState(stone.x, stone.y + 1);
+			if (neighbour == 'clear') { return false; }
 		}
 	}
 
@@ -343,10 +331,9 @@ function handleMouseClick(e)
 	var board_x = Math.floor(e.clientX / GoBoard.blackPieceImage.width);
 	var board_y = Math.floor(e.clientY / GoBoard.blackPieceImage.height);
 
-	var stone = get_stone(board_x, board_y);
-	if (stone.color == 'clear') {
+	var stone = GoBoard.getCellState(board_x, board_y);
+	if (stone == 'clear') {
 		take_move(board_x, board_y);
+		draw_board();
 	}
-
-	draw_board();
 }
