@@ -20,7 +20,7 @@ GoBoard.init = function ()
 		GoBoard.whitePieceImage.onload = function() {
 
 			var canvas = document.getElementById('canvas');
-			canvas.onclick = handleMouseClick;
+			canvas.onclick = GoBoard.handleMouseClick;
 
 			draw_board();
 		};
@@ -32,30 +32,18 @@ GoBoard.init = function ()
 GoBoard.getCellState = function (x, y)
 {
 	return GoBoard.cellState[y * GoBoard.gridWidth + x];
-}
+};
+
+GoBoard.setCellState = function (x, y, state)
+{
+	GoBoard.cellState[y * GoBoard.gridWidth + x] = state;
+};
 
 GoBoard.addStone = function (stone)
 {
-	var i = stone.y * GoBoard.gridWidth + stone.x;
-	GoBoard.cellState[i] = stone.color;
+	GoBoard.cellState[stone.y * GoBoard.gridWidth + stone.x] = stone.color;
 
-	var new_group = create_group();
-	new_group.stones.push(stone);
-
-	// update groups
-	var groups_to_merge = new Array();
-	for (var i in GoBoard.groups) {
-		var group = GoBoard.groups[i];
-		if (group == new_group) { continue; }
-		if (belongs_to_group(stone, group)) {
-			// don't modify GoBoard.groups while we're walking it
-			groups_to_merge.push(group);
-		}
-	}
-	for (var i in groups_to_merge) {
-		var group = groups_to_merge[i];
-		new_group = merge_groups(new_group, group);
-	}
+	GoBoard.updateGroups(stone);
 
 	// TODO: implement ko rule
 
@@ -64,7 +52,7 @@ GoBoard.addStone = function (stone)
 	var neighbouring_groups = find_neighbouring_groups(stone);
 	for (var i in neighbouring_groups) {
 		var group = neighbouring_groups[i];
-		if (belongs_to_group(stone, group)) {
+		if (GoBoard.belongsToGroup(stone, group)) {
 			continue;
 		}
 		if (has_no_liberties(group)) {
@@ -73,34 +61,55 @@ GoBoard.addStone = function (stone)
 	}
 	*/
 
-	// check for removals
+	GoBoard.removeSurroundedGroups();
+};
+
+GoBoard.removeStone = function (stone)
+{
+	GoBoard.setCellState(stone.x, stone.y, 'clear');
+};
+
+GoBoard.updateGroups = function (stone)
+{
+	var new_group = create_group();
+	new_group.stones.push(stone);
+
+	var groups_to_merge = new Array();
 	for (var i in GoBoard.groups) {
 		var group = GoBoard.groups[i];
-		//console.log(group);
-		//console.log(count_liberties(group));
+		if (group == new_group) { continue; }
+		if (GoBoard.belongsToGroup(stone, group)) {
+			// don't modify GoBoard.groups while we're walking it
+			groups_to_merge.push(group);
+		}
+	}
+	for (var i in groups_to_merge) {
+		var group = groups_to_merge[i];
+		new_group = merge_groups(new_group, group);
+	}
+};
+
+GoBoard.removeSurroundedGroups = function ()
+{
+	for (var i in GoBoard.groups) {
+		var group = GoBoard.groups[i];
 		if (has_no_liberties(group)) {
 			GoBoard.removeGroup(group);
 		}
 	}
-}
+};
 
-GoBoard.removeStone = function (stone)
-{
-	var i = stone.y * GoBoard.gridWidth + stone.x;
-	GoBoard.cellState[i] = 'clear';
-}
-
-function is_adjacent(stone1, stone2)
+GoBoard.isAdjacent = function (stone1, stone2)
 {
 	return	(stone1.y == stone2.y &&
 			(stone1.x == stone2.x - 1 || stone1.x == stone2.x + 1)
 		) ||
-		(stone1.x == stone2.x &&
+			(stone1.x == stone2.x &&
 			(stone1.y == stone2.y - 1 || stone1.y == stone2.y + 1)
 		);
-}
+};
 
-function belongs_to_group(stone, group)
+GoBoard.belongsToGroup = function (stone, group)
 {
 	if (group.stones.length < 1) { return false; }
 	if (stone.color !== group.stones[0].color) { return false; }
@@ -110,26 +119,26 @@ function belongs_to_group(stone, group)
 		if (member.x == stone.x && member.y == stone.y) {
 			return true;
 		}
-		if (is_adjacent(stone, member)) {
+		if (GoBoard.isAdjacent(stone, member)) {
 			return true;
 		}
 	}
 	return false;
-}
+};
 
-function is_bordering_adversary_group(stone, group)
+GoBoard.isBorderingEnemyGroup = function (stone, group)
 {
 	if (group.stones.length < 1) { return false; }
 	if (stone.color === group.stones[0].color) { return false; }
 
 	for (var i in group.stones) {
 		var member = group.stones[i];
-		if (is_adjacent(stone, member)) {
+		if (GoBoard.isAdjacent(stone, member)) {
 			return true;
 		}
 	}
 	return false;
-}
+};
 
 function count_liberties(group)
 {
@@ -248,7 +257,7 @@ function find_neighbouring_groups(stone)
 
 	for (var i in GoBoard.groups) {
 		var group = GoBoard.groups[i];
-		if (is_bordering_adversary_group(group)) {
+		if (GoBoard.isBorderingEnemyGroup(group)) {
 			// TODO: don't add group more than once
 			retval.push(group);
 		}
@@ -324,7 +333,7 @@ function take_move(x, y)
 	GoBoard.addStone(stone);
 }
 
-function handleMouseClick(e)
+GoBoard.handleMouseClick = function (e)
 {
 	var e = window.event || e;
 
@@ -336,4 +345,4 @@ function handleMouseClick(e)
 		take_move(board_x, board_y);
 		draw_board();
 	}
-}
+};
