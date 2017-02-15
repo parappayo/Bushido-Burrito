@@ -1,12 +1,129 @@
 
 var GoBoard;
 
-function init_game()
+function initGame()
 {
-	GoBoard = create_go_board(19, 19);
+	GoBoard = createGoBoard(19, 19);
 }
 
-function create_go_board(width, height)
+function isAdjacent(stone1, stone2)
+{
+	return	(stone1.y == stone2.y &&
+			(stone1.x == stone2.x - 1 || stone1.x == stone2.x + 1)
+		) ||
+			(stone1.x == stone2.x &&
+			(stone1.y == stone2.y - 1 || stone1.y == stone2.y + 1)
+		);
+}
+
+function createGoGroup()
+{
+	var group = {
+
+		stones : new Array(),
+
+		getColor : function ()
+		{
+			if (group.stones.length < 1) { return false; }
+			return group.stones[0].color;
+		},
+
+		containsStone : function (stone)
+		{
+			if (this.stones.length < 1) { return false; }
+			if (stone.color !== this.stones[0].color) { return false; }
+
+			for (var i in this.stones) {
+				var member = this.stones[i];
+				if (member.x == stone.x && member.y == stone.y) {
+					return true;
+				}
+				if (isAdjacent(stone, member)) {
+					return true;
+				}
+			}
+			return false;
+		},
+
+		bordersOnStone : function (stone)
+		{
+			for (var i in this.stones) {
+				var member = this.stones[i];
+				if (isAdjacent(stone, member)) {
+					return true;
+				}
+			}
+			return false;
+		},
+
+		hasNoLiberties : function (board)
+		{
+			for (var i in this.stones) {
+				var stone = this.stones[i];
+				var neighbour;
+
+				if (stone.x > 0) {
+					neighbour = board.getCellState(stone.x - 1, stone.y);
+					if (neighbour == 'clear') { return false; }
+				}
+				if (stone.x < this.gridWidth - 1) {
+					neighbour = board.getCellState(stone.x + 1, stone.y);
+					if (neighbour == 'clear') { return false; }
+				}
+				if (stone.y > 0) {
+					neighbour = board.getCellState(stone.x, stone.y - 1);
+					if (neighbour == 'clear') { return false; }
+				}
+				if (stone.y < this.gridHeight - 1) {
+					neighbour = board.getCellState(stone.x, stone.y + 1);
+					if (neighbour == 'clear') { return false; }
+				}
+			}
+
+			return true;
+		},
+
+		countLiberties : function ()
+		{
+			var retval = 0;
+
+			var found_liberties = new Object();
+			function found_liberty(stone) {
+				var i = stone.y * this.gridWidth + stone.x;
+				found_liberties[i] = true;
+			}
+
+			for (var i in this.stones) {
+				var stone = this.stones[i];
+				var neighbour;
+
+				if (stone.x > 0) {
+					neighbour = this.getCellState(stone.x - 1, stone.y);
+					if (neighbour == 'clear') { found_liberty(neighbour); }
+				}
+				if (stone.x < this.gridWidth - 1) {
+					neighbour = this.getCellState(stone.x + 1, stone.y);
+					if (neighbour == 'clear') { found_liberty(neighbour); }
+				}
+				if (stone.y > 0) {
+					neighbour = this.getCellState(stone.x, stone.y - 1);
+					if (neighbour == 'clear') { found_liberty(neighbour); }
+				}
+				if (stone.y < this.gridHeight - 1) {
+					neighbour = this.getCellState(stone.x, stone.y + 1);
+					if (neighbour == 'clear') { found_liberty(neighbour); }
+				}
+			}
+
+			for (var i in found_liberties) { retval += 1; }
+			return retval;
+		},
+	};
+
+	return group;
+}
+
+function createGoBoard(width, height)
 {
 	var board = {
 
@@ -39,10 +156,10 @@ function create_go_board(width, height)
 			var neighbouring_groups = this.findNeighbouringGroups(stone);
 			for (var i in neighbouring_groups) {
 				var group = neighbouring_groups[i];
-				if (this.belongsToGroup(stone, group)) {
+				if (group.containsStone(stone)) {
 					continue;
 				}
-				if (this.hasNoLiberties(group)) {
+				if (group.hasNoLiberties(this)) {
 					this.removeGroup(group);
 				}
 			}
@@ -65,7 +182,7 @@ function create_go_board(width, height)
 			for (var i in this.groups) {
 				var group = this.groups[i];
 				if (group == new_group) { continue; }
-				if (this.belongsToGroup(stone, group)) {
+				if (group.containsStone(stone)) {
 					// don't modify this.groups while we're walking it
 					groups_to_merge.push(group);
 				}
@@ -80,120 +197,21 @@ function create_go_board(width, height)
 		{
 			for (var i in this.groups) {
 				var group = this.groups[i];
-				if (this.hasNoLiberties(group)) {
+				if (group.hasNoLiberties(this)) {
 					this.removeGroup(group);
 				}
 			}
 		},
 
-		isAdjacent : function (stone1, stone2)
-		{
-			return	(stone1.y == stone2.y &&
-					(stone1.x == stone2.x - 1 || stone1.x == stone2.x + 1)
-				) ||
-					(stone1.x == stone2.x &&
-					(stone1.y == stone2.y - 1 || stone1.y == stone2.y + 1)
-				);
-		},
-
-		belongsToGroup : function (stone, group)
-		{
-			if (group.stones.length < 1) { return false; }
-			if (stone.color !== group.stones[0].color) { return false; }
-
-			for (var i in group.stones) {
-				var member = group.stones[i];
-				if (member.x == stone.x && member.y == stone.y) {
-					return true;
-				}
-				if (this.isAdjacent(stone, member)) {
-					return true;
-				}
-			}
-			return false;
-		},
-
 		isBorderingEnemyGroup : function (stone, group)
 		{
-			if (group.stones.length < 1) { return false; }
-			if (stone.color === group.stones[0].color) { return false; }
-
-			for (var i in group.stones) {
-				var member = group.stones[i];
-				if (this.isAdjacent(stone, member)) {
-					return true;
-				}
-			}
-			return false;
-		},
-
-		countLiberties : function (group)
-		{
-			var retval = 0;
-
-			var found_liberties = new Object();
-			function found_liberty(stone) {
-				var i = stone.y * this.gridWidth + stone.x;
-				found_liberties[i] = true;
-			}
-
-			for (var i in group.stones) {
-				var stone = group.stones[i];
-				var neighbour;
-
-				if (stone.x > 0) {
-					neighbour = this.getCellState(stone.x - 1, stone.y);
-					if (neighbour == 'clear') { found_liberty(neighbour); }
-				}
-				if (stone.x < this.gridWidth - 1) {
-					neighbour = this.getCellState(stone.x + 1, stone.y);
-					if (neighbour == 'clear') { found_liberty(neighbour); }
-				}
-				if (stone.y > 0) {
-					neighbour = this.getCellState(stone.x, stone.y - 1);
-					if (neighbour == 'clear') { found_liberty(neighbour); }
-				}
-				if (stone.y < this.gridHeight - 1) {
-					neighbour = this.getCellState(stone.x, stone.y + 1);
-					if (neighbour == 'clear') { found_liberty(neighbour); }
-				}
-			}
-
-			for (var i in found_liberties) { retval += 1; }
-			return retval;
-		},
-
-		hasNoLiberties : function (group)
-		{
-			for (var i in group.stones) {
-				var stone = group.stones[i];
-				var neighbour;
-
-				if (stone.x > 0) {
-					neighbour = this.getCellState(stone.x - 1, stone.y);
-					if (neighbour == 'clear') { return false; }
-				}
-				if (stone.x < this.gridWidth - 1) {
-					neighbour = this.getCellState(stone.x + 1, stone.y);
-					if (neighbour == 'clear') { return false; }
-				}
-				if (stone.y > 0) {
-					neighbour = this.getCellState(stone.x, stone.y - 1);
-					if (neighbour == 'clear') { return false; }
-				}
-				if (stone.y < this.gridHeight - 1) {
-					neighbour = this.getCellState(stone.x, stone.y + 1);
-					if (neighbour == 'clear') { return false; }
-				}
-			}
-
-			return true;
+			if (stone.color === group.getColor()) { return false; }
+			return group.bordersOnStone(stone);
 		},
 
 		createGroup : function()
 		{
-			var new_group = new Object();
-			new_group.stones = new Array();
+			var new_group = createGoGroup();
 			new_group.index = this.groups.length;
 			this.groups.push(new_group);
 			return new_group;
@@ -243,7 +261,7 @@ function create_go_board(width, height)
 			var retval = new Array();
 			for (var i in this.groups) {
 				var group = this.groups[i];
-				if (this.isBorderingEnemyGroup(group)) {
+				if (this.isBorderingEnemyGroup(stone, group)) {
 					// TODO: don't add group more than once
 					retval.push(group);
 				}
