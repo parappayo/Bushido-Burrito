@@ -76,11 +76,24 @@ function createGoBoard(width, height)
 {
 	var board = {
 
-		cellState : new Array(),
-		groups : new Array(),
+		cellState : null,
+		groups : null,
+		moveHistory : null,
 		isBlackTurn : true,
 		gridWidth : width,
 		gridHeight : height,
+
+		startNewGame : function ()
+		{
+			this.cellState = new Array();
+			this.groups = new Array();
+			this.moveHistory = new Array();
+			this.isBlackTurn = true;
+
+			for (var i = 0; i < this.gridWidth * this.gridHeight; i++) {
+				this.cellState[i] = 'clear';
+			}
+		},
 
 		getCellState : function (x, y)
 		{
@@ -140,6 +153,8 @@ function createGoBoard(width, height)
 				var group = groups_to_merge[i];
 				new_group = this.mergeGroup(new_group, group);
 			}
+
+			return new_group;
 		},
 
 		removeSurroundedGroups : function ()
@@ -269,8 +284,6 @@ function createGoBoard(width, height)
 		{
 			// TODO: implement ko rule
 
-			// TODO: disallow move if new stone would die without capturing
-
 			return true;
 		},
 
@@ -279,26 +292,47 @@ function createGoBoard(width, height)
 			if (!this.canTakeMove(x, y)) { return; }
 
 			var stone = this.createStone(x, y);
-
 			this.addStone(stone);
+			var newGroup = this.updateGroups(stone);
 
-			this.updateGroups(stone);
+			if (newGroup.hasNoLiberties(this)) {
+				this.revertMoveInProgress();
+				return;
+			}
 
 			this.removeSurroundedGroups();
-
+			this.moveHistory.push(stone);
 			this.isBlackTurn = !this.isBlackTurn;
 		},
-	};
 
-	for (var i = 0; i < board.gridWidth * board.gridHeight; i++) {
-		board.cellState[i] = 'clear';
-	}
+		takeMoves : function (moves)
+		{
+			for (var i in moves) {
+				var move = moves[i];
+				this.takeMove(move.x, move.y);
+			}
+		},
+
+		setupBoard : function (moves)
+		{
+			this.startNewGame();
+			this.takeMoves(moves);
+		},
+
+		revertMoveInProgress : function ()
+		{
+			this.setupBoard(this.moveHistory);
+		},
+	};
 
 	board.blackStoneImage = new Image();
 	board.blackStoneImage.onload = function() {
 
 		board.whiteStoneImage = new Image();
 		board.whiteStoneImage.onload = function() {
+
+			board.startNewGame();
+			board.drawBoard();
 
 			var canvas = document.getElementById('canvas');
 			canvas.onclick = function (e)
@@ -314,8 +348,6 @@ function createGoBoard(width, height)
 					board.drawBoard();
 				}
 			};
-
-			board.drawBoard();
 		};
 		board.whiteStoneImage.src = 'white_stone.png';
 	};
