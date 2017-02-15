@@ -100,32 +100,27 @@ function createGoBoard(width, height)
 
 		addStone : function (stone)
 		{
-			this.cellState[stone.y * this.gridWidth + stone.x] = stone.color;
-
-			this.updateGroups(stone);
-
-			// TODO: implement ko rule
-
-			// capture before die rule: check neighbouring groups first
-			/*
-			var neighbouring_groups = this.findNeighbouringGroups(stone);
-			for (var i in neighbouring_groups) {
-				var group = neighbouring_groups[i];
-				if (group.containsStone(stone)) {
-					continue;
-				}
-				if (group.hasNoLiberties(this)) {
-					this.removeGroup(group);
-				}
-			}
-			*/
-
-			this.removeSurroundedGroups();
+			this.setCellState(stone.x, stone.y, stone.color);
 		},
 
 		removeStone : function (stone)
 		{
 			this.setCellState(stone.x, stone.y, 'clear');
+		},
+
+		createStone : function (x, y)
+		{
+			var stone = new Object();
+			stone.x = x;
+			stone.y = y;
+
+			if (this.isBlackTurn) {
+				stone.color = 'black';
+			} else {
+				stone.color = 'white';
+			}
+
+			return stone;
 		},
 
 		updateGroups : function (stone)
@@ -271,24 +266,28 @@ function createGoBoard(width, height)
 			this.drawPieces(draw_context);
 		},
 
+		canTakeMove : function (x, y)
+		{
+			// TODO: implement ko rule
+
+			// TODO: disallow move if new stone would die without capturing
+
+			return true;
+		},
+
 		takeMove : function (x, y)
 		{
-			// TODO: need to do some checking to see if the given move is valid
-			// eg. can't place stone where it will immediately die unless it
-			// captures a group first
+			if (!this.canTakeMove(x, y)) { return; }
 
-			var stone = new Object();
-			stone.x = x;
-			stone.y = y;
-
-			if (this.isBlackTurn) {
-				stone.color = 'black';
-			} else {
-				stone.color = 'white';
-			}
-			this.isBlackTurn = !this.isBlackTurn;
+			var stone = this.createStone(x, y);
 
 			this.addStone(stone);
+
+			this.updateGroups(stone);
+
+			this.removeSurroundedGroups();
+
+			this.isBlackTurn = !this.isBlackTurn;
 		},
 	};
 
