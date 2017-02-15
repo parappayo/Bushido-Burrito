@@ -6,7 +6,7 @@ function initGame()
 	GoBoard = createGoBoard(19, 19);
 }
 
-function isAdjacent(stone1, stone2)
+function areStonesAdjacent(stone1, stone2)
 {
 	return	(stone1.y == stone2.y &&
 			(stone1.x == stone2.x - 1 || stone1.x == stone2.x + 1)
@@ -16,7 +16,7 @@ function isAdjacent(stone1, stone2)
 		);
 }
 
-function createGoGroup()
+function createGoStoneGroup()
 {
 	var group = {
 
@@ -38,7 +38,7 @@ function createGoGroup()
 				if (member.x == stone.x && member.y == stone.y) {
 					return true;
 				}
-				if (isAdjacent(stone, member)) {
+				if (areStonesAdjacent(stone, member)) {
 					return true;
 				}
 			}
@@ -49,7 +49,7 @@ function createGoGroup()
 		{
 			for (var i in this.stones) {
 				var member = this.stones[i];
-				if (isAdjacent(stone, member)) {
+				if (areStonesAdjacent(stone, member)) {
 					return true;
 				}
 			}
@@ -85,8 +85,7 @@ function createGoBoard(width, height)
 		getCellState : function (x, y)
 		{
 			if (x < 0 || x >= this.gridWidth ||
-				y < 0 || y >= this.gridHeight)
-			{
+				y < 0 || y >= this.gridHeight) {
 				return false;
 			}
 
@@ -161,7 +160,7 @@ function createGoBoard(width, height)
 
 		createGroup : function()
 		{
-			var new_group = createGoGroup();
+			var new_group = createGoStoneGroup();
 			new_group.index = this.groups.length;
 			this.groups.push(new_group);
 			return new_group;
@@ -239,19 +238,19 @@ function createGoBoard(width, height)
 			}
 		},
 
-		drawPieces : function (draw_context)
+		drawStones : function (draw_context)
 		{
 			for (var y = 0; y < this.gridHeight; y++) {
 				for (var x = 0; x < this.gridWidth; x++) {
 
 					var color = this.cellState[y * this.gridWidth + x];
-					var img_x = x * this.blackPieceImage.width;
-					var img_y = y * this.blackPieceImage.height;
+					var img_x = x * this.blackStoneImage.width;
+					var img_y = y * this.blackStoneImage.height;
 
 					if (color == 'black') {
-						draw_context.drawImage(this.blackPieceImage, img_x, img_y);
+						draw_context.drawImage(this.blackStoneImage, img_x, img_y);
 					} else if (color == 'white') {
-						draw_context.drawImage(this.whitePieceImage, img_x, img_y);
+						draw_context.drawImage(this.whiteStoneImage, img_x, img_y);
 					}
 				}
 			}
@@ -262,8 +261,8 @@ function createGoBoard(width, height)
 			var draw_context = document.getElementById('canvas').getContext('2d');
 
 			this.drawBoardBackground(draw_context);
-			this.drawGrid(draw_context, this.gridWidth, this.gridHeight, this.blackPieceImage.width, this.blackPieceImage.height);
-			this.drawPieces(draw_context);
+			this.drawGrid(draw_context, this.gridWidth, this.gridHeight, this.blackStoneImage.width, this.blackStoneImage.height);
+			this.drawStones(draw_context);
 		},
 
 		canTakeMove : function (x, y)
@@ -295,19 +294,19 @@ function createGoBoard(width, height)
 		board.cellState[i] = 'clear';
 	}
 
-	board.blackPieceImage = new Image();
-	board.blackPieceImage.onload = function() {
+	board.blackStoneImage = new Image();
+	board.blackStoneImage.onload = function() {
 
-		board.whitePieceImage = new Image();
-		board.whitePieceImage.onload = function() {
+		board.whiteStoneImage = new Image();
+		board.whiteStoneImage.onload = function() {
 
 			var canvas = document.getElementById('canvas');
 			canvas.onclick = function (e)
 			{
 				var e = window.event || e;
 
-				var board_x = Math.floor(e.clientX / board.blackPieceImage.width);
-				var board_y = Math.floor(e.clientY / board.blackPieceImage.height);
+				var board_x = Math.floor(e.clientX / board.blackStoneImage.width);
+				var board_y = Math.floor(e.clientY / board.blackStoneImage.height);
 
 				var stone = board.getCellState(board_x, board_y);
 				if (stone == 'clear') {
@@ -318,9 +317,9 @@ function createGoBoard(width, height)
 
 			board.drawBoard();
 		};
-		board.whitePieceImage.src = 'white_stone.png';
+		board.whiteStoneImage.src = 'white_stone.png';
 	};
-	board.blackPieceImage.src = 'black_stone.png';
+	board.blackStoneImage.src = 'black_stone.png';
 
 	return board;
 }
