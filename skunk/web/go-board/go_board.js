@@ -290,20 +290,6 @@ function createGoBoard(width, height)
 
 			this.addStone(stone);
 		},
-
-		handleMouseClick : function (e)
-		{
-			var e = window.event || e;
-
-			var board_x = Math.floor(e.clientX / GoBoard.blackPieceImage.width);
-			var board_y = Math.floor(e.clientY / GoBoard.blackPieceImage.height);
-
-			var stone = GoBoard.getCellState(board_x, board_y);
-			if (stone == 'clear') {
-				GoBoard.takeMove(board_x, board_y);
-				GoBoard.drawBoard();
-			}
-		},
 	};
 
 	for (var i = 0; i < board.gridWidth * board.gridHeight; i++) {
@@ -317,7 +303,19 @@ function createGoBoard(width, height)
 		board.whitePieceImage.onload = function() {
 
 			var canvas = document.getElementById('canvas');
-			canvas.onclick = board.handleMouseClick;
+			canvas.onclick = function (e)
+			{
+				var e = window.event || e;
+
+				var board_x = Math.floor(e.clientX / board.blackPieceImage.width);
+				var board_y = Math.floor(e.clientY / board.blackPieceImage.height);
+
+				var stone = board.getCellState(board_x, board_y);
+				if (stone == 'clear') {
+					board.takeMove(board_x, board_y);
+					board.drawBoard();
+				}
+			};
 
 			board.drawBoard();
 		};
