@@ -60,63 +60,12 @@ function createGoGroup()
 		{
 			for (var i in this.stones) {
 				var stone = this.stones[i];
-				var neighbour;
-
-				if (stone.x > 0) {
-					neighbour = board.getCellState(stone.x - 1, stone.y);
-					if (neighbour == 'clear') { return false; }
-				}
-				if (stone.x < this.gridWidth - 1) {
-					neighbour = board.getCellState(stone.x + 1, stone.y);
-					if (neighbour == 'clear') { return false; }
-				}
-				if (stone.y > 0) {
-					neighbour = board.getCellState(stone.x, stone.y - 1);
-					if (neighbour == 'clear') { return false; }
-				}
-				if (stone.y < this.gridHeight - 1) {
-					neighbour = board.getCellState(stone.x, stone.y + 1);
-					if (neighbour == 'clear') { return false; }
-				}
+				if (board.getCellState(stone.x - 1, stone.y) == 'clear') { return false; }
+				if (board.getCellState(stone.x + 1, stone.y) == 'clear') { return false; }
+				if (board.getCellState(stone.x, stone.y - 1) == 'clear') { return false; }
+				if (board.getCellState(stone.x, stone.y + 1) == 'clear') { return false; }
 			}
-
 			return true;
-		},
-
-		countLiberties : function ()
-		{
-			var retval = 0;
-
-			var found_liberties = new Object();
-			function found_liberty(stone) {
-				var i = stone.y * this.gridWidth + stone.x;
-				found_liberties[i] = true;
-			}
-
-			for (var i in this.stones) {
-				var stone = this.stones[i];
-				var neighbour;
-
-				if (stone.x > 0) {
-					neighbour = this.getCellState(stone.x - 1, stone.y);
-					if (neighbour == 'clear') { found_liberty(neighbour); }
-				}
-				if (stone.x < this.gridWidth - 1) {
-					neighbour = this.getCellState(stone.x + 1, stone.y);
-					if (neighbour == 'clear') { found_liberty(neighbour); }
-				}
-				if (stone.y > 0) {
-					neighbour = this.getCellState(stone.x, stone.y - 1);
-					if (neighbour == 'clear') { found_liberty(neighbour); }
-				}
-				if (stone.y < this.gridHeight - 1) {
-					neighbour = this.getCellState(stone.x, stone.y + 1);
-					if (neighbour == 'clear') { found_liberty(neighbour); }
-				}
-			}
-
-			for (var i in found_liberties) { retval += 1; }
-			return retval;
 		},
 	};
 
@@ -135,6 +84,12 @@ function createGoBoard(width, height)
 
 		getCellState : function (x, y)
 		{
+			if (x < 0 || x >= this.gridWidth ||
+				y < 0 || y >= this.gridHeight)
+			{
+				return false;
+			}
+
 			return this.cellState[y * this.gridWidth + x];
 		},
 
