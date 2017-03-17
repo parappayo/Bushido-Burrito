@@ -1,6 +1,6 @@
 
 // build with
-//   clang-cl ScaleClamp.cpp -o ScaleClamp.exe
+//   clang-cl -Wall ScaleClamp.cpp -o ScaleClamp.exe
 
 #include <iostream>
 #include <cassert>
@@ -12,7 +12,7 @@ template<typename T> inline T min(T a, T b)
 
 template<typename T> inline T max(T a, T b)
 {
-	return a > b ? a : b;
+	return b < a ? a : b;
 }
 
 template<typename T> inline T clamp(T value, T min_value, T max_value)
@@ -25,8 +25,8 @@ template<typename T> inline T clamp(T value, T min_value, T max_value)
 // https://twitter.com/Sosowski/status/841973849503719424
 template<typename T> T scaleClamp(T value, T min1, T max1, T min2, T max2)
 {
-	T delta1 = max1 - min1;
-	T delta2 = max2 - min2;
+	const T delta1 = max1 - min1;
+	const T delta2 = max2 - min2;
 
 	value = min2 + ((value - min1) / delta1) * delta2;
 
@@ -59,7 +59,7 @@ public:
 
 	T clamp(T value) const
 	{
-		return (end > start) ? ::clamp(value, start, end) : ::clamp(value, end, start);
+		return (start < end) ? ::clamp(value, start, end) : ::clamp(value, end, start);
 	}
 };
 
