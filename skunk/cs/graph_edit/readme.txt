@@ -11,10 +11,13 @@ Each node has the following properties:
 
 - name (string)
 - body (string)
+- position (a 2D point in grid coordinates)
 - edges (list of edge objects)
 
 Each edge has the following properties:
 
+- name (string)
+- body (string)
 - from (node object)
 - to (node object)
 - bidirectional (boolean)
