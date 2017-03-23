@@ -4,12 +4,12 @@ using System.Windows.Forms;
 
 namespace GraphEdit
 {
-    static class GraphEdit
+    static class GraphEditMain
     {
         [STAThread]
         static void Main()
         {
-            Application.Run(new GraphEditForm());
+            Application.Run(new UI.GraphEditForm());
         }
     }
 }

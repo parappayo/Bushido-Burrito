@@ -1,18 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Data;
 using System.Drawing;
+using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace GraphEdit
+namespace GraphEdit.UI
 {
-    public partial class GraphEditForm : Form
+    public partial class NodeListControl : UserControl
     {
-        public GraphEditForm()
+        public NodeListControl()
         {
             InitializeComponent();
         }

@@ -33,7 +33,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup>
-    <StartupObject>GraphEdit.GraphEdit</StartupObject>
+    <StartupObject>GraphEdit.GraphEditMain</StartupObject>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -50,18 +50,24 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Graph\Edge.cs" />
-    <Compile Include="GraphEditForm.cs">
+    <Compile Include="UI\GraphEditForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="GraphEditForm.Designer.cs">
+    <Compile Include="UI\GraphEditForm.Designer.cs">
       <DependentUpon>GraphEditForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="GraphEdit.cs" />
+    <Compile Include="GraphEditMain.cs" />
     <Compile Include="Graph\Graph.cs" />
     <Compile Include="Graph\Node.cs" />
     <Compile Include="Graph\Point.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <EmbeddedResource Include="GraphEditForm.resx">
+    <Compile Include="UI\NodeListControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UI\NodeListControl.Designer.cs">
+      <DependentUpon>NodeListControl.cs</DependentUpon>
+    </Compile>
+    <EmbeddedResource Include="UI\GraphEditForm.resx">
       <DependentUpon>GraphEditForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
@@ -74,6 +80,10 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
+    <EmbeddedResource Include="UI\NodeListControl.resx">
+      <DependentUpon>NodeListControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <None Include="ClassDiagram1.cd" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
