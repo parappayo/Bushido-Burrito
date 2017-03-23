@@ -37,7 +37,6 @@
             // 
             this.nodePropertyKeysListBox.FormattingEnabled = true;
             this.nodePropertyKeysListBox.Location = new System.Drawing.Point(12, 30);
-            this.nodePropertyKeysListBox.MultiColumn = true;
             this.nodePropertyKeysListBox.Name = "nodePropertyKeysListBox";
             this.nodePropertyKeysListBox.Size = new System.Drawing.Size(230, 225);
             this.nodePropertyKeysListBox.TabIndex = 0;
@@ -54,7 +53,6 @@
             // 
             this.nodePropertyValuesListBox.FormattingEnabled = true;
             this.nodePropertyValuesListBox.Location = new System.Drawing.Point(258, 30);
-            this.nodePropertyValuesListBox.MultiColumn = true;
             this.nodePropertyValuesListBox.Name = "nodePropertyValuesListBox";
             this.nodePropertyValuesListBox.Size = new System.Drawing.Size(230, 225);
             this.nodePropertyValuesListBox.TabIndex = 2;
