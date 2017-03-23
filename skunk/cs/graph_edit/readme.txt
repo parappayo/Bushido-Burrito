@@ -9,15 +9,13 @@ Graphes may be saved and loaded as json data.
 
 Each node has the following properties:
 
-- name (string)
-- body (string)
+- properties (dictionary of name-value pairs)
 - position (a 2D point in grid coordinates)
 - edges (list of edge objects)
 
 Each edge has the following properties:
 
-- name (string)
-- body (string)
+- properties (dictionary of name-value pairs)
 - from (node object)
 - to (node object)
 - bidirectional (boolean)

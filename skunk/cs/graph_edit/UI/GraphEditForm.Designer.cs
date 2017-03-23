@@ -34,9 +34,9 @@
             this.nodeListPanel.Controls.Add(this.nodeListLabel);
             this.nodeListPanel.Controls.Add(this.nodeListControl);
             this.nodeListPanel.Dock = System.Windows.Forms.DockStyle.Right;
-            this.nodeListPanel.Location = new System.Drawing.Point(540, 0);
+            this.nodeListPanel.Location = new System.Drawing.Point(465, 0);
             this.nodeListPanel.Name = "nodeListPanel";
-            this.nodeListPanel.Size = new System.Drawing.Size(200, 449);
+            this.nodeListPanel.Size = new System.Drawing.Size(275, 449);
             this.nodeListPanel.TabIndex = 0;
             // 
             // addNodeButton
@@ -44,7 +44,7 @@
             this.addNodeButton.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.addNodeButton.Location = new System.Drawing.Point(0, 426);
             this.addNodeButton.Name = "addNodeButton";
-            this.addNodeButton.Size = new System.Drawing.Size(200, 23);
+            this.addNodeButton.Size = new System.Drawing.Size(275, 23);
             this.addNodeButton.TabIndex = 2;
             this.addNodeButton.Text = "Add Node";
             this.addNodeButton.UseVisualStyleBackColor = true;
@@ -66,7 +66,7 @@
             this.nodeListControl.Dock = System.Windows.Forms.DockStyle.Fill;
             this.nodeListControl.Location = new System.Drawing.Point(0, 0);
             this.nodeListControl.Name = "nodeListControl";
-            this.nodeListControl.Size = new System.Drawing.Size(200, 449);
+            this.nodeListControl.Size = new System.Drawing.Size(275, 449);
             this.nodeListControl.TabIndex = 0;
             // 
             // GraphEditForm

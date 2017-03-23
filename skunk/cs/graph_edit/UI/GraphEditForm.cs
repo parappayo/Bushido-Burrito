@@ -15,7 +15,9 @@ namespace GraphEdit.UI
 
         private void addNodeButton_Click(object sender, EventArgs e)
         {
-            nodeListControl.AddNode(new Graph.Node(NewNodeCaption));
+            var newNode = new Graph.Node();
+            newNode.Properties.Add("name", NewNodeCaption);
+            nodeListControl.AddNode(newNode);
         }
     }
 }

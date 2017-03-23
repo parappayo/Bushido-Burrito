@@ -1,14 +1,17 @@
-﻿namespace GraphEdit.Graph
+﻿
+using System.Collections.Generic;
+
+namespace GraphEdit.Graph
 {
     public class Node
     {
-        public string Name;
-        public string Body;
+        public Dictionary<string, string> Properties = new Dictionary<string, string>();
+
         public Point Position;
 
-        public Node(string name)
+        public string Name
         {
-            this.Name = name;
+            get { return Properties["name"]; }
         }
     }
 }
