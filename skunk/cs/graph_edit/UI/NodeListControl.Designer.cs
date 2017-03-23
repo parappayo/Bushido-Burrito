@@ -33,6 +33,8 @@
             this.nodeListBox.Name = "nodeListBox";
             this.nodeListBox.Size = new System.Drawing.Size(146, 146);
             this.nodeListBox.TabIndex = 0;
+            this.nodeListBox.DoubleClick += new System.EventHandler(this.nodeListBox_DoubleClick);
+            this.nodeListBox.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.nodeListBox_KeyPress);
             // 
             // NodeListControl
             // 

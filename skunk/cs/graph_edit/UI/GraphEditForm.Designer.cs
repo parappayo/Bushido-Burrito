@@ -22,14 +22,14 @@
         private void InitializeComponent()
         {
             this.nodeListPanel = new System.Windows.Forms.Panel();
+            this.spacingBottomPanel = new System.Windows.Forms.Panel();
             this.addNodeButton = new System.Windows.Forms.Button();
-            this.nodeListLabel = new System.Windows.Forms.Label();
             this.nodeListControl = new GraphEdit.UI.NodeListControl();
             this.spacingTopPanel = new System.Windows.Forms.Panel();
-            this.spacingBottomPanel = new System.Windows.Forms.Panel();
+            this.nodeListLabel = new System.Windows.Forms.Label();
             this.nodeListPanel.SuspendLayout();
-            this.spacingTopPanel.SuspendLayout();
             this.spacingBottomPanel.SuspendLayout();
+            this.spacingTopPanel.SuspendLayout();
             this.SuspendLayout();
             // 
             // nodeListPanel
@@ -43,6 +43,15 @@
             this.nodeListPanel.Size = new System.Drawing.Size(275, 449);
             this.nodeListPanel.TabIndex = 0;
             // 
+            // spacingBottomPanel
+            // 
+            this.spacingBottomPanel.Controls.Add(this.addNodeButton);
+            this.spacingBottomPanel.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.spacingBottomPanel.Location = new System.Drawing.Point(0, 417);
+            this.spacingBottomPanel.Name = "spacingBottomPanel";
+            this.spacingBottomPanel.Size = new System.Drawing.Size(275, 32);
+            this.spacingBottomPanel.TabIndex = 4;
+            // 
             // addNodeButton
             // 
             this.addNodeButton.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -53,15 +62,6 @@
             this.addNodeButton.Text = "Add Node";
             this.addNodeButton.UseVisualStyleBackColor = true;
             this.addNodeButton.Click += new System.EventHandler(this.addNodeButton_Click);
-            // 
-            // nodeListLabel
-            // 
-            this.nodeListLabel.AutoSize = true;
-            this.nodeListLabel.Location = new System.Drawing.Point(3, 9);
-            this.nodeListLabel.Name = "nodeListLabel";
-            this.nodeListLabel.Size = new System.Drawing.Size(38, 13);
-            this.nodeListLabel.TabIndex = 1;
-            this.nodeListLabel.Text = "Nodes";
             // 
             // nodeListControl
             // 
@@ -81,14 +81,14 @@
             this.spacingTopPanel.Size = new System.Drawing.Size(275, 25);
             this.spacingTopPanel.TabIndex = 3;
             // 
-            // spacingBottomPanel
+            // nodeListLabel
             // 
-            this.spacingBottomPanel.Controls.Add(this.addNodeButton);
-            this.spacingBottomPanel.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.spacingBottomPanel.Location = new System.Drawing.Point(0, 417);
-            this.spacingBottomPanel.Name = "spacingBottomPanel";
-            this.spacingBottomPanel.Size = new System.Drawing.Size(275, 32);
-            this.spacingBottomPanel.TabIndex = 4;
+            this.nodeListLabel.AutoSize = true;
+            this.nodeListLabel.Location = new System.Drawing.Point(3, 9);
+            this.nodeListLabel.Name = "nodeListLabel";
+            this.nodeListLabel.Size = new System.Drawing.Size(38, 13);
+            this.nodeListLabel.TabIndex = 1;
+            this.nodeListLabel.Text = "Nodes";
             // 
             // GraphEditForm
             // 
@@ -99,9 +99,9 @@
             this.Name = "GraphEditForm";
             this.Text = "Graph Edit";
             this.nodeListPanel.ResumeLayout(false);
+            this.spacingBottomPanel.ResumeLayout(false);
             this.spacingTopPanel.ResumeLayout(false);
             this.spacingTopPanel.PerformLayout();
-            this.spacingBottomPanel.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
