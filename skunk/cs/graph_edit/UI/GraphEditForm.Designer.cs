@@ -24,7 +24,7 @@
             this.nodeListPanel = new System.Windows.Forms.Panel();
             this.addNodeButton = new System.Windows.Forms.Button();
             this.nodeListLabel = new System.Windows.Forms.Label();
-            this.nodeListControl1 = new GraphEdit.UI.NodeListControl();
+            this.nodeListControl = new GraphEdit.UI.NodeListControl();
             this.nodeListPanel.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -32,7 +32,7 @@
             // 
             this.nodeListPanel.Controls.Add(this.addNodeButton);
             this.nodeListPanel.Controls.Add(this.nodeListLabel);
-            this.nodeListPanel.Controls.Add(this.nodeListControl1);
+            this.nodeListPanel.Controls.Add(this.nodeListControl);
             this.nodeListPanel.Dock = System.Windows.Forms.DockStyle.Right;
             this.nodeListPanel.Location = new System.Drawing.Point(540, 0);
             this.nodeListPanel.Name = "nodeListPanel";
@@ -48,6 +48,7 @@
             this.addNodeButton.TabIndex = 2;
             this.addNodeButton.Text = "Add Node";
             this.addNodeButton.UseVisualStyleBackColor = true;
+            this.addNodeButton.Click += new System.EventHandler(this.addNodeButton_Click);
             // 
             // nodeListLabel
             // 
@@ -59,14 +60,14 @@
             this.nodeListLabel.TabIndex = 1;
             this.nodeListLabel.Text = "Nodes";
             // 
-            // nodeListControl1
+            // nodeListControl
             // 
-            this.nodeListControl1.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.nodeListControl1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.nodeListControl1.Location = new System.Drawing.Point(0, 0);
-            this.nodeListControl1.Name = "nodeListControl1";
-            this.nodeListControl1.Size = new System.Drawing.Size(200, 449);
-            this.nodeListControl1.TabIndex = 0;
+            this.nodeListControl.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.nodeListControl.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.nodeListControl.Location = new System.Drawing.Point(0, 0);
+            this.nodeListControl.Name = "nodeListControl";
+            this.nodeListControl.Size = new System.Drawing.Size(200, 449);
+            this.nodeListControl.TabIndex = 0;
             // 
             // GraphEditForm
             // 
@@ -86,7 +87,7 @@
 
         private System.Windows.Forms.Panel nodeListPanel;
         private System.Windows.Forms.Label nodeListLabel;
-        private GraphEdit.UI.NodeListControl nodeListControl1;
+        private NodeListControl nodeListControl;
         private System.Windows.Forms.Button addNodeButton;
     }
 }

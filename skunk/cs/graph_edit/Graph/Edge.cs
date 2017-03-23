@@ -1,6 +1,6 @@
 ﻿namespace GraphEdit.Graph
 {
-    class Edge
+    public class Edge
     {
         public string Name;
         public string Body;
