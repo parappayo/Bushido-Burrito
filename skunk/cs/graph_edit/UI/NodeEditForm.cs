@@ -1,4 +1,6 @@
-﻿using System.Windows.Forms;
+﻿
+using System.Collections.Generic;
+using System.Windows.Forms;
 using GraphEdit.Graph;
 
 namespace GraphEdit.UI
@@ -12,6 +14,9 @@ namespace GraphEdit.UI
             InitializeComponent();
 
             this.Target = target;
+
+            this.nodePropertyKeysListBox.DataSource = new List<string>(this.Target.Properties.Keys);
+            this.nodePropertyValuesListBox.DataSource = new List<string>(this.Target.Properties.Values);
         }
     }
 }

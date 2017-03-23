@@ -28,34 +28,45 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.propertiesListBox = new System.Windows.Forms.ListBox();
-            this.edgesListBox = new System.Windows.Forms.ListBox();
+            this.nodePropertyKeysListBox = new System.Windows.Forms.ListBox();
+            this.nodeEdgesListBox = new System.Windows.Forms.ListBox();
+            this.nodePropertyValuesListBox = new System.Windows.Forms.ListBox();
             this.SuspendLayout();
             // 
-            // propertiesListBox
+            // nodePropertyKeysListBox
             // 
-            this.propertiesListBox.FormattingEnabled = true;
-            this.propertiesListBox.Location = new System.Drawing.Point(12, 30);
-            this.propertiesListBox.MultiColumn = true;
-            this.propertiesListBox.Name = "propertiesListBox";
-            this.propertiesListBox.Size = new System.Drawing.Size(230, 225);
-            this.propertiesListBox.TabIndex = 0;
+            this.nodePropertyKeysListBox.FormattingEnabled = true;
+            this.nodePropertyKeysListBox.Location = new System.Drawing.Point(12, 30);
+            this.nodePropertyKeysListBox.MultiColumn = true;
+            this.nodePropertyKeysListBox.Name = "nodePropertyKeysListBox";
+            this.nodePropertyKeysListBox.Size = new System.Drawing.Size(230, 225);
+            this.nodePropertyKeysListBox.TabIndex = 0;
             // 
-            // edgesListBox
+            // nodeEdgesListBox
             // 
-            this.edgesListBox.FormattingEnabled = true;
-            this.edgesListBox.Location = new System.Drawing.Point(266, 30);
-            this.edgesListBox.Name = "edgesListBox";
-            this.edgesListBox.Size = new System.Drawing.Size(245, 225);
-            this.edgesListBox.TabIndex = 1;
+            this.nodeEdgesListBox.FormattingEnabled = true;
+            this.nodeEdgesListBox.Location = new System.Drawing.Point(12, 285);
+            this.nodeEdgesListBox.Name = "nodeEdgesListBox";
+            this.nodeEdgesListBox.Size = new System.Drawing.Size(245, 147);
+            this.nodeEdgesListBox.TabIndex = 1;
+            // 
+            // nodePropertyValuesListBox
+            // 
+            this.nodePropertyValuesListBox.FormattingEnabled = true;
+            this.nodePropertyValuesListBox.Location = new System.Drawing.Point(258, 30);
+            this.nodePropertyValuesListBox.MultiColumn = true;
+            this.nodePropertyValuesListBox.Name = "nodePropertyValuesListBox";
+            this.nodePropertyValuesListBox.Size = new System.Drawing.Size(230, 225);
+            this.nodePropertyValuesListBox.TabIndex = 2;
             // 
             // NodeEditForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(549, 444);
-            this.Controls.Add(this.edgesListBox);
-            this.Controls.Add(this.propertiesListBox);
+            this.Controls.Add(this.nodePropertyValuesListBox);
+            this.Controls.Add(this.nodeEdgesListBox);
+            this.Controls.Add(this.nodePropertyKeysListBox);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.SizableToolWindow;
             this.Name = "NodeEditForm";
             this.Text = "Node";
@@ -65,7 +76,8 @@
 
         #endregion
 
-        private System.Windows.Forms.ListBox propertiesListBox;
-        private System.Windows.Forms.ListBox edgesListBox;
+        private System.Windows.Forms.ListBox nodePropertyKeysListBox;
+        private System.Windows.Forms.ListBox nodeEdgesListBox;
+        private System.Windows.Forms.ListBox nodePropertyValuesListBox;
     }
 }
