@@ -1,25 +1,35 @@
 ﻿
+using System;
 using System.Drawing;
 using System.Windows.Forms;
 
 namespace GraphEdit.UI
 {
+    public class StringPairListItemEditedEventArgs : EventArgs
+    {
+        public string OldKey;
+        public string NewKey;
+        public string OldValue;
+        public string NewValue;
+    }
+
     public partial class StringPairListControl : UserControl
     {
         public bool Editable = false;
 
-        private TextBox EditTextBox = new TextBox();
+        public EventHandler ItemEdited;
 
-        public object LeftDataSource
+        private TextBox EditTextBox = new TextBox();
+        private ListBox EditTarget;
+
+        public ListBox LeftListBox
         {
-            get { return this.leftListBox.DataSource; }
-            set { this.leftListBox.DataSource = value; }
+            get { return this.leftListBox; }
         }
 
-        public object RightDataSource
+        public ListBox RightListBox
         {
-            get { return this.rightListBox.DataSource; }
-            set { this.rightListBox.DataSource = value; }
+            get { return this.rightListBox; }
         }
 
         public StringPairListControl()
@@ -41,8 +51,10 @@ namespace GraphEdit.UI
 
         private void ShowEditBox(ListBox target, Point locationOffset)
         {
-            string text = target.SelectedValue as string;
+            var text = target.SelectedItem as string;
             if (string.IsNullOrEmpty(text)) { return; }
+
+            this.EditTarget = target;
 
             this.EditTextBox.Visible = true;
             this.EditTextBox.Text = text;
@@ -54,8 +66,28 @@ namespace GraphEdit.UI
 
         private void HandleEditBoxFinished()
         {
-            // TODO: should modify graph values
+            if (this.EditTextBox.Text != this.EditTarget.SelectedValue as string)
+            {
+                var args = new StringPairListItemEditedEventArgs();
+                args.OldKey = this.leftListBox.SelectedItem as string;
+                args.OldValue = this.rightListBox.SelectedItem as string;
+
+                if (this.EditTarget == this.leftListBox)
+                {
+                    args.NewKey = this.EditTextBox.Text;
+                    args.NewValue = args.OldValue;
+                }
+                else
+                {
+                    args.NewKey = args.OldKey;
+                    args.NewValue = this.EditTextBox.Text;
+                }
+
+                ItemEdited(this, args);
+            }
+
             this.EditTextBox.Visible = false;
+            this.EditTarget = null;
         }
 
         private void leftListBox_MouseDoubleClick(object sender, MouseEventArgs e)

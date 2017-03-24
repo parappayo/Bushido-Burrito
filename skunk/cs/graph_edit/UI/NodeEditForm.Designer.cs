@@ -42,10 +42,8 @@
             // 
             // nodePropertiesListControl
             // 
-            this.nodePropertiesListControl.LeftDataSource = null;
             this.nodePropertiesListControl.Location = new System.Drawing.Point(12, 12);
             this.nodePropertiesListControl.Name = "nodePropertiesListControl";
-            this.nodePropertiesListControl.RightDataSource = null;
             this.nodePropertiesListControl.Size = new System.Drawing.Size(510, 254);
             this.nodePropertiesListControl.TabIndex = 2;
             // 
