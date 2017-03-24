@@ -15,8 +15,8 @@ namespace GraphEdit.UI
 
             this.Target = target;
 
-            this.nodePropertyKeysListBox.DataSource = new List<string>(this.Target.Properties.Keys);
-            this.nodePropertyValuesListBox.DataSource = new List<string>(this.Target.Properties.Values);
+            this.nodePropertiesListControl.LeftDataSource = new List<string>(this.Target.Properties.Keys);
+            this.nodePropertiesListControl.RightDataSource = new List<string>(this.Target.Properties.Values);
         }
     }
 }

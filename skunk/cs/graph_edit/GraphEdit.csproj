@@ -73,6 +73,12 @@
     <Compile Include="UI\NodeListControl.Designer.cs">
       <DependentUpon>NodeListControl.cs</DependentUpon>
     </Compile>
+    <Compile Include="UI\StringPairListControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UI\StringPairListControl.Designer.cs">
+      <DependentUpon>StringPairListControl.cs</DependentUpon>
+    </Compile>
     <EmbeddedResource Include="UI\GraphEditForm.resx">
       <DependentUpon>GraphEditForm.cs</DependentUpon>
     </EmbeddedResource>
@@ -91,6 +97,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="UI\NodeListControl.resx">
       <DependentUpon>NodeListControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\StringPairListControl.resx">
+      <DependentUpon>StringPairListControl.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="ClassDiagram1.cd" />
     <None Include="Properties\Settings.settings">
