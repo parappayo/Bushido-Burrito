@@ -44,14 +44,56 @@ namespace GraphEdit.UI
                 target.ItemHeight * target.SelectedIndex + locationOffset.Y);
         }
 
+        private void HandleEditBoxFinished()
+        {
+            // TODO: should modify graph values
+            this.EditTextBox.Visible = false;
+        }
+
         private void leftListBox_MouseDoubleClick(object sender, MouseEventArgs e)
         {
-            ShowEditBox(this.leftListBox, new Point(0, 0));
+            if (this.Editable)
+            {
+                ShowEditBox(this.leftListBox, new Point(0, 0));
+            }
         }
 
         private void rightListBox_MouseDoubleClick(object sender, MouseEventArgs e)
         {
-            ShowEditBox(this.rightListBox, new Point(this.leftListBox.Width + this.splitContainer1.SplitterWidth, 0));
+            if (this.Editable)
+            {
+                ShowEditBox(this.rightListBox, new Point(this.leftListBox.Width + this.splitContainer.SplitterWidth, 0));
+            }
+        }
+
+        private void leftListBox_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (e.KeyChar == (char)Keys.Enter)
+            {
+                if (this.EditTextBox.Visible)
+                {
+                    HandleEditBoxFinished();
+                }
+                else if (this.Editable)
+                {
+                    ShowEditBox(this.leftListBox, new Point(0, 0));
+                }
+            }
+        }
+
+        private void rightListBox_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (e.KeyChar == (char)Keys.Enter)
+            {
+                if (this.EditTextBox.Visible)
+                {
+                    HandleEditBoxFinished();
+                }
+                else if (this.Editable)
+                {
+                    ShowEditBox(this.rightListBox, new Point(this.leftListBox.Width + this.splitContainer.SplitterWidth, 0));
+                }
+            }
         }
     }
 }

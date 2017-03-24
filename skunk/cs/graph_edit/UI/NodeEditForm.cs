@@ -17,6 +17,7 @@ namespace GraphEdit.UI
 
             this.nodePropertiesListControl.LeftDataSource = new List<string>(this.Target.Properties.Keys);
             this.nodePropertiesListControl.RightDataSource = new List<string>(this.Target.Properties.Values);
+            this.nodePropertiesListControl.Editable = true;
         }
     }
 }

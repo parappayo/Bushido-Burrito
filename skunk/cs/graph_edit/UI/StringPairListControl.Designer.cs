@@ -21,31 +21,31 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.splitContainer1 = new System.Windows.Forms.SplitContainer();
+            this.splitContainer = new System.Windows.Forms.SplitContainer();
             this.leftListBox = new System.Windows.Forms.ListBox();
             this.rightListBox = new System.Windows.Forms.ListBox();
-            ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
-            this.splitContainer1.Panel1.SuspendLayout();
-            this.splitContainer1.Panel2.SuspendLayout();
-            this.splitContainer1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer)).BeginInit();
+            this.splitContainer.Panel1.SuspendLayout();
+            this.splitContainer.Panel2.SuspendLayout();
+            this.splitContainer.SuspendLayout();
             this.SuspendLayout();
             // 
-            // splitContainer1
+            // splitContainer
             // 
-            this.splitContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.splitContainer1.Location = new System.Drawing.Point(0, 0);
-            this.splitContainer1.Name = "splitContainer1";
+            this.splitContainer.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.splitContainer.Location = new System.Drawing.Point(0, 0);
+            this.splitContainer.Name = "splitContainer";
             // 
-            // splitContainer1.Panel1
+            // splitContainer.Panel1
             // 
-            this.splitContainer1.Panel1.Controls.Add(this.leftListBox);
+            this.splitContainer.Panel1.Controls.Add(this.leftListBox);
             // 
-            // splitContainer1.Panel2
+            // splitContainer.Panel2
             // 
-            this.splitContainer1.Panel2.Controls.Add(this.rightListBox);
-            this.splitContainer1.Size = new System.Drawing.Size(412, 361);
-            this.splitContainer1.SplitterDistance = 178;
-            this.splitContainer1.TabIndex = 0;
+            this.splitContainer.Panel2.Controls.Add(this.rightListBox);
+            this.splitContainer.Size = new System.Drawing.Size(412, 361);
+            this.splitContainer.SplitterDistance = 178;
+            this.splitContainer.TabIndex = 0;
             // 
             // leftListBox
             // 
@@ -56,6 +56,7 @@
             this.leftListBox.Name = "leftListBox";
             this.leftListBox.Size = new System.Drawing.Size(178, 361);
             this.leftListBox.TabIndex = 0;
+            this.leftListBox.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.leftListBox_KeyPress);
             this.leftListBox.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.leftListBox_MouseDoubleClick);
             // 
             // rightListBox
@@ -67,26 +68,27 @@
             this.rightListBox.Name = "rightListBox";
             this.rightListBox.Size = new System.Drawing.Size(230, 361);
             this.rightListBox.TabIndex = 0;
+            this.rightListBox.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.rightListBox_KeyPress);
             this.rightListBox.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.rightListBox_MouseDoubleClick);
             // 
             // StringPairListControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.Controls.Add(this.splitContainer1);
+            this.Controls.Add(this.splitContainer);
             this.Name = "StringPairListControl";
             this.Size = new System.Drawing.Size(412, 361);
-            this.splitContainer1.Panel1.ResumeLayout(false);
-            this.splitContainer1.Panel2.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
-            this.splitContainer1.ResumeLayout(false);
+            this.splitContainer.Panel1.ResumeLayout(false);
+            this.splitContainer.Panel2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer)).EndInit();
+            this.splitContainer.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
 
         #endregion
 
-        private System.Windows.Forms.SplitContainer splitContainer1;
+        private System.Windows.Forms.SplitContainer splitContainer;
         private System.Windows.Forms.ListBox leftListBox;
         private System.Windows.Forms.ListBox rightListBox;
     }
