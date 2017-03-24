@@ -27,8 +27,16 @@ namespace GraphEdit.UI
             InitializeComponent();
 
             this.EditTextBox.Visible = false;
+            this.EditTextBox.Multiline = true;
+            this.EditTextBox.AcceptsReturn = true;
+            this.EditTextBox.Leave += EditTextBox_Leave;
             this.Controls.Add(this.EditTextBox);
             this.EditTextBox.BringToFront();
+        }
+
+        private void EditTextBox_Leave(object sender, System.EventArgs e)
+        {
+            HandleEditBoxFinished();
         }
 
         private void ShowEditBox(ListBox target, Point locationOffset)
@@ -93,6 +101,22 @@ namespace GraphEdit.UI
                 {
                     ShowEditBox(this.rightListBox, new Point(this.leftListBox.Width + this.splitContainer.SplitterWidth, 0));
                 }
+            }
+        }
+
+        private void leftListBox_Click(object sender, System.EventArgs e)
+        {
+            if (this.EditTextBox.Visible)
+            {
+                HandleEditBoxFinished();
+            }
+        }
+
+        private void rightListBox_Click(object sender, System.EventArgs e)
+        {
+            if (this.EditTextBox.Visible)
+            {
+                HandleEditBoxFinished();
             }
         }
     }

@@ -56,6 +56,7 @@
             this.leftListBox.Name = "leftListBox";
             this.leftListBox.Size = new System.Drawing.Size(178, 361);
             this.leftListBox.TabIndex = 0;
+            this.leftListBox.Click += new System.EventHandler(this.leftListBox_Click);
             this.leftListBox.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.leftListBox_KeyPress);
             this.leftListBox.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.leftListBox_MouseDoubleClick);
             // 
@@ -68,6 +69,7 @@
             this.rightListBox.Name = "rightListBox";
             this.rightListBox.Size = new System.Drawing.Size(230, 361);
             this.rightListBox.TabIndex = 0;
+            this.rightListBox.Click += new System.EventHandler(this.rightListBox_Click);
             this.rightListBox.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.rightListBox_KeyPress);
             this.rightListBox.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.rightListBox_MouseDoubleClick);
             // 
