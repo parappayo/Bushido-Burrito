@@ -56,6 +56,7 @@
             this.leftListBox.Name = "leftListBox";
             this.leftListBox.Size = new System.Drawing.Size(178, 361);
             this.leftListBox.TabIndex = 0;
+            this.leftListBox.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.leftListBox_MouseDoubleClick);
             // 
             // rightListBox
             // 
@@ -66,6 +67,7 @@
             this.rightListBox.Name = "rightListBox";
             this.rightListBox.Size = new System.Drawing.Size(230, 361);
             this.rightListBox.TabIndex = 0;
+            this.rightListBox.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.rightListBox_MouseDoubleClick);
             // 
             // StringPairListControl
             // 
