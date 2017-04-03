@@ -220,6 +220,19 @@ function createGoBoard(width, height)
 			return new_group;
 		},
 
+		findGroup : function (stone)
+		{
+			for (var i in this.groups) {
+				var group = this.groups[i];
+
+				if (group.containsStone(stone)) {
+					return group;
+				}
+			}
+
+			return null;
+		},
+
 		findNeighbouringGroups : function (stone)
 		{
 			var retval = new Array();
