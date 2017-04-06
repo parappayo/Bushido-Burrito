@@ -37,14 +37,20 @@ namespace GraphEdit.UI
 
         private void nodeListBox_DoubleClick(object sender, EventArgs e)
         {
-            ItemOpened?.Invoke(this, e);
+            if (ItemOpened != null)
+            {
+                ItemOpened.Invoke(this, e);
+            }
         }
 
         private void nodeListBox_KeyPress(object sender, KeyPressEventArgs e)
         {
             if (e.KeyChar == (char)Keys.Enter)
             {
-                ItemOpened?.Invoke(this, e);
+                if (ItemOpened != null)
+                {
+                    ItemOpened.Invoke(this, e);
+                }
             }
         }
     }
