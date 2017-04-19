@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2015
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "safari.CSharp", "safari.CSharp.csproj", "{5D3DAC78-2E7C-DD8C-614C-CB3E2D3F4F6F}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "safari", "safari.csproj", "{FA256E90-4EAB-3837-5660-57CE1D4CC76D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -9,10 +9,10 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{5D3DAC78-2E7C-DD8C-614C-CB3E2D3F4F6F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{5D3DAC78-2E7C-DD8C-614C-CB3E2D3F4F6F}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{5D3DAC78-2E7C-DD8C-614C-CB3E2D3F4F6F}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{5D3DAC78-2E7C-DD8C-614C-CB3E2D3F4F6F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FA256E90-4EAB-3837-5660-57CE1D4CC76D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FA256E90-4EAB-3837-5660-57CE1D4CC76D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FA256E90-4EAB-3837-5660-57CE1D4CC76D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FA256E90-4EAB-3837-5660-57CE1D4CC76D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
