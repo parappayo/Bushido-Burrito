@@ -7,6 +7,7 @@ public class Player : MonoBehaviour {
 	private Quaternion StartingRotation;
 	private PlayerShoot Shoot;
 	private ResetPosition ResetPosition;
+	private Rigidbody Rigidbody;
 
 	public GameObject Rifle;
 	public float MinimumAltitude = -10f;
@@ -15,13 +16,20 @@ public class Player : MonoBehaviour {
 	{
 		Shoot = GetComponent<PlayerShoot>();
 		ResetPosition = GetComponent<ResetPosition>();
+		Rigidbody = GetComponent<Rigidbody>();
 	}
 
-	private void Update()
+	private void FixedUpdate()
 	{
 		if (transform.position.y < MinimumAltitude)
 		{
 			ResetPosition.Reset();
+
+			if (Rigidbody)
+			{
+				Rigidbody.velocity = Vector3.zero;
+				Rigidbody.angularVelocity = Vector3.zero;
+			}
 		}
 	}
 
