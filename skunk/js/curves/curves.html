@@ -4,26 +4,35 @@
 <script src="curves.js"></script>
 <script>
 
+var curvePlotterTable = {
+
+	"spiral": (canvasContext2D) => {
+		var stepCount = 500;
+		var scale = 1;
+
+		plotSpiral(canvasContext2D, new Range(0, 20), stepCount, scale);
+	},
+
+	"euler": (canvasContext2D) => {
+		var stepCount = 1000;
+		var scale = 800;
+
+		plotEulerSpiral(canvasContext2D, new Range(0, 20), stepCount, scale);
+	},
+
+	"butteryfly": (canvasContext2D) => {
+
+		var stepCount = 1000;
+		var scale = 1;
+
+		plotButterflyCurve(canvasContext2D, new Range(0, 20), stepCount, scale);
+	},
+}
+
 function getSelectedCurveName()
 {
 	var select = document.getElementById("curveName");
 	return select.options[select.selectedIndex].value;
-}
-
-function handlePlotSpiral(canvasContext2D)
-{
-	var stepCount = 500;
-	var scale = 1;
-
-	plotSpiral(canvasContext2D, new Range(0, 20), stepCount, scale);
-}
-
-function handlePlotEulerSpiral(canvasContext2D)
-{
-	var stepCount = 1000;
-	var scale = 800;
-
-	plotEulerSpiral(canvasContext2D, new Range(0, 20), stepCount, scale);
 }
 
 function plotSelectedCurve()
@@ -32,16 +41,7 @@ function plotSelectedCurve()
 	canvasContext2D.lineWidth = 0.5;
 
 	var curveName = getSelectedCurveName();
-	switch (curveName)
-	{
-		case "spiral":
-			handlePlotSpiral(canvasContext2D);
-			break;
-
-		case "euler":
-			handlePlotEulerSpiral(canvasContext2D);
-			break;
-	}
+	curvePlotterTable[curveName](canvasContext2D);
 }
 
 function clearCanvas()
@@ -60,6 +60,7 @@ function clearCanvas()
 	<select id="curveName">
 		<option value="spiral">Spiral</option>
 		<option value="euler">Euler</option>
+		<option value="butteryfly">Butterfly</option>
 	</select>
 	<button onclick="plotSelectedCurve()">Plot</button>
 	<button onclick="clearCanvas()">Clear</button>

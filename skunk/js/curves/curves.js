@@ -76,22 +76,34 @@ ParametricFunction.prototype.plot = function (canvasContext2D, range, stepCount,
 
 function plotSpiral(canvasContext2D, range, stepCount, scale)
 {
-	var spiral = new ParametricFunction(
+	var func = new ParametricFunction(
 		(t) => { return Math.cos(t) * t },
 		(t) => { return Math.sin(t) * t }
 	);
 
-	spiral.plot(canvasContext2D, range, stepCount, scale);
+	func.plot(canvasContext2D, range, stepCount, scale);
 }
 
+// https://en.wikipedia.org/wiki/Euler_spiral
 function plotEulerSpiral(canvasContext2D, range, stepCount, scale)
 {
 	var dt = range.delta() / stepCount;
 
-	var eulerSpiral = new ParametricFunction(
+	var func = new ParametricFunction(
 		(t) => { return Math.cos(t * t) * dt },
 		(t) => { return Math.sin(t * t) * dt }
 	);
 
-	eulerSpiral.plot(canvasContext2D, range, stepCount, scale);
+	func.plot(canvasContext2D, range, stepCount, scale);
+}
+
+// https://en.wikipedia.org/wiki/Butterfly_curve_(transcendental)
+function plotButterflyCurve(canvasContext2D, range, stepCount, scale)
+{
+	var func = new ParametricFunction(
+		(t) => { return Math.sin(t) * (Math.exp(Math.cos(t)) - 2 * Math.cos(4 * t) - Math.pow(Math.sin(t / 12), 5)); },
+		(t) => { return Math.cos(t) * (Math.exp(Math.cos(t)) - 2 * Math.cos(4 * t) - Math.pow(Math.sin(t / 12), 5)); }
+	);
+
+	func.plot(canvasContext2D, range, stepCount, scale);
 }
