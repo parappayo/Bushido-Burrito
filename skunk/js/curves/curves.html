@@ -3,12 +3,60 @@
 <head>
 <script>
 
-function drawEulerSpiral(canvasContext2D, T, N, scale) {
-	var dx, dy, t=0, prev = {x:0, y:0}, current;
-	var dt = T/N;
-	
+function generateCurve(xFunc, yFunc, startValue, endValue, stepCount)
+{
+	var result = [];
+
+	var t = startValue;
+	var dt = (endValue - startValue) / stepCount;
+	var previousPoint = { x: xFunc(t), y: yFunc(t) };
+
+	while (stepCount > 0) {
+		stepCount--;
+
+		t += dt;
+		var point = {
+			x: previousPoint.x + xFunc(t),
+			y: previousPoint.y + yFunc(t)
+		};
+
+		result.push(point);
+		previousPoint = point;
+	}
+
+	return result;
+}
+
+function scaleCurve(points, scale)
+{
+	points.forEach((currentValue, index, array) => {
+		points[index].x = currentValue.x * scale;
+		points[index].y = currentValue.y * scale;
+	});
+}
+
+function plotCurve(canvasContext2D, points)
+{
+	if (points.length < 2) { return; }
+
 	canvasContext2D.beginPath();
-	while (N--) {
+	canvasContext2D.moveTo(points[0].x, points[0].y);
+
+	points.forEach((currentValue, index, array) => {
+		canvasContext2D.lineTo(currentValue.x, currentValue.y);
+	});
+
+	canvasContext2D.stroke();
+}
+
+function drawEulerSpiral(canvasContext2D, startValue, endValue, stepCount, scale) {
+	var dx, dy, t=0, prev = {x:0, y:0}, current;
+	var dt = (endValue - startValue) / stepCount;
+	var t = startValue;
+
+	canvasContext2D.beginPath();
+	while (stepCount > 0) {
+		stepCount--;
 		dx = Math.cos(t*t) * dt;
 		dy = Math.sin(t*t) * dt;
 		t += dt;
@@ -22,16 +70,28 @@ function drawEulerSpiral(canvasContext2D, T, N, scale) {
 	canvasContext2D.stroke();
 }
 
+function drawEulerSpiral2(canvasContext2D, startValue, endValue, stepCount, scale)
+{
+	var dt = (endValue - startValue) / stepCount;
+
+	var xFunc = (t) => { return Math.cos(t * t) * dt };
+	var yFunc = (t) => { return Math.sin(t * t) * dt };
+
+	var points = generateCurve(xFunc, yFunc, startValue, endValue, stepCount);
+	console.log(points);
+	scaleCurve(points, scale);
+	plotCurve(canvasContext2D, points);
+}
+
 function handleOnLoad()
 {
 	var canvasContext2D = document.getElementById("curveCanvas").getContext("2d");
 	canvasContext2D.lineWidth = 0.5;
 
-	var max = 20;
-	var steps = 10000;
+	var stepCount = 10000;
 	var scale = 800;
 
-	drawEulerSpiral(canvasContext2D, max, steps, scale);
+	drawEulerSpiral2(canvasContext2D, 0, 20, stepCount, scale);
 }
 
 </script>
