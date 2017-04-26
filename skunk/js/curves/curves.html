@@ -3,12 +3,23 @@
 <head>
 <script>
 
-function generateCurve(xFunc, yFunc, startValue, endValue, stepCount)
+function Range(start, end)
+{
+	this.start = start;
+	this.end = end;
+}
+
+Range.prototype.delta = function ()
+{
+	return this.end - this.start;
+}
+
+function generateCurve(xFunc, yFunc, range, stepCount)
 {
 	var result = [];
 
-	var t = startValue;
-	var dt = (endValue - startValue) / stepCount;
+	var t = range.start;
+	var dt = range.delta() / stepCount;
 	var previousPoint = { x: xFunc(t), y: yFunc(t) };
 
 	while (stepCount > 0) {
@@ -49,35 +60,14 @@ function plotCurve(canvasContext2D, points)
 	canvasContext2D.stroke();
 }
 
-function drawEulerSpiral(canvasContext2D, startValue, endValue, stepCount, scale) {
-	var dx, dy, t=0, prev = {x:0, y:0}, current;
-	var dt = (endValue - startValue) / stepCount;
-	var t = startValue;
-
-	canvasContext2D.beginPath();
-	while (stepCount > 0) {
-		stepCount--;
-		dx = Math.cos(t*t) * dt;
-		dy = Math.sin(t*t) * dt;
-		t += dt;
-		current = {
-			x: prev.x + dx,
-			y: prev.y + dy
-		};
-		canvasContext2D.lineTo(current.x*scale, current.y*scale);
-		prev = current;
-	}
-	canvasContext2D.stroke();
-}
-
-function drawEulerSpiral2(canvasContext2D, startValue, endValue, stepCount, scale)
+function drawEulerSpiral(canvasContext2D, range, stepCount, scale)
 {
-	var dt = (endValue - startValue) / stepCount;
+	var dt = range.delta() / stepCount;
 
 	var xFunc = (t) => { return Math.cos(t * t) * dt };
 	var yFunc = (t) => { return Math.sin(t * t) * dt };
 
-	var points = generateCurve(xFunc, yFunc, startValue, endValue, stepCount);
+	var points = generateCurve(xFunc, yFunc, range, stepCount);
 	console.log(points);
 	scaleCurve(points, scale);
 	plotCurve(canvasContext2D, points);
@@ -91,7 +81,7 @@ function handleOnLoad()
 	var stepCount = 10000;
 	var scale = 800;
 
-	drawEulerSpiral2(canvasContext2D, 0, 20, stepCount, scale);
+	drawEulerSpiral(canvasContext2D, new Range(0, 20), stepCount, scale);
 }
 
 </script>
