@@ -4,21 +4,66 @@
 <script src="curves.js"></script>
 <script>
 
-function handleOnLoad()
+function getSelectedCurveName()
 {
-	var canvasContext2D = document.getElementById("curveCanvas").getContext("2d");
-	canvasContext2D.lineWidth = 0.5;
+	var select = document.getElementById("curveName");
+	return select.options[select.selectedIndex].value;
+}
 
-	var stepCount = 10000;
+function handlePlotSpiral(canvasContext2D)
+{
+	var stepCount = 500;
+	var scale = 1;
+
+	plotSpiral(canvasContext2D, new Range(0, 20), stepCount, scale);
+}
+
+function handlePlotEulerSpiral(canvasContext2D)
+{
+	var stepCount = 1000;
 	var scale = 800;
 
 	plotEulerSpiral(canvasContext2D, new Range(0, 20), stepCount, scale);
 }
 
+function plotSelectedCurve()
+{
+	var canvasContext2D = document.getElementById("curveCanvas").getContext("2d");
+	canvasContext2D.lineWidth = 0.5;
+
+	var curveName = getSelectedCurveName();
+	switch (curveName)
+	{
+		case "spiral":
+			handlePlotSpiral(canvasContext2D);
+			break;
+
+		case "euler":
+			handlePlotEulerSpiral(canvasContext2D);
+			break;
+	}
+}
+
+function clearCanvas()
+{
+	var canvasElement = document.getElementById("curveCanvas");
+	var canvasContext2D = canvasElement.getContext("2d");
+	canvasContext2D.clearRect(0, 0, canvasElement.width, canvasElement.height);
+}
+
 </script>
 </head>
 
-<body onload="handleOnLoad()">
+<body>
+
+<form onsubmit="return false;">
+	<select id="curveName">
+		<option value="spiral">Spiral</option>
+		<option value="euler">Euler</option>
+	</select>
+	<button onclick="plotSelectedCurve()">Plot</button>
+	<button onclick="clearCanvas()">Clear</button>
+<form>
 
 <canvas id="curveCanvas" width="1200" height="1200" />
 
