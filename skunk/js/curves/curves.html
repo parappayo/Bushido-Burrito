@@ -14,6 +14,33 @@ Range.prototype.delta = function ()
 	return this.end - this.start;
 }
 
+function Curve()
+{
+	this.points = [];
+}
+
+Curve.prototype.scale = function (scale)
+{
+	this.points.forEach((currentValue, index, array) => {
+		currentValue.x *= scale;
+		currentValue.y *= scale;
+	});
+}
+
+Curve.prototype.plot = function (canvasContext2D, points)
+{
+	if (this.points.length < 2) { return; }
+
+	canvasContext2D.beginPath();
+	canvasContext2D.moveTo(this.points[0].x, this.points[0].y);
+
+	this.points.forEach((currentValue, index, array) => {
+		canvasContext2D.lineTo(currentValue.x, currentValue.y);
+	});
+
+	canvasContext2D.stroke();
+}
+
 function ParametricFunction(x, y)
 {
 	this.x = x;
@@ -22,7 +49,7 @@ function ParametricFunction(x, y)
 
 ParametricFunction.prototype.generateCurve = function (range, stepCount)
 {
-	var result = [];
+	var curve = new Curve();
 
 	var t = range.start;
 	var dt = range.delta() / stepCount;
@@ -37,47 +64,40 @@ ParametricFunction.prototype.generateCurve = function (range, stepCount)
 			y: previousPoint.y + this.y(t)
 		};
 
-		result.push(point);
+		curve.points.push(point);
 		previousPoint = point;
 	}
 
-	return result;
+	return curve;
 }
 
-function scaleCurve(points, scale)
+ParametricFunction.prototype.plot = function (canvasContext2D, range, stepCount, scale)
 {
-	points.forEach((currentValue, index, array) => {
-		points[index].x = currentValue.x * scale;
-		points[index].y = currentValue.y * scale;
-	});
+	var curve = this.generateCurve(range, stepCount);
+	curve.scale(scale);
+	curve.plot(canvasContext2D, curve);
 }
 
-function plotCurve(canvasContext2D, points)
+function plotSpiral(canvasContext2D, range, stepCount, scale)
 {
-	if (points.length < 2) { return; }
+	var spiral = new ParametricFunction(
+		(t) => { return Math.cos(t) * t },
+		(t) => { return Math.sin(t) * t }
+	);
 
-	canvasContext2D.beginPath();
-	canvasContext2D.moveTo(points[0].x, points[0].y);
-
-	points.forEach((currentValue, index, array) => {
-		canvasContext2D.lineTo(currentValue.x, currentValue.y);
-	});
-
-	canvasContext2D.stroke();
+	spiral.plot(canvasContext2D, range, stepCount, scale);
 }
 
 function plotEulerSpiral(canvasContext2D, range, stepCount, scale)
 {
 	var dt = range.delta() / stepCount;
 
-	var eulerSpiralFunction = new ParametricFunction(
+	var eulerSpiral = new ParametricFunction(
 		(t) => { return Math.cos(t * t) * dt },
 		(t) => { return Math.sin(t * t) * dt }
 	);
 
-	var points = eulerSpiralFunction.generateCurve(range, stepCount);
-	scaleCurve(points, scale);
-	plotCurve(canvasContext2D, points);
+	eulerSpiral.plot(canvasContext2D, range, stepCount, scale);
 }
 
 function handleOnLoad()
