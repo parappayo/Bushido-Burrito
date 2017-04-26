@@ -14,21 +14,27 @@ Range.prototype.delta = function ()
 	return this.end - this.start;
 }
 
-function generateCurve(xFunc, yFunc, range, stepCount)
+function ParametricFunction(x, y)
+{
+	this.x = x;
+	this.y = y;
+}
+
+ParametricFunction.prototype.generateCurve = function (range, stepCount)
 {
 	var result = [];
 
 	var t = range.start;
 	var dt = range.delta() / stepCount;
-	var previousPoint = { x: xFunc(t), y: yFunc(t) };
+	var previousPoint = { x: this.x(t), y: this.y(t) };
 
 	while (stepCount > 0) {
 		stepCount--;
 
 		t += dt;
 		var point = {
-			x: previousPoint.x + xFunc(t),
-			y: previousPoint.y + yFunc(t)
+			x: previousPoint.x + this.x(t),
+			y: previousPoint.y + this.y(t)
 		};
 
 		result.push(point);
@@ -64,11 +70,12 @@ function drawEulerSpiral(canvasContext2D, range, stepCount, scale)
 {
 	var dt = range.delta() / stepCount;
 
-	var xFunc = (t) => { return Math.cos(t * t) * dt };
-	var yFunc = (t) => { return Math.sin(t * t) * dt };
+	var eulerSpiralFunction = new ParametricFunction(
+		(t) => { return Math.cos(t * t) * dt },
+		(t) => { return Math.sin(t * t) * dt }
+	);
 
-	var points = generateCurve(xFunc, yFunc, range, stepCount);
-	console.log(points);
+	var points = eulerSpiralFunction.generateCurve(range, stepCount);
 	scaleCurve(points, scale);
 	plotCurve(canvasContext2D, points);
 }
