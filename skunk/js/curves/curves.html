@@ -8,9 +8,9 @@ var curvePlotterTable = {
 
 	"spiral": (canvasContext2D) => {
 		var stepCount = 500;
-		var scale = 1;
+		var scale = 12;
 
-		plotSpiral(canvasContext2D, new Range(0, 20), stepCount, scale);
+		plotSpiral(canvasContext2D, new Range(0, 50), stepCount, scale);
 	},
 
 	"euler": (canvasContext2D) => {
@@ -22,10 +22,10 @@ var curvePlotterTable = {
 
 	"butteryfly": (canvasContext2D) => {
 
-		var stepCount = 1000;
-		var scale = 1;
+		var stepCount = 10000;
+		var scale = 100;
 
-		plotButterflyCurve(canvasContext2D, new Range(0, 20), stepCount, scale);
+		plotButterflyCurve(canvasContext2D, new Range(0, 200), stepCount, scale);
 	},
 }
 

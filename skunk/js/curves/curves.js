@@ -49,6 +49,29 @@ ParametricFunction.prototype.generateCurve = function (range, stepCount)
 
 	var t = range.start;
 	var dt = range.delta() / stepCount;
+
+	while (stepCount > 0) {
+		stepCount--;
+
+		t += dt;
+		var point = {
+			x: this.x(t),
+			y: this.y(t)
+		};
+
+		curve.points.push(point);
+	}
+
+	return curve;
+}
+
+
+ParametricFunction.prototype.generateCumulativeCurve = function (range, stepCount)
+{
+	var curve = new Curve();
+
+	var t = range.start;
+	var dt = range.delta() / stepCount;
 	var previousPoint = { x: this.x(t), y: this.y(t) };
 
 	while (stepCount > 0) {
@@ -74,6 +97,13 @@ ParametricFunction.prototype.plot = function (canvasContext2D, range, stepCount,
 	curve.plot(canvasContext2D, curve);
 }
 
+ParametricFunction.prototype.plotCumulative = function (canvasContext2D, range, stepCount, scale)
+{
+	var curve = this.generateCumulativeCurve(range, stepCount);
+	curve.scale(scale);
+	curve.plot(canvasContext2D, curve);
+}
+
 function plotSpiral(canvasContext2D, range, stepCount, scale)
 {
 	var func = new ParametricFunction(
@@ -94,7 +124,7 @@ function plotEulerSpiral(canvasContext2D, range, stepCount, scale)
 		(t) => { return Math.sin(t * t) * dt }
 	);
 
-	func.plot(canvasContext2D, range, stepCount, scale);
+	func.plotCumulative(canvasContext2D, range, stepCount, scale);
 }
 
 // https://en.wikipedia.org/wiki/Butterfly_curve_(transcendental)
