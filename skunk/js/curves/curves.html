@@ -6,29 +6,30 @@
 
 var curvePlotterTable = {
 
-	"spiral": (canvasContext2D) => {
-		var stepCount = 500;
-		var scale = 12;
-		var range = new Range(0, 50);
+	"spiral": {
+		stepCount: 500,
+		scale: 12,
+		offset: { x: 600, y: 600 },
+		range: new Range(0, 50),
 
-		ParametricFunction.Spiral().plot(canvasContext2D, range, stepCount, scale);
+		parametricFunc: ParametricFunction.Spiral()
 	},
 
-	"euler": (canvasContext2D) => {
-		var stepCount = 1000;
-		var scale = 800;
-		var range = new Range(0, 20);
+	"euler": {
+		stepCount: 1000,
+		scale: 800,
+		range: new Range(0, 20),
 
-		ParametricFunction.EulerSpiral(range, stepCount).plotCumulative(canvasContext2D, range, stepCount, scale);
+		parametricFunc: ParametricFunction.EulerSpiral(new Range(0, 20), 1000)
 	},
 
-	"butteryfly": (canvasContext2D) => {
+	"butteryfly": {
+		stepCount: 10000,
+		scale: 100,
+		offset: { x: 400, y: 400 },
+		range: new Range(0, 200),
 
-		var stepCount = 10000;
-		var scale = 100;
-		var range = new Range(0, 200);
-
-		ParametricFunction.ButterflyCurve().plot(canvasContext2D, range, stepCount, scale);
+		parametricFunc: ParametricFunction.ButterflyCurve()
 	},
 }
 
@@ -44,7 +45,7 @@ function plotSelectedCurve()
 	canvasContext2D.lineWidth = 0.5;
 
 	var curveName = getSelectedCurveName();
-	curvePlotterTable[curveName](canvasContext2D);
+	plotCurve(canvasContext2D, curvePlotterTable[curveName])
 }
 
 function clearCanvas()
