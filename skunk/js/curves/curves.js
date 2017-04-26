@@ -104,36 +104,30 @@ ParametricFunction.prototype.plotCumulative = function (canvasContext2D, range, 
 	curve.plot(canvasContext2D, curve);
 }
 
-function plotSpiral(canvasContext2D, range, stepCount, scale)
+ParametricFunction.Spiral = function ()
 {
-	var func = new ParametricFunction(
-		(t) => { return Math.cos(t) * t },
-		(t) => { return Math.sin(t) * t }
-	);
-
-	func.plot(canvasContext2D, range, stepCount, scale);
+	return new ParametricFunction(
+			(t) => { return Math.cos(t) * t },
+			(t) => { return Math.sin(t) * t }
+		);
 }
 
 // https://en.wikipedia.org/wiki/Euler_spiral
-function plotEulerSpiral(canvasContext2D, range, stepCount, scale)
+ParametricFunction.EulerSpiral = function (range, stepCount)
 {
 	var dt = range.delta() / stepCount;
 
-	var func = new ParametricFunction(
-		(t) => { return Math.cos(t * t) * dt },
-		(t) => { return Math.sin(t * t) * dt }
-	);
-
-	func.plotCumulative(canvasContext2D, range, stepCount, scale);
+	return new ParametricFunction(
+			(t) => { return Math.cos(t * t) * dt },
+			(t) => { return Math.sin(t * t) * dt }
+		);
 }
 
 // https://en.wikipedia.org/wiki/Butterfly_curve_(transcendental)
-function plotButterflyCurve(canvasContext2D, range, stepCount, scale)
+ParametricFunction.ButterflyCurve = function ()
 {
-	var func = new ParametricFunction(
+	return new ParametricFunction(
 		(t) => { return Math.sin(t) * (Math.exp(Math.cos(t)) - 2 * Math.cos(4 * t) - Math.pow(Math.sin(t / 12), 5)); },
 		(t) => { return Math.cos(t) * (Math.exp(Math.cos(t)) - 2 * Math.cos(4 * t) - Math.pow(Math.sin(t / 12), 5)); }
 	);
-
-	func.plot(canvasContext2D, range, stepCount, scale);
 }

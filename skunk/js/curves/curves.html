@@ -9,23 +9,26 @@ var curvePlotterTable = {
 	"spiral": (canvasContext2D) => {
 		var stepCount = 500;
 		var scale = 12;
+		var range = new Range(0, 50);
 
-		plotSpiral(canvasContext2D, new Range(0, 50), stepCount, scale);
+		ParametricFunction.Spiral().plot(canvasContext2D, range, stepCount, scale);
 	},
 
 	"euler": (canvasContext2D) => {
 		var stepCount = 1000;
 		var scale = 800;
+		var range = new Range(0, 20);
 
-		plotEulerSpiral(canvasContext2D, new Range(0, 20), stepCount, scale);
+		ParametricFunction.EulerSpiral(range, stepCount).plotCumulative(canvasContext2D, range, stepCount, scale);
 	},
 
 	"butteryfly": (canvasContext2D) => {
 
 		var stepCount = 10000;
 		var scale = 100;
+		var range = new Range(0, 200);
 
-		plotButterflyCurve(canvasContext2D, new Range(0, 200), stepCount, scale);
+		ParametricFunction.ButterflyCurve().plot(canvasContext2D, range, stepCount, scale);
 	},
 }
 
