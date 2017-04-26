@@ -3,11 +3,11 @@
 <head>
 <script>
 
-function drawEulerSpiral(canvas, T, N, scale) {
-	ctx = canvas.getContext("2d");
+function drawEulerSpiral(canvasContext2D, T, N, scale) {
 	var dx, dy, t=0, prev = {x:0, y:0}, current;
 	var dt = T/N;
-	ctx.beginPath();
+	
+	canvasContext2D.beginPath();
 	while (N--) {
 		dx = Math.cos(t*t) * dt;
 		dy = Math.sin(t*t) * dt;
@@ -16,15 +16,22 @@ function drawEulerSpiral(canvas, T, N, scale) {
 			x: prev.x + dx,
 			y: prev.y + dy
 		};
-		ctx.lineTo(current.x*scale, current.y*scale);
+		canvasContext2D.lineTo(current.x*scale, current.y*scale);
 		prev = current;
 	}
-	ctx.stroke();
+	canvasContext2D.stroke();
 }
 
 function handleOnLoad()
 {
-	drawEulerSpiral(document.getElementById("curveCanvas"),10,10000,100);
+	var canvasContext2D = document.getElementById("curveCanvas").getContext("2d");
+	canvasContext2D.lineWidth = 0.5;
+
+	var max = 20;
+	var steps = 10000;
+	var scale = 800;
+
+	drawEulerSpiral(canvasContext2D, max, steps, scale);
 }
 
 </script>
@@ -32,7 +39,7 @@ function handleOnLoad()
 
 <body onload="handleOnLoad()">
 
-<canvas id="curveCanvas" />
+<canvas id="curveCanvas" width="1200" height="1200" />
 
 </body>
 
