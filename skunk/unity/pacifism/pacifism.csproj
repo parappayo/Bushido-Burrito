@@ -90,6 +90,7 @@
     <Compile Include="Assets\Spawner\PeriodicSpawnTrigger.cs" />
     <Compile Include="Assets\Spawner\RandomRectBoundsSpawnPosition.cs" />
     <Compile Include="Assets\Spawner\Spawner.cs" />
+    <Compile Include="Assets\SpriteSetZtoY.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="GenerateTargetFrameworkMonikerAttribute" />
