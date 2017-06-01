@@ -28,6 +28,8 @@ public class PooledSpawner : MonoBehaviour
 	{
 		GameObject spawnObject = Pool.Get();
 
+		if (!spawnObject) { return; }
+
 		var poolable = spawnObject.GetComponent<Poolable>();
 		if (poolable != null)
 		{

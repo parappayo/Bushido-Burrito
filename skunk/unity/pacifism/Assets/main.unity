@@ -186,7 +186,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   PrototypeObject: {fileID: 1410809992}
   ParentObject: {fileID: 731911638}
-  PoolSize: 50
+  PoolSize: 20
 --- !u!1 &785339281
 GameObject:
   m_ObjectHideFlags: 0
