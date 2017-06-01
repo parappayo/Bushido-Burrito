@@ -88,6 +88,7 @@
     <Compile Include="Assets\Seeker\DestroyOnExplosionHit.cs" />
     <Compile Include="Assets\Seeker\Follow.cs" />
     <Compile Include="Assets\Spawner\PeriodicSpawnTrigger.cs" />
+    <Compile Include="Assets\Spawner\RandomRectBoundsSpawnPosition.cs" />
     <Compile Include="Assets\Spawner\Spawner.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

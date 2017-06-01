@@ -7,7 +7,13 @@ public class PeriodicSpawnTrigger : MonoBehaviour
 
 	private float Timer = 0f;
 
-	private bool Trigger(float elapsedTime)
+	private void Start()
+	{
+		Spawner spawner = GetComponent<Spawner>();
+		spawner.ShouldSpawn = ShouldSpawn;
+	}
+
+	private bool ShouldSpawn(float elapsedTime)
 	{
 		Timer -= elapsedTime;
 
@@ -18,11 +24,5 @@ public class PeriodicSpawnTrigger : MonoBehaviour
 		}
 
 		return false;
-	}
-
-	private void Start()
-	{
-		Spawner spawner = GetComponent<Spawner>();
-		spawner.ShouldSpawn = Trigger;
 	}
 }
