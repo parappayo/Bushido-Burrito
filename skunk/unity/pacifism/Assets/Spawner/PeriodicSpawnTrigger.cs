@@ -10,7 +10,22 @@ public class PeriodicSpawnTrigger : MonoBehaviour
 	private void Start()
 	{
 		Spawner spawner = GetComponent<Spawner>();
-		spawner.ShouldSpawn = ShouldSpawn;
+		if (spawner != null)
+		{
+			spawner.ShouldSpawn = ShouldSpawn;
+		}
+		else
+		{
+			PooledSpawner pooledSpawner = GetComponent<PooledSpawner>();
+			if (pooledSpawner != null)
+			{
+				pooledSpawner.ShouldSpawn = ShouldSpawn;
+			}
+			else
+			{
+				Debug.LogWarning("spawn trigger could not find spawner");
+			}
+		}
 	}
 
 	private bool ShouldSpawn(float elapsedTime)

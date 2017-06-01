@@ -9,7 +9,22 @@ public class RandomRectBoundsSpawnPosition : MonoBehaviour
 	private void Start()
 	{
 		Spawner spawner = GetComponent<Spawner>();
-		spawner.SpawnPosition = SpawnPosition;
+		if (spawner != null)
+		{
+			spawner.SpawnPosition = SpawnPosition;
+		}
+		else
+		{
+			PooledSpawner pooledSpawner = GetComponent<PooledSpawner>();
+			if (pooledSpawner != null)
+			{
+				pooledSpawner.SpawnPosition = SpawnPosition;
+			}
+			else
+			{
+				Debug.LogWarning("spawn trigger could not find spawner");
+			}
+		}
 	}
 
 	private Vector3 SpawnPosition()

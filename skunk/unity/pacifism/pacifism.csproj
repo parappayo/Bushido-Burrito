@@ -87,7 +87,10 @@
     <Compile Include="Assets\Player\PlayerMovement.cs" />
     <Compile Include="Assets\Seeker\DestroyOnExplosionHit.cs" />
     <Compile Include="Assets\Seeker\Follow.cs" />
+    <Compile Include="Assets\Spawner\ObjectPool.cs" />
     <Compile Include="Assets\Spawner\PeriodicSpawnTrigger.cs" />
+    <Compile Include="Assets\Spawner\Poolable.cs" />
+    <Compile Include="Assets\Spawner\PooledSpawner.cs" />
     <Compile Include="Assets\Spawner\RandomRectBoundsSpawnPosition.cs" />
     <Compile Include="Assets\Spawner\Spawner.cs" />
     <Compile Include="Assets\SpriteSetZtoY.cs" />

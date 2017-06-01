@@ -95,6 +95,25 @@ NavMeshSettings:
 GameObject:
   m_PrefabParentObject: {fileID: 119086, guid: ba7659646aa68fb41b8b7907acbfe247, type: 2}
   m_PrefabInternal: {fileID: 2006803629}
+--- !u!1 &111811944 stripped
+GameObject:
+  m_PrefabParentObject: {fileID: 1000011858171722, guid: 47fa1c7d44f1a6641aca489d0a26312e,
+    type: 2}
+  m_PrefabInternal: {fileID: 1766622117}
+--- !u!114 &111811945
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 111811944}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f6d3787a57b8e9942a96787ab8fd6cd7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Pool: {fileID: 785339283}
+  ActivateSpawnable: 1
+  TimeScale: 1
 --- !u!1 &682404707
 GameObject:
   m_ObjectHideFlags: 0
@@ -133,8 +152,9 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 731911639}
+  - component: {fileID: 731911640}
   m_Layer: 0
-  m_Name: Bombs
+  m_Name: BombPool
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -153,6 +173,20 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &731911640
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 731911638}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f70936601bf40d8469c650f236137bc2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  PrototypeObject: {fileID: 1410809992}
+  ParentObject: {fileID: 731911638}
+  PoolSize: 50
 --- !u!1 &785339281
 GameObject:
   m_ObjectHideFlags: 0
@@ -161,8 +195,9 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 785339282}
+  - component: {fileID: 785339283}
   m_Layer: 0
-  m_Name: Seekers
+  m_Name: SeekerPool
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -181,6 +216,20 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &785339283
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 785339281}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f70936601bf40d8469c650f236137bc2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  PrototypeObject: {fileID: 1843717992}
+  ParentObject: {fileID: 785339281}
+  PoolSize: 50
 --- !u!1001 &1285656190
 Prefab:
   m_ObjectHideFlags: 0
@@ -393,7 +442,8 @@ Prefab:
       propertyPath: SpawnParent
       value: 
       objectReference: {fileID: 785339281}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 114000010027429924, guid: 47fa1c7d44f1a6641aca489d0a26312e, type: 2}
   m_ParentPrefab: {fileID: 100100000, guid: 47fa1c7d44f1a6641aca489d0a26312e, type: 2}
   m_IsPrefabParent: 0
 --- !u!1 &1843717992 stripped
@@ -499,9 +549,29 @@ Prefab:
       propertyPath: Spawnable
       value: 
       objectReference: {fileID: 1410809992}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 114561601745522446, guid: 7a21a768f268fda49b80cb25b47fb7f1, type: 2}
   m_ParentPrefab: {fileID: 100100000, guid: 7a21a768f268fda49b80cb25b47fb7f1, type: 2}
   m_IsPrefabParent: 0
+--- !u!1 &1960755332 stripped
+GameObject:
+  m_PrefabParentObject: {fileID: 1179066505628678, guid: 7a21a768f268fda49b80cb25b47fb7f1,
+    type: 2}
+  m_PrefabInternal: {fileID: 1960755331}
+--- !u!114 &1960755333
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1960755332}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f6d3787a57b8e9942a96787ab8fd6cd7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Pool: {fileID: 731911640}
+  ActivateSpawnable: 1
+  TimeScale: 1
 --- !u!1001 &2006803629
 Prefab:
   m_ObjectHideFlags: 0

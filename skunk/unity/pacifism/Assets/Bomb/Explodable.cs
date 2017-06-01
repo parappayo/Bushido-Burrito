@@ -17,12 +17,17 @@ public class Explodable : MonoBehaviour
 
 	private float TriggerDelayCounter = 0.0f;
 
-	public void Update()
+	private void OnEnable()
 	{
-		if (!Triggered) { return; }
+		this.Triggered = false;
+	}
 
-		TriggerDelayCounter += Time.deltaTime;
-		if (TriggerDelayCounter > TriggerDelaySecs)
+	private void Update()
+	{
+		if (!this.Triggered) { return; }
+
+		this.TriggerDelayCounter += Time.deltaTime;
+		if (this.TriggerDelayCounter > this.TriggerDelaySecs)
 		{
 			Explode();
 		}
@@ -30,14 +35,16 @@ public class Explodable : MonoBehaviour
 
 	public void Trigger()
 	{
-		Triggered = true;
-		TriggerDelayCounter = 0.0f;
+		this.Triggered = true;
+		this.TriggerDelayCounter = 0.0f;
 	}
 
 	public void Explode()
 	{
 		foreach (Transform target in TargetsParent.transform)
 		{
+			if (!target.gameObject.activeSelf) { continue; }
+
 			if (IsInBlastRadius(target))
 			{
 				target.SendMessage("ExplosionHit", gameObject);
@@ -46,13 +53,13 @@ public class Explodable : MonoBehaviour
 
 		if (DestroyWhenFinished)
 		{
-			Destroy(gameObject);
+			Poolable.Destroy(this.gameObject);
 		}
 	}
 
 	public bool IsInBlastRadius(Transform target)
 	{
 		var distanceToTarget = Math.Abs(Vector3.Distance(target.transform.position, transform.position));
-		return distanceToTarget < BlastRadius;
+		return distanceToTarget < this.BlastRadius;
 	}
 }

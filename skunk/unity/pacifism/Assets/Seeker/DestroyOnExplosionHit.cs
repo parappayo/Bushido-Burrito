@@ -5,6 +5,6 @@ public class DestroyOnExplosionHit : MonoBehaviour
 {
 	public void ExplosionHit(GameObject source)
 	{
-		Destroy(gameObject);
+		Poolable.Destroy(this.gameObject);
 	}
 }
