@@ -4,7 +4,7 @@ using UnityEngine;
 public class Spawner : MonoBehaviour
 {
 	public GameObject Spawnable;
-	public bool UseAsSpawnParent = true;
+	public GameObject SpawnParent;
 
 	public float TriggerTimeScale = 1f;
 
@@ -27,9 +27,9 @@ public class Spawner : MonoBehaviour
 
 		GameObject spawnObject = Instantiate(Spawnable);
 		spawnObject.transform.position = transform.position;
-		if (UseAsSpawnParent)
+		if (SpawnParent != null)
 		{
-			spawnObject.transform.parent = transform;
+			spawnObject.transform.parent = SpawnParent.transform;
 		}
 	}
 }

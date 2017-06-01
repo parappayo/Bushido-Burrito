@@ -85,6 +85,7 @@
     <Compile Include="Assets\Bomb\ProximityTrigger.cs" />
     <Compile Include="Assets\Camera\FollowCamera.cs" />
     <Compile Include="Assets\Player\PlayerMovement.cs" />
+    <Compile Include="Assets\Seeker\DestroyOnExplosionHit.cs" />
     <Compile Include="Assets\Seeker\Follow.cs" />
     <Compile Include="Assets\Spawner\PeriodicSpawnTrigger.cs" />
     <Compile Include="Assets\Spawner\Spawner.cs" />

@@ -16,9 +16,9 @@ public class ProximityTrigger : MonoBehaviour
 
 	public void Update()
 	{
-		if (Triggered || Target == null) { return; }
+		if (Triggered) { return; }
 
-		if (DistanceToTarget < ProximityThreshold)
+		if (Proximity < ProximityThreshold)
 		{
 			Triggered = true;
 
@@ -26,7 +26,7 @@ public class ProximityTrigger : MonoBehaviour
 		}
 	}
 
-	public float DistanceToTarget
+	public float Proximity
 	{
 		get
 		{
