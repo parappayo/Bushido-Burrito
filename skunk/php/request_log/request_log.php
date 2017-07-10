@@ -73,7 +73,43 @@ function print_html_log_simple($query_result) {
 	echo('</table>');
 }
 
+function get_user_agent_id($db, $user_agent) {
+
+}
+
+function log_request_smart($db, $uri, $date_str, $remote_ip, $user_agent) {
+	global $smart_log_db_table;
+
+	$uri = mysql_real_escape_string($uri, $db);
+	$date_str = mysql_real_escape_string($date_str, $db);
+	$remote_ip = ip2long($remote_ip);
+	$user_agent_id = get_user_agent_id();
+
+	if (!$uri or !$date_str or !$remote_ip or !$user_agent) {
+		return FALSE;
+	}
+
+	return mysql_query(sprintf(
+			"INSERT INTO %s (uri, date, remote_ip, user_agent_id) VALUES('%s', '%s', '%s', '%s')",
+			$smart_log_db_table,
+			$uri,
+			$date_str,
+			$remote_ip,
+			$user_agent),
+		$db);
+}
+
 function log_request($db, $use_smart_log=TRUE, $use_simple_log=FALSE) {
+
+	if ($use_smart_log) {
+		log_request_smart(
+			$db,
+			$_SERVER['REQUEST_URI'],
+			date('Y-m-d H:i:s'),
+			$_SERVER['REMOTE_ADDR'],
+			$_SERVER['HTTP_USER_AGENT'])
+			or die('error: failed to log request: ' . mysql_error());
+	}
 
 	if ($use_simple_log) {
 		log_request_simple(
@@ -90,6 +126,13 @@ if (basename(__FILE__) == basename($_SERVER["SCRIPT_FILENAME"])) {
 	$db = get_log_db_connection();
 
 	log_request($db, TRUE, TRUE);
+
+	echo '<h3>Recent Log Entries</h3>';
+
+	$query_result = query_log_smart($db, $simple_log_db_table)
+		or die('error: failed to query log: ' . mysql_error());
+
+	print_html_log_smart($query_result);
 
 	echo '<h3>Recent Simple Log Entries</h3>';
 
