@@ -55,26 +55,35 @@ function print_html_log_simple($query_result) {
 	echo('</table>');
 }
 
-$db = mysql_connect($mysql_server, $mysql_user, $mysql_password)
-	or die('error: failed to connect to database: ' . mysql_error());
+function log_request($use_smart_log=TRUE, $use_simple_log=FALSE) {
+	global $mysql_server, $mysql_user, $mysql_password;
+	global $request_log_db, $simple_log_db_table;
 
-mysql_select_db($request_log_db, $db)
-	or die('error: failed to select db: ' . mysql_error());
+	$db = mysql_connect($mysql_server, $mysql_user, $mysql_password)
+		or die('error: failed to connect to database: ' . mysql_error());
 
-log_request_simple(
-	$db,
-	$simple_log_db_table,
-	$_SERVER['REQUEST_URI'],
-	date('Y-m-d H:i:s'),
-	$_SERVER['REMOTE_ADDR'],
-	$_SERVER['HTTP_USER_AGENT'])
-	or die('error: failed to log request: ' . mysql_error());
+	mysql_select_db($request_log_db, $db)
+		or die('error: failed to select db: ' . mysql_error());
 
-$query_result = query_log_simple($db, $simple_log_db_table)
-	or die('error: failed to query log: ' . mysql_error());
+	log_request_simple(
+		$db,
+		$simple_log_db_table,
+		$_SERVER['REQUEST_URI'],
+		date('Y-m-d H:i:s'),
+		$_SERVER['REMOTE_ADDR'],
+		$_SERVER['HTTP_USER_AGENT'])
+		or die('error: failed to log request: ' . mysql_error());
 
-print_html_log_simple($query_result);
+	$query_result = query_log_simple($db, $simple_log_db_table)
+		or die('error: failed to query log: ' . mysql_error());
 
-mysql_close($db);
+	print_html_log_simple($query_result);
+
+	mysql_close($db);
+}
+
+if (basename(__FILE__) == basename($_SERVER["SCRIPT_FILENAME"])) {
+	log_request(TRUE, TRUE);
+}
 
 ?>
