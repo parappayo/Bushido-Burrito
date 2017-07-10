@@ -1,6 +1,8 @@
 
 CREATE DATABASE  `request_log` DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;
 
+USE `request_log`;
+
 CREATE TABLE  `simple_log` (
  `uri` VARCHAR( 1024 ) NOT NULL ,
  `date` DATETIME NOT NULL ,
