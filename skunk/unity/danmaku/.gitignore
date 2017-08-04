@@ -1,8 +1,10 @@
 # for Unity projects
 Assets/AssetStore
 Build
+web_build
 Library
 Temp
+.vs
 *.userprefs
 *.csproj
 

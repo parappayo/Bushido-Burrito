@@ -1,7 +1,7 @@
 ﻿
 using UnityEngine;
 
-public class QuadBatch : MonoBehaviour
+public class QuadBatchGL : MonoBehaviour
 {
 	public Texture Texture;
 
