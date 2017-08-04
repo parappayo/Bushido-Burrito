@@ -91,6 +91,7 @@
     <Compile Include="Assets\Scripts\Paths\SpiralPath.cs" />
     <Compile Include="Assets\Scripts\Paths\StraightPath.cs" />
     <Compile Include="Assets\Scripts\Paths\WavePath.cs" />
+    <Compile Include="Assets\Scripts\QuadBatch.cs" />
     <Compile Include="Assets\Scripts\Triggers\BurstTrigger.cs" />
     <Compile Include="Assets\Scripts\Triggers\PeriodicTrigger.cs" />
   </ItemGroup>
