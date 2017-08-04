@@ -4,6 +4,8 @@ Build
 Library
 Temp
 *.userprefs
+*.csproj
 
 # for Sublime Text users
 *.sublime-workspace
+
