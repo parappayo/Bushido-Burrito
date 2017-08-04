@@ -1,59 +1,67 @@
 ﻿
 using UnityEngine;
+using UnityEngine.Events;
 
 public class BurstTrigger : MonoBehaviour
 {
+	public UnityEvent OnTrigger;
+
+	public float TimeScale = 1.0f;
 	public float Period = 0.5f;
 	public uint BurstSize = 3;
 	public float BurstDuration = 0.3f;
 
 	private float Timer = 0f;
-	private bool Bursting = false;
+	private bool IsBursting = false;
 	private float BurstPeriod;
 	private uint BurstRoundsLeft;
 
+	private void Reset()
+	{
+		this.Timer = this.Period;
+		this.IsBursting = false;
+	}
+
+	private void StartBurst()
+	{
+		this.IsBursting = true;
+		this.BurstPeriod = this.BurstDuration / (float) this.BurstSize;
+		this.BurstRoundsLeft = this.BurstSize - 1;
+		this.Timer = this.BurstPeriod;
+	}
+
+	private void StartNextBurstRound()
+	{
+		this.Timer = this.BurstPeriod;
+		this.BurstRoundsLeft -= 1;
+	}
+
 	private bool Trigger(float t)
 	{
-		Timer -= t;
+		this.Timer -= t;
 
-		if (Timer <= 0f)
-		{
-			if (BurstSize < 1)
-			{
-				return false;
-			}
+		if (this.Timer > 0.0f) { return false; }
 
-			if (Bursting)
-			{
-				if (BurstRoundsLeft > 1)
-				{
-					Timer = BurstPeriod;
-					BurstRoundsLeft -= 1;
-				}
-				else
-				{
-					Timer = Period;
-					Bursting = false;
-				}
-			}
-			else
-			{
-				BurstPeriod = BurstDuration / (float) BurstSize;
-				BurstRoundsLeft = BurstSize - 1;
+		if (this.BurstSize < 1) { return false; }
 
-				Timer = BurstPeriod;
-				Bursting = true;
-			}
-
+		if (!this.IsBursting) {
+			StartBurst();
 			return true;
 		}
 
-		return false;
+		if (this.BurstRoundsLeft > 1) {
+			StartNextBurstRound();
+		} else {
+			Reset();
+		}
+
+		return true;
 	}
 
-	private void Start()
+	private void FixedUpdate()
 	{
-		Emitter emitter = GetComponent<Emitter>();
-		emitter.TriggerFunction = Trigger;
+		if (Trigger(Time.deltaTime * this.TimeScale)) {
+			this.OnTrigger.Invoke();
+		}
 	}
 }
