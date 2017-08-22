@@ -8,7 +8,7 @@ public class FollowCamera : MonoBehaviour
 	public Vector3 CameraRelativePosition;
 	//public float SmoothingFactor = 5f;
 
-	void LateUpdate()
+	private void LateUpdate()
 	{
 		if (!Target) { return; }
 
@@ -19,4 +19,4 @@ public class FollowCamera : MonoBehaviour
 		transform.LookAt(Target.transform.position + Target.transform.rotation * LookAtOffset);
 	}
 
-} // class
+}
