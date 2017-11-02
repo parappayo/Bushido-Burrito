@@ -1,0 +1,10 @@
+# for Unity projects
+Assets/AssetStore
+Build
+Library
+Temp
+*.userprefs
+.vs
+
+# for Sublime Text users
+*.sublime-workspace
