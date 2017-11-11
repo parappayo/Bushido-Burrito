@@ -2,7 +2,7 @@
 CC=g++
 INC=
 LIB=
-OPT=-std=c++11
+OPT=-std=c++11 -Wall -pthread
 
 all: GuardedBufferTest
 
