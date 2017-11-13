@@ -36,16 +36,12 @@ void dataContentsTest()
 	guardedQueue.push(testData456);
 	assert(guardedQueue.size() == 2);
 
-	TestData next = guardedQueue.front();
+	TestData next = guardedQueue.pop();
 	assert(next.value() == 123);
-
-	guardedQueue.pop();
 	assert(guardedQueue.size() == 1);
 
-	next = guardedQueue.front();
+	next = guardedQueue.pop();
 	assert(next.value() == 456);
-
-	guardedQueue.pop();
 	assert(guardedQueue.size() == 0);
 }
 

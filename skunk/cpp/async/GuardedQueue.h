@@ -21,22 +21,12 @@ namespace BushidoBurrito
 			_queue.push(item);
 		}
 
-		void pop()
+		T pop()
 		{
 			lock_guard<mutex> lock(_mutex);
+			T result = _queue.front();
 			_queue.pop();
-		}
-
-		T front()
-		{
-			lock_guard<mutex> lock(_mutex);
-			return _queue.front();
-		}
-
-		T back()
-		{
-			lock_guard<mutex> lock(_mutex);
-			return _queue.back();
+			return result;
 		}
 
 		bool empty()
