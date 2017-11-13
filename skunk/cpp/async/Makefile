@@ -4,7 +4,7 @@ INC=
 LIB=
 OPT=-std=c++11 -Wall -pthread
 
-all: GuardedBufferTest GuardedObjectTest
+all: GuardedBufferTest GuardedObjectTest GuardedQueueTest
 
 clean:
 	rm *.o
@@ -14,3 +14,6 @@ GuardedBufferTest: GuardedBufferTest.cpp GuardedBuffer.cpp GuardedBuffer.h
 
 GuardedObjectTest: GuardedObjectTest.cpp GuardedObject.h
 	$(CC) GuardedObjectTest.cpp -o GuardedObjectTest $(INC) $(LIB) $(OPT)
+
+GuardedQueueTest: GuardedQueueTest.cpp GuardedQueue.h
+	$(CC) GuardedQueueTest.cpp -o GuardedQueueTest $(INC) $(LIB) $(OPT)
