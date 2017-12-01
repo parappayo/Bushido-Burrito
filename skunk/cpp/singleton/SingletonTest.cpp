@@ -1,7 +1,6 @@
 
 #include "Singleton.h"
 
-#include <assert.h>
 #include <iostream>
 
 using namespace std;
@@ -19,13 +18,17 @@ public:
 	{
 		cout << "SingletonTest object deleted"  << endl;
 	}
+
+	void test()
+	{
+		cout << "instance works" << endl;
+	}
 };
 
 int main(int argc, char* argv[])
 {
 	cout << "before first get" << endl;
-	SingletonTest* test = SingletonTest::get();
-	assert(test);
+	SingletonTest::get().test();
 	cout << "after first get" << endl;
 	return 0;
 }

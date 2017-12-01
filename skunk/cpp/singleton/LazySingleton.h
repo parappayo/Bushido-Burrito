@@ -11,10 +11,10 @@ namespace BushidoBurrito
 	class LazySingleton : public Noncopyable
 	{
 	public:
-		static T* get()
+		static T& get()
 		{
 			static T instance;
-			return &instance;
+			return instance;
 		}
 	};
 }
