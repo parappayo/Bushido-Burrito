@@ -23,7 +23,9 @@ public:
 
 int main(int argc, char* argv[])
 {
+	cout << "before first get" << endl;
 	SingletonTest* test = SingletonTest::get();
 	assert(test);
+	cout << "after first get" << endl;
 	return 0;
 }

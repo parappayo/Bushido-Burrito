@@ -1,41 +1,20 @@
 
 #pragma once
 
-#include <assert.h>
-#include <cstdlib>
+#include "Noncopyable.h"
 
 using namespace std;
 
 namespace BushidoBurrito
 {
 	template <class T>
-	class LazySingleton
+	class LazySingleton : public Noncopyable
 	{
-	private:
-		static T* _instance;
-
-		static void create()
-		{
-			assert(!_instance);
-			_instance = new T();
-			std::atexit(destroy);
-		}
-
-		static void destroy()
-		{
-			if (!_instance) { return; }
-			delete _instance;
-			_instance = nullptr;
-		}
-
 	public:
 		static T* get()
 		{
-			if (!_instance) { create(); }
-			return _instance;
+			static T instance;
+			return &instance;
 		}
 	};
-
-	template <class T>
-	T* LazySingleton<T>::_instance = nullptr;
 }
