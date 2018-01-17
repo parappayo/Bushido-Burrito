@@ -9,6 +9,8 @@ public class ShowFPS : MonoBehaviour
     private float deltaTime = 0.0f;
     private float fps = 0.0f;
 
+    public float FPS { get { return fps; } }
+
     private void Update()
     {
         deltaTime += (Time.unscaledDeltaTime - deltaTime) * 0.1f;

@@ -9,7 +9,9 @@ public class GrowingGridSpawner : MonoBehaviour
     public float Spacing = 10f;
 
     private float TimeSinceLastStep = 0f;
-    private int StepCount = 0;
+    private uint StepCount = 0;
+
+    public uint SpawnCount { get { return StepSize * StepCount; } }
 
     private void Update()
     {
@@ -23,7 +25,7 @@ public class GrowingGridSpawner : MonoBehaviour
 
     private void SpawnWave()
     {
-        for (int i = 0; i < StepSize; i++) {
+        for (uint i = 0; i < StepSize; i++) {
             var spawn = Instantiate(Spawnable) as GameObject;
             spawn.transform.parent = transform;
             spawn.transform.position = new Vector3((float) i * Spacing, 0f, (float) StepCount * Spacing);
