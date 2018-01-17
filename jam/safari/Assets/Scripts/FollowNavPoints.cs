@@ -1,71 +1,58 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class FollowNavPoints : MonoBehaviour {
-
+public class FollowNavPoints : MonoBehaviour
+{
 	public float Speed = 1f;
 	public float SmoothingFactor = 5f;
 	public GameObject[] NavPoints;
+	public float NavPointReachedDistance = 1f;
 
-	private int _NavPointIndex;
-	private GameObject _CurrentNavPoint;
+	private uint NavPointIndex = 0;
 
 	public void ResetToFirstNavPoint()
 	{
-		_NavPointIndex = 0;
-		NextNavPoint();
+		NavPointIndex = 0;
 	}
 
-	void OnEnable()
+	private void StartNextNavPoint()
 	{
-		if (!_CurrentNavPoint)
+		NavPointIndex = (NavPointIndex + 1) % (uint) NavPoints.Length;
+	}
+
+	private GameObject CurrentNavPoint
+	{
+		get { return NavPoints[NavPointIndex]; }
+	}
+
+	private void Update()
+	{
+		Vector3 dir = CurrentNavPoint.transform.position - transform.position;
+
+		MoveToward(dir);
+		LookToward(dir);
+
+		if (HasReachedNavPoint(dir))
 		{
-			NextNavPoint();
+			StartNextNavPoint();
 		}
 	}
 
-	void Update()
+	private void MoveToward(Vector3 dir)
 	{
-		if (DistanceFromNavPointSquared < 1f)
-		{
-			NextNavPoint();
-		}
-
-		if (!_CurrentNavPoint) { return; }
-
-		Vector3 dir = _CurrentNavPoint.transform.position - transform.position;
 		Vector3 newPosition = transform.position + (dir.normalized * Speed * Time.deltaTime);
 		//transform.position = Vector3.Lerp(transform.position, newPosition, SmoothingFactor * Time.deltaTime);
 		transform.position = newPosition;
+	}
 
+	private void LookToward(Vector3 dir)
+	{
 		Quaternion lookRotation = Quaternion.LookRotation(dir);
 		transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, SmoothingFactor * Time.deltaTime);
 	}
 
-	private float DistanceFromNavPointSquared
+	private void HasReachedNavPoint(Vector3 dir)
 	{
-		get
-		{
-			if (_CurrentNavPoint == null)
-			{
-				return 100f;
-			}
-
-			Vector3 diff = _CurrentNavPoint.transform.position - transform.position;
-			return diff.sqrMagnitude;
-		}
-	}
-
-	private void NextNavPoint()
-	{
-		if (NavPoints == null || NavPoints.Length < 1)
-		{
-			_CurrentNavPoint = null;
-			return;
-		}
-
-		_NavPointIndex = (_NavPointIndex >= 0) ? (_NavPointIndex % NavPoints.Length) : 0;
-		_CurrentNavPoint = NavPoints[_NavPointIndex];
-		_NavPointIndex++;
+		return dir.sqrMagnitude < NavPointReachedDistance * NavPointReachedDistance;
 	}
 }
