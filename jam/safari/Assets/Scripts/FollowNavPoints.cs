@@ -51,7 +51,7 @@ public class FollowNavPoints : MonoBehaviour
 		transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, SmoothingFactor * Time.deltaTime);
 	}
 
-	private void HasReachedNavPoint(Vector3 dir)
+	private bool HasReachedNavPoint(Vector3 dir)
 	{
 		return dir.sqrMagnitude < NavPointReachedDistance * NavPointReachedDistance;
 	}
