@@ -8,9 +8,17 @@ public class FlockingVector : MonoBehaviour
 {
 	public GameObject[] Neighbours;
 
-	public float AlignmentFactor = 1f;
-	public float CohesionFactor = 1f;
-	public float SeparationFactor = 1f;
+	public float NeighbourDistance = 5f;
+
+	public float AlignmentWeight = 1f;
+	public float CohesionWeight = 1f;
+	public float SeparationWeight = 1f;
+
+	private void Start()
+	{
+		Neighbours = new GameObject[10];
+		FindNeighbours();
+	}
 
 	public Vector3 Calculate()
 	{
@@ -24,11 +32,30 @@ public class FlockingVector : MonoBehaviour
 			separation += transform.position - neighbour.transform.position;
 		}
 
-		var result = (alignment * AlignmentFactor) +
-			(cohesion * CohesionFactor) +
-			(separation * SeparationFactor);
+		var result = (alignment * AlignmentWeight) +
+			(cohesion * CohesionWeight) +
+			(separation * SeparationWeight);
 
 		return result.normalized;
+	}
+
+	public void FindNeighbours()
+	{
+		uint count = 0;
+
+		// this implementation is unnecessarily slow
+		foreach (Transform sibling in transform.parent) {
+			var distanceSquared = (sibling.transform.position - transform.position).sqrMagnitude;
+
+			if (distanceSquared < NeighbourDistance * NeighbourDistance) {
+				Neighbours[count] = sibling.gameObject;
+				count++;
+
+				if (count >= Neighbours.Length) {
+					return;
+				}
+			}
+		}
 	}
 }
 

@@ -9,6 +9,7 @@ public class HerdMovement : MonoBehaviour
 	public Vector3 BaseMovement = new Vector3(1f, 0f, 0f);
 
 	public float DriftMovement = 0.2f;
+	public float FlockingWeight = 1f;
 
 	private FlockingVector FlockingVector;
 
@@ -22,7 +23,7 @@ public class HerdMovement : MonoBehaviour
 
 	private void LateUpdate()
 	{
-		var movement = BaseMovement + this.FlockingVector.Calculate();
+		var movement = BaseMovement + this.FlockingVector.Calculate() * FlockingWeight;
 		transform.position = transform.position + movement * Time.deltaTime;
 	}
 }
