@@ -27,16 +27,19 @@ public class FlockingVector : MonoBehaviour
 		Vector3 separation = Vector3.zero;
 
 		foreach (var neighbour in Neighbours) {
+			if (!neighbour) { continue; }
+
+			var deltaPos = neighbour.transform.position - transform.position;
 			alignment += neighbour.transform.forward;
-			cohesion += neighbour.transform.position;
-			separation += transform.position - neighbour.transform.position;
+			cohesion += deltaPos;
+			separation += -deltaPos;
 		}
 
-		var result = (alignment * AlignmentWeight) +
-			(cohesion * CohesionWeight) +
-			(separation * SeparationWeight);
+		var result = (alignment * AlignmentWeight / Neighbours.Length) +
+			(cohesion * CohesionWeight / Neighbours.Length) +
+			(separation.normalized * SeparationWeight);
 
-		return result.normalized;
+		return result;
 	}
 
 	public void FindNeighbours()

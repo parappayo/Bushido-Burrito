@@ -109,10 +109,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Neighbours: []
-  NeighbourDistance: 5
-  AlignmentWeight: 1
+  NeighbourDistance: 3
+  AlignmentWeight: 0
   CohesionWeight: 1
-  SeparationWeight: 1
+  SeparationWeight: 0
 --- !u!114 &114697923668332000
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -125,5 +125,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   BaseMovement: {x: 1, y: 0, z: 0}
-  DriftMovement: 0.2
-  FlockingWeight: 1
+  DriftMovement: 1
+  FlockingWeight: 3
