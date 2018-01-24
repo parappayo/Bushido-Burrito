@@ -22,6 +22,8 @@ public class FlockingVector : MonoBehaviour
 
 	public Vector3 Calculate()
 	{
+		if (Neighbours.Length == 0) { return Vector3.zero; }
+
 		Vector3 alignment = Vector3.zero;
 		Vector3 cohesion = Vector3.zero;
 		Vector3 separation = Vector3.zero;
@@ -35,9 +37,9 @@ public class FlockingVector : MonoBehaviour
 			separation += -deltaPos;
 		}
 
-		var result = (alignment * AlignmentWeight / Neighbours.Length) +
-			(cohesion * CohesionWeight / Neighbours.Length) +
-			(separation.normalized * SeparationWeight);
+		var result = (alignment * AlignmentWeight + cohesion * CohesionWeight) / Neighbours.Length;
+
+		result += separation.normalized * SeparationWeight;
 
 		return result;
 	}
