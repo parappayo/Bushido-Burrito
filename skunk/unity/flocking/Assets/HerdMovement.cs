@@ -25,6 +25,7 @@ public class HerdMovement : MonoBehaviour
 	{
 		var movement = BaseMovement + this.FlockingVector.Calculate() * FlockingWeight;
 		transform.position = transform.position + movement * Time.deltaTime;
+		transform.rotation = Quaternion.LookRotation(movement);
 	}
 }
 
