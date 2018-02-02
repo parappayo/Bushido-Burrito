@@ -15,7 +15,7 @@ public class FlockAgent : MonoBehaviour
 
 	private void Start()
 	{
-		this.FlockDirection = GetComponent<FlockDirection>() as IDirectionProvider;
+		this.FlockDirection = GetComponent<IDirectionProvider>();
 
 		this.BaseMovement.x += Random.Range(-this.DriftMovement, this.DriftMovement);
 		this.BaseMovement.z += Random.Range(-this.DriftMovement, this.DriftMovement);
