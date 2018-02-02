@@ -4,7 +4,7 @@ using UnityEngine;
 namespace BushidoBurrito
 {
 
-public class FlockingVector : MonoBehaviour, IDirectionProvider
+public class FlockDirection : MonoBehaviour, IDirectionProvider
 {
 	public Transform[] Neighbours;
 
