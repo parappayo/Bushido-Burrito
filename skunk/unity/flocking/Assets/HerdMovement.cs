@@ -11,19 +11,19 @@ public class HerdMovement : MonoBehaviour
 	public float DriftMovement = 0.2f;
 	public float FlockingWeight = 1f;
 
-	private FlockingVector FlockingVector;
+	public IDirectionProvider FlockingDirection;
 
 	private void Start()
 	{
-		this.FlockingVector = GetComponent<FlockingVector>();
+		this.FlockingDirection = GetComponent<FlockingVector>() as IDirectionProvider;
 
-		BaseMovement.x += Random.Range(-DriftMovement, DriftMovement);
-		BaseMovement.z += Random.Range(-DriftMovement, DriftMovement);
+		this.BaseMovement.x += Random.Range(-this.DriftMovement, this.DriftMovement);
+		this.BaseMovement.z += Random.Range(-this.DriftMovement, this.DriftMovement);
 	}
 
 	private void LateUpdate()
 	{
-		var movement = BaseMovement + this.FlockingVector.Calculate() * FlockingWeight;
+		var movement = this.BaseMovement + this.FlockingDirection.GetDirection() * this.FlockingWeight;
 		transform.position = transform.position + movement * Time.deltaTime;
 		transform.rotation = Quaternion.LookRotation(movement);
 	}

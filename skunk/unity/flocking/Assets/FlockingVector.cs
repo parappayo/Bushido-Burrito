@@ -4,9 +4,11 @@ using UnityEngine;
 namespace BushidoBurrito
 {
 
-public class FlockingVector : MonoBehaviour
+public class FlockingVector : MonoBehaviour, IDirectionProvider
 {
-	public GameObject[] Neighbours;
+	public Transform[] Neighbours;
+
+	public uint NeighbourCount = 10;
 
 	public float NeighbourDistance = 5f;
 
@@ -16,11 +18,11 @@ public class FlockingVector : MonoBehaviour
 
 	private void Start()
 	{
-		Neighbours = new GameObject[10];
+		Neighbours = new Transform[NeighbourCount];
 		FindNeighbours();
 	}
 
-	public Vector3 Calculate()
+	public Vector3 GetDirection()
 	{
 		if (Neighbours.Length == 0) { return Vector3.zero; }
 
@@ -31,8 +33,8 @@ public class FlockingVector : MonoBehaviour
 		foreach (var neighbour in Neighbours) {
 			if (!neighbour) { continue; }
 
-			var deltaPos = neighbour.transform.position - transform.position;
-			alignment += neighbour.transform.forward;
+			var deltaPos = neighbour.position - transform.position;
+			alignment += neighbour.forward;
 			cohesion += deltaPos;
 			separation += -deltaPos;
 		}
@@ -50,10 +52,10 @@ public class FlockingVector : MonoBehaviour
 
 		// this implementation is unnecessarily slow
 		foreach (Transform sibling in transform.parent) {
-			var distanceSquared = (sibling.transform.position - transform.position).sqrMagnitude;
+			var distanceSquared = (sibling.position - transform.position).sqrMagnitude;
 
 			if (distanceSquared < NeighbourDistance * NeighbourDistance) {
-				Neighbours[count] = sibling.gameObject;
+				Neighbours[count] = sibling;
 				count++;
 
 				if (count >= Neighbours.Length) {
