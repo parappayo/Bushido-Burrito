@@ -23,8 +23,9 @@ GameObject:
   - component: {fileID: 23456177230553696}
   - component: {fileID: 114298734380295176}
   - component: {fileID: 114697923668332000}
+  - component: {fileID: 114370451255415376}
   m_Layer: 0
-  m_Name: FlockAgent
+  m_Name: AntenaeFlockAgent
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -101,6 +102,22 @@ MonoBehaviour:
   AlignmentWeight: 1
   CohesionWeight: 1
   SeparationWeight: 1
+--- !u!114 &114370451255415376
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1921960195338158}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fc8738a6519cd4d43b47542b53e5966f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  DebugDraw: 1
+  AntenaeAngle: 30
+  AntenaeLength: 2
+  AntenaePositionOffset: {x: 0, y: 0, z: 0}
+  AvoidanceDuration: 5
 --- !u!114 &114697923668332000
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -116,6 +133,6 @@ MonoBehaviour:
   Speed: 1
   DriftMovement: 1
   FlockingWeight: 3
-  AntenaeWeight: 1
+  AntenaeWeight: 20
   FlockDirection: {fileID: 114298734380295176}
-  AntenaeNavDirection: {fileID: 0}
+  AntenaeNavDirection: {fileID: 114370451255415376}
