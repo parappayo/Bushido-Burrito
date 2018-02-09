@@ -100,7 +100,7 @@ MonoBehaviour:
   NeighbourDistance: 3
   AlignmentWeight: 1
   CohesionWeight: 1
-  SeparationWeight: 1
+  SeparationWeight: 3
 --- !u!114 &114697923668332000
 MonoBehaviour:
   m_ObjectHideFlags: 1

@@ -36,13 +36,13 @@ public class FlockDirection : MonoBehaviour, IDirectionProvider
 			var deltaPos = neighbour.position - transform.position;
 			alignment += neighbour.forward;
 			cohesion += deltaPos;
-			separation += -deltaPos;
+
+			if (deltaPos.sqrMagnitude < SeparationWeight * SeparationWeight) {
+				separation -= deltaPos.normalized * SeparationWeight - deltaPos;
+			}
 		}
 
-		var result = (alignment * AlignmentWeight + cohesion * CohesionWeight) / Neighbours.Length;
-
-		result += separation.normalized * SeparationWeight;
-
+		var result = (alignment * AlignmentWeight + cohesion * CohesionWeight + separation * SeparationWeight) / Neighbours.Length;
 		return result;
 	}
 
