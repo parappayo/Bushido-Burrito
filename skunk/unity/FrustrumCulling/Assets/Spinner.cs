@@ -10,7 +10,7 @@ public class Spinner : MonoBehaviour
 
 	private void Update()
 	{
-		transform.rotation *= Quaternion.Euler(EulerVelocity * Time.deltaTime);
+		this.transform.rotation *= Quaternion.Euler(this.EulerVelocity * Time.deltaTime);
 	}
 }
 

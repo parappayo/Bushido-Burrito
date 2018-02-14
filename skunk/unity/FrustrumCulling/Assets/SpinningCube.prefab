@@ -91,4 +91,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 347a236a92e49764797b399390a631dd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  EulerVelocity: {x: 0, y: 200, z: 0}
+  EulerVelocity: {x: 200, y: 200, z: 0}
