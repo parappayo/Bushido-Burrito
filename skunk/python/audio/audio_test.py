@@ -17,6 +17,20 @@ def generate_samples(duration_secs, freq_hz):
 def play_note(freq, volume, duration, stream):
 	stream.write((numpy.clip(volume, 0, 1.0) * generate_samples(duration, freq)).tobytes())
 
+def play_notes(note_str, volume, duration, stream):
+	while len(note_str) > 1:
+		note = False
+
+		if (note_str[1].isdigit()):
+			note = note_str[:2]
+			note_str = note_str[2:]
+		elif (len(note_str) > 2 and note_str[2].isdigit):
+			note = note_str[:3]
+			note_str = note_str[3:]
+
+		if note:
+			play_note(note_freq.lookup[note], volume, duration, stream)
+
 if __name__ == "__main__":
 	audio = pyaudio.PyAudio()
 
@@ -25,10 +39,7 @@ if __name__ == "__main__":
 					rate=sample_rate_hz,
 					output=True)
 
-	play_note(note_freq.A3, 0.2, 1.0, stream)
-	play_note(note_freq.B3, 0.2, 1.0, stream)
-	play_note(note_freq.C4, 0.2, 1.0, stream)
-	play_note(note_freq.D4, 0.2, 1.0, stream)
+	play_notes("A3B3C4D4", 0.2, 1.0, stream)
 
 	stream.stop_stream()
 	stream.close()
