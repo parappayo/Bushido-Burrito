@@ -4,22 +4,24 @@
 
 import pyaudio
 import numpy
+import note_freq
 
 volume = 0.2
-freq = 440.0
 sample_rate_hz = 44100
-duration_secs = 1.0
 
-samples = (numpy.sin(2 * numpy.pi * numpy.arange(sample_rate_hz * duration_secs) * freq / sample_rate_hz)).astype(numpy.float32)
+tau = 2 * numpy.pi
 
-p = pyaudio.PyAudio()
+def generate_samples(duration_secs, freq_hz):
+	return (numpy.sin(tau * numpy.arange(sample_rate_hz * duration_secs) * freq_hz / sample_rate_hz)).astype(numpy.float32)	
 
-stream = p.open(format=pyaudio.paFloat32,
+audio = pyaudio.PyAudio()
+
+stream = audio.open(format=pyaudio.paFloat32,
 				channels=1,
 				rate=sample_rate_hz,
 				output=True)
 
-stream.write((volume*samples).tobytes())
+stream.write((volume * generate_samples(1.0, note_freq.A4)).tobytes())
 stream.stop_stream()
 stream.close()
-p.terminate()
+audio.terminate()
