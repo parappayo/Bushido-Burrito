@@ -42,6 +42,17 @@ def play_notes(note_str, volume, duration, stream):
 	for note in note_str_to_freq_arr(note_str):
 		play_note(note, volume, duration, stream)
 
+def play_chord(freq_arr, volume, duration, stream):
+	len_freq = len(freq_arr)
+	if len_freq < 1: return
+
+	samples = generate_samples(duration, freq_arr[0]) / len_freq
+	for i in range(1, len_freq):
+		new_samples = generate_samples(duration, freq_arr[i])
+		samples = samples + new_samples / len_freq
+
+	stream.write((numpy.clip(volume, 0, 1.0) * samples).tobytes())
+
 if __name__ == "__main__":
 	audio = pyaudio.PyAudio()
 
@@ -50,7 +61,8 @@ if __name__ == "__main__":
 					rate=sample_rate_hz,
 					output=True)
 
-	play_notes("A3B3C4D4", 0.2, 1.0, stream)
+#	play_notes("A3B3C4D4", 0.2, 1.0, stream)
+	play_chord([note_freq.C4, note_freq.E4, note_freq.G4], 0.2, 1.5, stream)
 
 	stream.stop_stream()
 	stream.close()
