@@ -11,13 +11,9 @@ sample_rate_hz = 44100
 
 tau = 2 * numpy.pi
 
-def generate_samples(duration_secs, freq_hz):
-	return (numpy.sin(tau * numpy.arange(sample_rate_hz * duration_secs) * freq_hz / sample_rate_hz)).astype(numpy.float32)
+def note_str_to_freq_arr(note_str):
+	result = []
 
-def play_note(freq, volume, duration, stream):
-	stream.write((numpy.clip(volume, 0, 1.0) * generate_samples(duration, freq)).tobytes())
-
-def play_notes(note_str, volume, duration, stream):
 	while len(note_str) > 1:
 		note = False
 
@@ -27,9 +23,24 @@ def play_notes(note_str, volume, duration, stream):
 		elif (len(note_str) > 2 and note_str[2].isdigit):
 			note = note_str[:3]
 			note_str = note_str[3:]
+		else:
+			note = False
+			note_str = note_str[1:]
 
 		if note:
-			play_note(note_freq.lookup[note], volume, duration, stream)
+			result.append(note_freq.lookup[note])
+
+	return result
+
+def generate_samples(duration_secs, freq_hz):
+	return (numpy.sin(tau * numpy.arange(sample_rate_hz * duration_secs) * freq_hz / sample_rate_hz)).astype(numpy.float32)
+
+def play_note(freq, volume, duration, stream):
+	stream.write((numpy.clip(volume, 0, 1.0) * generate_samples(duration, freq)).tobytes())
+
+def play_notes(note_str, volume, duration, stream):
+	for note in note_str_to_freq_arr(note_str):
+		play_note(note, volume, duration, stream)
 
 if __name__ == "__main__":
 	audio = pyaudio.PyAudio()
