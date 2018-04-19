@@ -1,7 +1,4 @@
-
-import sys, re ,os
-
-usage = """
+"""
 C++ Includes Tool
 
 A basic script for generating reports on #includes directive usage.
@@ -22,6 +19,8 @@ Include dirs are used only if -r is specified. In this case the tool will
 recursively scan the included files to see which files they include, so that
 the final report gives a more complete picture of header usage.
 """
+
+import sys, re, os
 
 # determines what counts as an include line
 include_regex = "^\#include[ \t]*[\<\"](.+)[\>\"].*"
@@ -160,7 +159,7 @@ def test():
 if __name__ == "__main__":
 
 	if len(sys.argv) < 2:
-		print(usage)
+		print(__doc__)
 		test()
 		exit()
 
@@ -169,7 +168,7 @@ if __name__ == "__main__":
 
 	if sys.argv[1] == "-r":
 		if len(sys.argv) < 3:
-			print(usage)
+			print(__doc__)
 			exit()
 		recursive_mode = True
 		root = sys.argv[2]
