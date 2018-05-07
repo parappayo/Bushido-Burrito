@@ -105,8 +105,10 @@ public class QuadTree
 
 	public bool Overlaps(Rect area)
 	{
-		return (area.xMax >= this.Bounds.xMin && area.xMin <= this.Bounds.xMax) ||
-			(area.yMax >= this.Bounds.yMin && area.yMin <= this.Bounds.yMax);
+		return area.xMax >= this.Bounds.xMin &&
+			area.xMin <= this.Bounds.xMax &&
+			area.yMax >= this.Bounds.yMin &&
+			area.yMin <= this.Bounds.yMax;
 	}
 
 	public List<Transform> Find(Rect targetArea, int resultsLimit)
