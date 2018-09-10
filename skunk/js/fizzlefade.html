@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+<title>Fizzlefade Demo</title>
+</head>
+
+<body>
+
+<p>Demo based on <a href="http://fabiensanglard.net/fizzlefade/index.php">Fabian Sanglard's article</a> about Fizzlefade.</p>
+
+<canvas id="demoCanvas" width="640" height="600" />
+
+<script>
+function setColor(ctx, r, g, b, a)
+{
+	var style = 'rgba(' + r + ',' + g + ',' + b + ',' + (a/255) + ')';
+	ctx.fillStyle = style;
+}
+
+function plotPixel(ctx, x, y)
+{
+	ctx.fillRect(x * 2, y * 3, 2, 3);
+}
+
+function fizzlefade(ctx, period, random, x, y)
+{
+	if (random == 1) { return; }
+
+	if (typeof(random) !== 'number')
+	{
+		random = 1;
+	}
+
+	y = random & 0xff;
+	x = (random & 0x1ff00) >> 8;
+	var leastBit = random & 1;
+	random = random >> 1;
+	if (leastBit == 1) {
+		random = random ^ 0x12000;
+		plotPixel(ctx, x, y);
+	}
+
+	setTimeout(function() {
+		fizzlefade(ctx, period, random, x, y);
+	}, period);
+}
+
+var canvas = document.getElementById('demoCanvas');
+var ctx = canvas.getContext('2d');
+
+setColor(ctx, 255, 0, 0, 255);
+fizzlefade(ctx, 0.05);
+</script>
+
+</body>
+
+</html>
