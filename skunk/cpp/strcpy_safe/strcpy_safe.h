@@ -8,6 +8,8 @@
  *  - Always null-terminates: snprintf, strlcpy
  */
 
+#pragma once
+
 #include <string.h>
 
 template <size_t len>
